@@ -1,0 +1,22 @@
+{
+  "name": "cis-4375-group-6",
+  "version": "1.0.0",
+  "description": "CIS 4375 with Professor Martinez",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhui98/CIS-4375-Group-6.git"
+  },
+  "keywords": [
+    "CIS4375"
+  ],
+  "author": "Group 6",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhui98/CIS-4375-Group-6/issues"
+  },
+  "homepage": "https://github.com/jhui98/CIS-4375-Group-6#readme"
+}
