@@ -1,7 +1,7 @@
 {
-  "name": "cis-4375-group-6",
+  "name": "cis-4375-group-6-frontend",
   "version": "1.0.0",
-  "description": "CIS 4375 with Professor Martinez",
+  "description": "CIS4375 with Professor Martinez",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/jhui98/CIS-4375-Group-6/issues"
   },
-  "homepage": "https://github.com/jhui98/CIS-4375-Group-6#readme"
+  "homepage": "https://github.com/jhui98/CIS-4375-Group-6#readme",
+  "dependencies": {
+    "vue": "^3.2.47"
+  }
 }
