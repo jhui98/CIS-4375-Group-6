@@ -114,6 +114,120 @@ def delete_hardware_type():
         return "No hardware_type ID provided"
 
 
+#=========================================================#
+# 1.5. - Implement GET method for all hardware_types here #
+#=========================================================#
+# Endpoint to GET all hardware_types http://127.0.0.1:5000/api/hardware_type?id=x (takes an hardware_type ID and retrieve it from DB)
+@app.route('/api/hardware_type', methods=['GET'])
+def api_hardware_type_id():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) # hardware_type ID to Retrieve
+        results = [] # List of resulting hardware_type(s) to return
+        # Make SELECT only keep ID(s) matching the ID provided
+        retrieve_hardware_type_query = """
+        SELECT htype_id, htype_name 
+        FROM hardware_type
+        WHERE htype_id = %s ;""" % (idToRetrieve)
+        # print("Select query is: ", retrieve_hardware_type_query) //just checking
+        hardware_types  = execute_read_query(conn, retrieve_hardware_type_query)
+        for hardware_type in hardware_types:
+            if hardware_type['htype_id'] == idToRetrieve:
+                results.append(hardware_type)
+                #print(results) //checking results in console
+        return jsonify(results)
+    else:
+        return "No hardware_type ID provided"
+    
+
+
+#####################################################
+# 2-  CRUD operations for the HARWARE table         #
+#####################################################
+
+#=========================================================#
+# 2.1. - Implement GET method for all hardwares here      #
+#=========================================================#
+# Endpoint to GET all hardwares http://127.0.0.1:5000/api/hardware/all
+@app.route('/api/hardware/all', methods=['GET'])
+def api_hardware_all():
+    # select all hardware_types from DB
+    # Add HTYPE_ID and use for Update/Delete but never show it on the frontend to user
+    select_hardware_types = """
+        SELECT hardware_id, hardware_name,model_number, htype_id
+        FROM hardware
+        ORDER BY hardware_name ASC; """ 
+
+    hardwares = execute_read_query(conn, select_hardware_types)
+    results = [] # List of resulting hardware(s) to return
+    for hardware in hardwares:
+        results.append(hardware)
+    return jsonify(results)
+
+#========================================================#
+# 2.2 - Implement POST method for HARDWARE here          #
+#========================================================#
+# Endpoint to ADD an hardware_type http://127.0.0.1:5000/api/hardware
+@app.route('/api/hardware', methods=['POST'])
+def add_hardware():
+    request_data = request.get_json()
+    new_hardware_name = request_data['hardware_name']
+    new_model_number = request_data['model_number']
+    new_htype_id = request_data['htype_id']
+
+    add_hardware_query = """
+    INSERT INTO hardware(hardware_name, model_number, htype_id) 
+    VALUES('%s', '%s', '%s')""" % (new_hardware_name, new_model_number,new_htype_id)
+    # print("Insert query is: ", add_hardware_query) // just checking query syntax
+    execute_query(conn, add_hardware_query) 
+    
+    return 'Add request was successful'
+
+
+#====================================================#
+# 2.3 - Implement PUT method for HARDWARE here       #
+#====================================================#
+# Endpoint to UPDATE an hardware_type http://127.0.0.1:5000/api/hardware (takes a JSON object and update hardware table)
+@app.route('/api/hardware', methods=['PUT'])
+def update_hardware():
+    request_data = request.get_json()
+    # hardware data to update 
+    idToUpdate = request_data['hardware_id']
+    new_hardware_name = request_data['hardware_name']
+    new_model_number = request_data['model_number']
+    new_htype_id = request_data['htype_id']
+
+    update_hardware_query = """
+    UPDATE hardware
+    SET new_hardware_name = '%s',
+        model_number = '%s',
+        htype_id = '%s'
+    WHERE hardware_id = %s """ % (new_hardware_name, new_model_number, new_htype_id, idToUpdate)
+    # print("Update query is: ", update_hardware_query) // just checking query
+    execute_query(conn, update_hardware_query)
+
+    return "Update request successful"
+
+#====================================================#
+# 2.4 - Implement DELETE method for HARDWARE here    #
+#====================================================#
+# Endpoint to delete an hardware_type http://127.0.0.1:5000/api/hardware?id=x (takes an hardware ID and set isDelete to 'Y')
+@app.route('/api/hardware', methods=['DELETE'])
+def delete_hardware():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToDelete = int(request.args['id']) # hardware_type ID to delete 
+        delete_hardware_query = """
+        DELETE FROM hardware 
+        WHERE hardware_id = %s """ % (idToDelete)
+        # print("Delete query is: ", delete_hardware_type_query)
+        execute_query(conn, delete_hardware_query)
+        return "Delete request was successful"
+    else:
+        return "No hardware ID provided"
+
+
+
+
+
 
 
 # NB: ALWAYS remember to add this line or app won't run
