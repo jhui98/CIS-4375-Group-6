@@ -114,9 +114,9 @@ def delete_hardware_type():
         return "No hardware_type ID provided"
 
 
-#=========================================================#
-# 1.5. - Implement GET method for all hardware_types here #
-#=========================================================#
+#===============================================================#
+# 1.5. - Implement GET method for a specific hardware_type here #
+#===============================================================#
 # Endpoint to GET all hardware_types http://127.0.0.1:5000/api/hardware_type?id=x (takes an hardware_type ID and retrieve it from DB)
 @app.route('/api/hardware_type', methods=['GET'])
 def api_hardware_type_id():
@@ -198,7 +198,7 @@ def update_hardware():
 
     update_hardware_query = """
     UPDATE hardware
-    SET new_hardware_name = '%s',
+    SET hardware_name = '%s',
         model_number = '%s',
         htype_id = '%s'
     WHERE hardware_id = %s """ % (new_hardware_name, new_model_number, new_htype_id, idToUpdate)
@@ -224,7 +224,28 @@ def delete_hardware():
     else:
         return "No hardware ID provided"
 
-
+#==========================================================#
+# 2.5. - Implement GET method for a specific hardware here #
+#==========================================================#
+# Endpoint to GET all hardware_types http://127.0.0.1:5000/api/hardware?id=x (takes an hardware ID and retrieve it from DB)
+@app.route('/api/hardware', methods=['GET'])
+def api_hardware_id():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) # hardware_type ID to Retrieve
+        results = [] # List of resulting hardware_type(s) to return
+        # Make SELECT only keep ID(s) matching the ID provided
+        retrieve_hardware_query = """
+        SELECT hardware_id, hardware_name, model_number, htype_id 
+        FROM hardware
+        WHERE hardware_id = %s ;""" % (idToRetrieve)
+        # print("Select query is: ", retrieve_hardware_query) //just checking
+        hardwares  = execute_read_query(conn, retrieve_hardware_query)
+        for hardware in hardwares:
+            if hardware['hardware_id'] == idToRetrieve:
+                results.append(hardware)
+        return jsonify(results)
+    else:
+        return "No Hardware ID provided"
 
 
 
@@ -239,8 +260,19 @@ app.run()
 #========================================
 # Test of all functionalities:          =
 #========================================
+
 #   Home page => OK
+
+##### HARDAWRE TYPE ####################
 #   api/hardware_type (GET all) =>  OK
 #   api/hardware_type (POST = INSERT INTO) => OK
 #   api/hardware_type (PUT = UPDATE) => OK
 #   api/hardware_type?id=x (Do a physical DELETE for now) => OK
+#   api/hardware_type?id=x (GET Hardware Type with id in params)=> OK
+
+##### HARDAWRE  ####################
+#   api/hardware (GET all) =>  OK
+#   api/hardware(POST = INSERT INTO) => OK
+#   api/hardware (PUT = UPDATE) => OK
+#   api/hardware?id=x (Do a physical DELETE for now) => OK
+#   api/hardware?id=x (GET Hardware with id in params)=> OK
