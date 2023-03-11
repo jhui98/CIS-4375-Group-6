@@ -141,7 +141,7 @@ def api_hardware_type_id():
 
 
 #####################################################
-# 2-  CRUD operations for the HARWARE table         #
+# 2-  CRUD operations for the HARDWARE table        #
 #####################################################
 
 #=========================================================#
@@ -151,13 +151,13 @@ def api_hardware_type_id():
 @app.route('/api/hardware/all', methods=['GET'])
 def api_hardware_all():
     # select all hardware_types from DB
-    # Add HTYPE_ID and use for Update/Delete but never show it on the frontend to user
-    select_hardware_types = """
+    # Add HARDWARE_ID and use for Update/Delete but never show it on the frontend to user
+    select_hardwares = """
         SELECT hardware_id, hardware_name,model_number, htype_id
         FROM hardware
         ORDER BY hardware_name ASC; """ 
 
-    hardwares = execute_read_query(conn, select_hardware_types)
+    hardwares = execute_read_query(conn, select_hardwares)
     results = [] # List of resulting hardware(s) to return
     for hardware in hardwares:
         results.append(hardware)
@@ -218,7 +218,7 @@ def delete_hardware():
         delete_hardware_query = """
         DELETE FROM hardware 
         WHERE hardware_id = %s """ % (idToDelete)
-        # print("Delete query is: ", delete_hardware_type_query)
+        # print("Delete query is: ", delete_hardware_query)
         execute_query(conn, delete_hardware_query)
         return "Delete request was successful"
     else:
@@ -248,7 +248,115 @@ def api_hardware_id():
         return "No Hardware ID provided"
 
 
+#####################################################
+# 3-  CRUD operations for the RESELLER table        #
+#####################################################
 
+#=========================================================#
+# 3.1. - Implement GET method for all resellers here      #
+#=========================================================#
+# Endpoint to GET all resellers http://127.0.0.1:5000/api/reseller/all
+@app.route('/api/reseller/all', methods=['GET'])
+def api_reseller_all():
+    # select all reseller_types from DB
+    # Add Reseller_ID and use for Update/Delete but never show it on the frontend to user
+    select_resellers = """
+        SELECT reseller_id, reseller_name,reseller_email,reseller_phone, iso_id
+        FROM reseller
+        ORDER BY reseller_name ASC; """ 
+
+    resellers = execute_read_query(conn, select_resellers)
+    results = [] # List of resulting reseller(s) to return
+    for reseller in resellers:
+        results.append(reseller)
+    return jsonify(results)
+
+#========================================================#
+# 3.2 - Implement POST method for reseller here          #
+#========================================================#
+# Endpoint to ADD an reseller http://127.0.0.1:5000/api/reseller
+@app.route('/api/reseller', methods=['POST'])
+def add_reseller():
+    request_data = request.get_json()
+    new_reseller_name = request_data['reseller_name']
+    new_reseller_email = request_data['reseller_email']
+    new_reseller_phone = request_data['reseller_phone']
+    new_iso_id = request_data['iso_id']
+
+    add_reseller_query = """
+    INSERT INTO reseller(reseller_name, reseller_email, reseller_phone, iso_id) 
+    VALUES('%s', '%s', '%s')""" % (new_reseller_name, new_reseller_email,new_reseller_phone, new_iso_id)
+    # print("Insert query is: ", add_reseller_query) // just checking query syntax
+    execute_query(conn, add_reseller_query) 
+    
+    return 'Add request was successful'
+
+
+#====================================================#
+# 3.3 - Implement PUT method for RELELLER here       #
+#====================================================#
+# Endpoint to UPDATE a reseller http://127.0.0.1:5000/api/reseller (takes a JSON object and update reseller table)
+@app.route('/api/reseller', methods=['PUT'])
+def update_reseller():
+    request_data = request.get_json()
+    # reseller data to update 
+    idToUpdate = request_data['reseller_id']
+    new_reseller_name = request_data['reseller_name']
+    new_reseller_email = request_data['reseller_email']
+    new_reseller_phone = request_data['reseller_phone']
+    new_iso_id = request_data['iso_id']
+
+    update_reseller_query = """
+    UPDATE reseller
+    SET reseller_name = '%s',
+        reseller_email = '%s',
+        reseller_phone = '%s',
+        iso_id = '%s'
+    WHERE reseller_id = %s """ % (new_reseller_name, new_reseller_email,new_reseller_phone, new_iso_id, idToUpdate)
+    # print("Update query is: ", update_reseller_query) // just checking query
+    execute_query(conn, update_reseller_query)
+
+    return "Update request successful"
+
+#====================================================#
+# 3.4 - Implement DELETE method for RESELLER here    #
+#====================================================#
+# Endpoint to delete an hardware_type http://127.0.0.1:5000/api/hardware?id=x (takes an hardware ID and set isDelete to 'Y')
+@app.route('/api/hardware', methods=['DELETE'])
+def delete_hardware():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToDelete = int(request.args['id']) # hardware_type ID to delete 
+        delete_hardware_query = """
+        DELETE FROM hardware 
+        WHERE hardware_id = %s """ % (idToDelete)
+        # print("Delete query is: ", delete_hardware_type_query)
+        execute_query(conn, delete_hardware_query)
+        return "Delete request was successful"
+    else:
+        return "No hardware ID provided"
+
+#==========================================================#
+# 2.5. - Implement GET method for a specific hardware here #
+#==========================================================#
+# Endpoint to GET all hardware_types http://127.0.0.1:5000/api/hardware?id=x (takes an hardware ID and retrieve it from DB)
+@app.route('/api/hardware', methods=['GET'])
+def api_hardware_id():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) # hardware_type ID to Retrieve
+        results = [] # List of resulting hardware_type(s) to return
+        # Make SELECT only keep ID(s) matching the ID provided
+        retrieve_hardware_query = """
+        SELECT hardware_id, hardware_name, model_number, htype_id 
+        FROM hardware
+        WHERE hardware_id = %s ;""" % (idToRetrieve)
+        # print("Select query is: ", retrieve_hardware_query) //just checking
+        hardwares  = execute_read_query(conn, retrieve_hardware_query)
+        for hardware in hardwares:
+            if hardware['hardware_id'] == idToRetrieve:
+                results.append(hardware)
+        return jsonify(results)
+    else:
+        return "No Hardware ID provided"
 
 
 # NB: ALWAYS remember to add this line or app won't run
