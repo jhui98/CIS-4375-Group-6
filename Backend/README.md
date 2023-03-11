@@ -39,5 +39,5 @@ Members:
 # https://www.geeksforgeeks.org/
 # https://pynative.com/
 #================================================================
-#       CIS4375 - Group 6 - SPring 23 @ All rights reserved     #
+#       CIS4375 - Group 6 - Spring 23 @ All rights reserved     #
 #================================================================
