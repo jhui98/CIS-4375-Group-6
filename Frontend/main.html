@@ -1,0 +1,245 @@
+<!--Frontend code of CIS 4375 Group 6-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box}
+body {font-family: "Lato", sans-serif;}
+
+/* Style the tab */
+.tab {
+  float: left;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 30%;
+  height: auto;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 22px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  height: auto;
+}
+
+/* Table styling */
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+/* Button styling */
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.editbutton {background-color: #4CAF50;} /* Green */
+.deletebutton {background-color: #FF0000;} /* Red */
+
+</style>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<body>
+
+<h2 align="center">CIS 4375 Group 6 Website</h2>
+
+<div class="tab">
+  <button class="tablinks" onclick="opentab(event, 'Dashboard')" id="defaultOpen" >Dashboard</button>
+  <button class="tablinks" onclick="opentab(event, 'Hardwares')">Hardwares</button>
+  <button class="tablinks" onclick="opentab(event, 'Merchants')">Merchants</button>
+  <button class="tablinks" onclick="opentab(event, 'Resellers')">Resellers</button>
+  <button class="tablinks" onclick="opentab(event, 'Orders')">Orders</button>
+  <button class="tablinks" onclick="opentab(event, 'Reports')">Reports</button>
+  <button class="tablinks" onclick="opentab(event, 'Inventory')">Inventory</button>
+</div>
+
+<div id="Dashboard" class="tabcontent">
+  <h3>Dashboard</h3>
+  <p>Dashboard contents will be displayed here, for example:</p>
+  <br>
+  <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+</div>
+
+<div id="Hardwares" class="tabcontent">
+  <h3>Hardwares</h3>
+  <p>Hardwares contents will be displayed here, for example:</p> 
+  <br>
+  <table>
+    <tr>
+      <th>Resellers</th>
+      <th>Name</th>
+      <th>Order number</th>
+      <th>Modify</th>
+    </tr>
+    <tr>
+      <td>Ovvi Pay</td>
+      <td>La Hacienda de Los Velardes</td>
+      <td>3600396142</td>
+      <td><button class="button editbutton">Edit</button>
+          <button class="button deletebutton">Delete</button></td>
+    </tr>
+    <tr>
+      <td>Comtek</td>
+      <td>Dingo's Den</td>
+      <td>1073</td>
+      <td><button class="button editbutton">Edit</button>
+          <button class="button deletebutton">Delete</button></td>
+    </tr>
+    <tr>
+      <td>Ovvi</td>
+      <td>The Indy Grind Coffee Shop</td>
+      <td>46204</td>
+      <td><button class="button editbutton">Edit</button>
+          <button class="button deletebutton">Delete</button></td>
+    </tr>
+    <tr>
+      <td>Revolt Tek</td>
+      <td>Reseller Demo</td>
+      <td>1077</td>
+      <td><button class="button editbutton">Edit</button>
+          <button class="button deletebutton">Delete</button></td>
+    </tr>
+    <tr>
+      <td>Orange Pay</td>
+      <td>Dar Alhajr Markets</td>
+      <td>1067</td>
+      <td><button class="button editbutton">Edit</button>
+          <button class="button deletebutton">Delete</button></td>
+    </tr>
+    <tr>
+      <td>TBJ Inc</td>
+      <td>Double M's Pizza</td>
+      <td>1078</td>
+      <td><button class="button editbutton">Edit</button>
+          <button class="button deletebutton">Delete</button></td>
+    </tr>
+  </table>
+</div>
+
+<div id="Merchants" class="tabcontent">
+  <h3>Merchants</h3>
+  <p>Merchants contents will be displayed here, similar to close to Hardwares content</p>
+</div>
+
+<div id="Resellers" class="tabcontent">
+    <h3>Resellers</h3>
+    <p>Resellers contents will be displayed here, similar to close to Hardwares content</p>
+</div>
+
+<div id="Orders" class="tabcontent">
+    <h3>Orders</h3>
+    <p>Orders contents will be displayed here, similar to close to Hardwares content</p>
+</div>
+
+<div id="Reports" class="tabcontent">
+    <h3>Reports</h3>
+    <p>Reports contents will be displayed here, similar to close to Hardwares content</p>
+</div>
+
+<div id="Inventory" class="tabcontent">
+    <h3>Inventory</h3>
+    <p>Inventory contents will be displayed here, similar to close to Hardwares content</p>
+</div>
+
+<script>
+// Display the selected tab
+function opentab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+
+//Graph data and functionality
+var xValues = ["January", "Febuary", "March", "April", "May"];
+var yValues = [47, 49, 55, 50, 46];
+var barColors = ["red", "green","blue","orange","brown"];
+
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Numbers of order per month"
+    },
+    scales: {
+        yAxes: [{
+            display: true,
+            ticks: {
+                suggestedMin: 20,
+            }
+        }]
+    }
+  }
+});
+</script>
+   
+</body>
+</html> 
