@@ -397,7 +397,7 @@ def add_iso():
 # 4.3 - Implement PUT method for ISO here     #
 #====================================================#
 # Endpoint to UPDATE an ISO http://127.0.0.1:5000/api/iso (takes a JSON object and update iso table)
-@app.route('/api/hardware_type', methods=['PUT'])
+@app.route('/api/iso', methods=['PUT'])
 def update_iso():
     request_data = request.get_json()
 
