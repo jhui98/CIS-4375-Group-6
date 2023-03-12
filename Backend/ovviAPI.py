@@ -385,9 +385,10 @@ app.run()
 #   api/hardware?id=x (Do a physical DELETE for now) => OK
 #   api/hardware?id=x (GET Hardware with id in params)=> OK
 
-##### HARDAWRE  ####################
+##### RESELLER  ####################
 #   api/reseller (GET all) =>  OK
 #   api/reseller(POST = INSERT INTO) => OK
 #   api/reseller (PUT = UPDATE) => OK
 #   api/reseller?id=x (Do a physical DELETE for now) => OK
 #   api/reseller?id=x (GET reseller with id in params)=> OK
+
