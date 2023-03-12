@@ -137,8 +137,6 @@ def api_hardware_type_id():
         return jsonify(results)
     else:
         return "No hardware_type ID provided"
-    
-
 
 #####################################################
 # 2-  CRUD operations for the HARDWARE table        #
@@ -358,6 +356,222 @@ def api_reseller_id():
     else:
         return "No reseller ID provided"
 
+######################################################
+# 4 -  CRUD operations for the ISO table     #
+######################################################
+
+#=========================================================#
+# 4.1. - Implement GET method for all ISO here #
+#=========================================================#
+# Endpoint to GET iso http://127.0.0.1:5000/api/iso/all
+@app.route('/api/iso/all', methods=['GET'])
+def api_iso_all():
+    select_iso = """
+        SELECT *
+        FROM iso;  """ 
+
+    iso_results = execute_read_query(conn, select_iso)
+    results = [] 
+    for iso in iso_results:
+        results.append(iso)
+    return jsonify(results)
+
+#========================================================#
+# 4.2 - Implement POST method for ISO here     #
+#========================================================#
+# Endpoint to ADD an ISO http://127.0.0.1:5000/api/iso
+@app.route('/api/iso', methods=['POST'])
+def add_iso():
+    request_data = request.get_json()
+    new_iso_company = request_data['ISO_COMPANY']
+    
+    add_iso_query = """
+    INSERT INTO iso(ISO_COMPANY) 
+    VALUES('%s')""" % (new_iso_company)
+    execute_query(conn, add_iso_query) 
+    
+    return 'Add request was successful'
+
+
+#====================================================#
+# 4.3 - Implement PUT method for ISO here     #
+#====================================================#
+# Endpoint to UPDATE an ISO http://127.0.0.1:5000/api/iso (takes a JSON object and update iso table)
+@app.route('/api/hardware_type', methods=['PUT'])
+def update_iso():
+    request_data = request.get_json()
+
+    idToUpdate = request_data['iso_id']
+    new_iso_company = request_data['iso_company']
+    update_iso_query = """
+    UPDATE iso
+    SET ISO_COMPANY = '%s'  
+    WHERE ISO_ID = %s """ % (new_iso_company, idToUpdate)
+    execute_query(conn, update_iso_query)
+
+    return "Update request successful"
+
+#====================================================#
+# 4.4 - Implement DELETE method for ISO here   #
+#====================================================#
+# Endpoint to delete an iso http://127.0.0.1:5000/api/iso?id=x (takes an iso ID)
+@app.route('/api/iso', methods=['DELETE'])
+def delete_iso():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToDelete = int(request.args['id']) # hardware_type ID to delete 
+        delete_iso_query = """
+        DELETE FROM iso 
+        WHERE iso_id = %s """ % (idToDelete)
+        execute_query(conn, delete_iso_query)
+        return "Delete request was successful"
+    else:
+        return "No ISO ID provided"
+
+
+#===============================================================#
+# 4.5. - Implement GET method for a specific ISO here #
+#===============================================================#
+# Endpoint to GET all hardware_types http://127.0.0.1:5000/api/iso?id=x (takes an iso ID and retrieve it from DB)
+@app.route('/api/iso', methods=['GET'])
+def api_iso():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) # iso ID to Retrieve
+        results = [] # List of resulting iso(s) to return
+        retrieve_iso_query = """
+        SELECT *
+        FROM iso
+        WHERE iso_id = %s ;""" % (idToRetrieve)
+        iso_query = execute_read_query(conn, retrieve_iso_query)
+        for iso in iso_query:
+            if iso['iso_id'] == idToRetrieve:
+                results.append(iso)
+        return jsonify(results)
+    else:
+        return "No hardware_type ID provided"
+
+######################################################
+# 5 -  CRUD operations for the MERCHANT table     #
+######################################################
+
+#=========================================================#
+# 5.1. - Implement GET method for all MERCHANTS here #
+#=========================================================#
+# Endpoint to GET all merchants http://127.0.0.1:5000/api/merchant/all
+@app.route('/api/merchant/all', methods=['GET'])
+def api_merchant_all():
+    select_merchant_query = """
+    SELECT *
+    FROM merchant; """
+
+    merchants = execute_read_query(conn, select_merchant_query)
+    results = [] # List of resulting merchant(s) to return
+    print(results)
+    for merchant in merchants:
+        results.append(merchant)
+    return jsonify(results)
+
+#========================================================#
+# 5.2 - Implement POST method for MERCHANT table here     #
+#========================================================#
+# Endpoint to ADD an merchant http://127.0.0.1:5000/api/merchant
+@app.route('/api/merchant', methods=['POST'])
+def add_merchant():
+    request_data = request.get_json()
+    new_merchant_name = request_data['merchant_name']
+    new_merchant_address1 = request.data['merchant_address1']
+    new_merchant_address2 = request.data['merchant_address2']
+    new_merchant_city = request.data['merchant_city']
+    new_merchant_state = request.data['merchant_state']
+    new_merchant_zip = request.data['merchant_zip']
+    new_merchant_email = request.data['merchant_email']
+    new_merchant_phone = request.data['merchant_phone']
+    foreign_reseller_id = request.data['reseller_id']
+    
+    add_merchant_query = """
+    INSERT INTO MERCHANT(merchant_name,merchant_address1,merchant_address2,merchant_city,merchant_state,merchant_zip,merchant_email,merchant_phone,reseller_id) 
+    VALUES('%s','%s','%s','%s','%s',%s,'%s',%s,%s)""" % (new_merchant_name,new_merchant_address1,new_merchant_address2,new_merchant_city,new_merchant_state,new_merchant_zip,
+    new_merchant_email,new_merchant_phone,foreign_reseller_id)
+    print("Insert query is: ", add_merchant_query) # just checking query syntax
+    execute_query(conn, add_merchant_query) 
+    
+    return 'Add request was successful'
+
+
+#====================================================#
+# 5.3 - Implement PUT method for MERCHANT here     #
+#====================================================#
+# Endpoint to UPDATE an hardware_type http://127.0.0.1:5000/api/merchant (takes a JSON object and update merchant table)
+@app.route('/api/merchant', methods=['PUT'])
+def update_merchant():
+    request_data = request.get_json()
+    idToUpdate = request_data['merchant_id']
+    new_merchant_name = request_data['merchant_name']
+    new_merchant_address1 = request.data['merchant_address1']
+    new_merchant_address2 = request.data['merchant_address2']
+    new_merchant_city = request.data['merchant_city']
+    new_merchant_state = request.data['merchant_state']
+    new_merchant_zip = request.data['merchant_zip']
+    new_merchant_email = request.data['merchant_email']
+    new_merchant_phone = request.data['merchant_phone']
+    foreign_reseller_id = request.data['reseller_id']
+
+    
+    update_merchant_query = """
+    UPDATE merchant
+    SET merchant_name = '%s',
+    merchant_address1 = '%s',
+    merchant_address2 = '%s',
+    merchant_city = '%s',
+    merchant_state = '%s',
+    merchant_zip = %s,
+    merchant_email = '%s',
+    merchant_phone = %s,
+    reseller_id = %s   
+    WHERE merchant_id = %s """ % (new_merchant_name,new_merchant_address1,new_merchant_address2,new_merchant_city,new_merchant_state,new_merchant_zip,
+    new_merchant_email,new_merchant_phone,foreign_reseller_id,idToUpdate)
+    print("Update query is: ", update_merchant_query) # just checking query
+    execute_query(conn, update_merchant_query)
+
+    return "Update request successful"
+
+#====================================================#
+# 5.4 - Implement DELETE method for MERCHANT here   #
+#====================================================#
+# Endpoint to delete an hardware_type http://127.0.0.1:5000/api/merchant?id=x (takes a merchant ID and set isDelete to 'Y')
+@app.route('/api/merchant', methods=['DELETE'])
+def delete_merchant():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToDelete = int(request.args['id']) # merchant ID to delete 
+        delete_merchant_query = """
+        DELETE FROM merchant 
+        WHERE merchant_id = %s """ % (idToDelete)
+        execute_query(conn, delete_merchant_query)
+        return "Delete request was successful"
+    else:
+        return "No merchant ID provided"
+
+
+#===============================================================#
+# 5.5. - Implement GET method for a specific MERCHANT here #
+#===============================================================#
+# Endpoint to GET all hardware_types http://127.0.0.1:5000/api/merchant?id=x (takes a merchant ID and retrieve it from DB)
+@app.route('/api/merchant', methods=['GET'])
+def api_merchant_id():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) # hardware_type ID to Retrieve
+        results = [] 
+
+        retrieve_merchant_query = """
+        SELECT * 
+        FROM merchant
+        WHERE merchant_id = %s ;""" % (idToRetrieve)
+        merchant  = execute_read_query(conn, retrieve_merchant_query)
+        for info in merchant:
+            if merchant['merchant_id'] == idToRetrieve:
+                results.append(info)
+        return jsonify(results)
+    else:
+        return "No merchant ID provided"
 
 # NB: ALWAYS remember to add this line or app won't run
 app.run()
