@@ -440,14 +440,14 @@ def api_iso():
         retrieve_iso_query = """
         SELECT *
         FROM iso
-        WHERE iso_id = %s ;""" % (idToRetrieve)
+        WHERE ISO_ID = %s; """ % (idToRetrieve)
         iso_query = execute_read_query(conn, retrieve_iso_query)
         for iso in iso_query:
-            if iso['iso_id'] == idToRetrieve:
+            if iso['ISO_ID'] == idToRetrieve:
                 results.append(iso)
         return jsonify(results)
     else:
-        return "No hardware_type ID provided"
+        return "No ISO ID provided"
 
 ######################################################
 # 5 -  CRUD operations for the MERCHANT table     #
@@ -559,15 +559,15 @@ def delete_merchant():
 def api_merchant_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) # hardware_type ID to Retrieve
-        results = [] 
-
         retrieve_merchant_query = """
         SELECT * 
         FROM merchant
-        WHERE merchant_id = %s ;""" % (idToRetrieve)
+        WHERE merchant_id = %s; """ % (idToRetrieve)
         merchant  = execute_read_query(conn, retrieve_merchant_query)
+        results = []
         for info in merchant:
-            if merchant['merchant_id'] == idToRetrieve:
+            print(info)
+            if info['MERCHANT_ID'] == idToRetrieve:
                 results.append(info)
         return jsonify(results)
     else:
@@ -606,3 +606,16 @@ app.run()
 #   api/reseller?id=x (Do a physical DELETE for now) => OK
 #   api/reseller?id=x (GET reseller with id in params)=> OK
 
+##### ISO  ####################
+#   api/iso (GET all) =>  OK
+#   api/iso(POST = INSERT INTO) =>
+#   api/iso (PUT = UPDATE) =>
+#   api/iso?id=x (Do a physical DELETE for now) =>
+#   api/iso?id=x (GET iso with id in params)=> OK
+
+##### MERCHANT  ####################
+#   api/merchant (GET all) => OK
+#   api/merchant(POST = INSERT INTO) =>
+#   api/merchant (PUT = UPDATE) =>
+#   api/merchant?id=x (Do a physical DELETE for now) =>
+#   api/merchant?id=x (GET merchant with id in params)=> OK
