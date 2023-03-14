@@ -474,11 +474,15 @@ def api_merchant_all():
 # 5.2 - Implement POST method for MERCHANT table here     #
 #========================================================#
 # Endpoint to ADD an merchant http://127.0.0.1:5000/api/merchant
+
+
+
+# Check if Josh corrected "request.data" on all Merchant CRUD Ops and pull from origin
 @app.route('/api/merchant', methods=['POST'])
 def add_merchant():
     request_data = request.get_json()
     new_merchant_name = request_data['merchant_name']
-    new_merchant_address1 = request.data['merchant_address1']
+    new_merchant_address1 = request_data['merchant_address1']
     new_merchant_address2 = request.data['merchant_address2']
     new_merchant_city = request.data['merchant_city']
     new_merchant_state = request.data['merchant_state']
@@ -585,24 +589,37 @@ app.run()
 
 #   Home page => OK
 
-##### HARDAWRE TYPE ####################
+##### 1. HARDAWRE TYPE ####################
 #   api/hardware_type (GET all) =>  OK
 #   api/hardware_type (POST = INSERT INTO) => OK
 #   api/hardware_type (PUT = UPDATE) => OK
 #   api/hardware_type?id=x (Do a physical DELETE for now) => OK
 #   api/hardware_type?id=x (GET Hardware Type with id in params)=> OK
 
-##### HARDAWRE  ####################
+##### 2. HARDAWRE  ####################
 #   api/hardware (GET all) =>  OK
 #   api/hardware(POST = INSERT INTO) => OK
 #   api/hardware (PUT = UPDATE) => OK
 #   api/hardware?id=x (Do a physical DELETE for now) => OK
 #   api/hardware?id=x (GET Hardware with id in params)=> OK
 
-##### RESELLER  ####################
+##### 3. RESELLER  ####################
 #   api/reseller (GET all) =>  OK
 #   api/reseller(POST = INSERT INTO) => OK
 #   api/reseller (PUT = UPDATE) => OK
 #   api/reseller?id=x (Do a physical DELETE for now) => OK
 #   api/reseller?id=x (GET reseller with id in params)=> OK
 
+##### 4. ISO_COMPANY  ####################
+#   api/iso (GET all) =>  OK
+#   api/iso(POST = INSERT INTO) => OK
+#   api/iso (PUT = UPDATE) => OK
+#   api/iso?id=x (Do a physical DELETE for now) => OK
+#   api/iso?id=x (GET iso with id in params)=> OK
+
+##### 4. MERCHANT  ####################
+#   api/merchant (GET all) =>  OK
+#   api/merchant(POST = INSERT INTO) => 
+#   api/merchant (PUT = UPDATE) => 
+#   api/merchant?id=x (Do a physical DELETE for now) => 
+#   api/merchant?id=x (GET merchant with id in params)=> 
