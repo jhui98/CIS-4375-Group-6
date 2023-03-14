@@ -474,6 +474,10 @@ def api_merchant_all():
 # 5.2 - Implement POST method for MERCHANT table here     #
 #========================================================#
 # Endpoint to ADD an merchant http://127.0.0.1:5000/api/merchant
+
+
+
+# Check if Josh corrected "request.data" on all Merchant CRUD Ops and pull from origin
 @app.route('/api/merchant', methods=['POST'])
 def add_merchant():
     request_data = request.get_json()
@@ -585,21 +589,21 @@ app.run()
 
 #   Home page => OK
 
-##### HARDAWRE TYPE ####################
+##### 1. HARDAWRE TYPE ####################
 #   api/hardware_type (GET all) =>  OK
 #   api/hardware_type (POST = INSERT INTO) => OK
 #   api/hardware_type (PUT = UPDATE) => OK
 #   api/hardware_type?id=x (Do a physical DELETE for now) => OK
 #   api/hardware_type?id=x (GET Hardware Type with id in params)=> OK
 
-##### HARDAWRE  ####################
+##### 2. HARDAWRE  ####################
 #   api/hardware (GET all) =>  OK
 #   api/hardware(POST = INSERT INTO) => OK
 #   api/hardware (PUT = UPDATE) => OK
 #   api/hardware?id=x (Do a physical DELETE for now) => OK
 #   api/hardware?id=x (GET Hardware with id in params)=> OK
 
-##### RESELLER  ####################
+##### 3. RESELLER  ####################
 #   api/reseller (GET all) =>  OK
 #   api/reseller(POST = INSERT INTO) => OK
 #   api/reseller (PUT = UPDATE) => OK
