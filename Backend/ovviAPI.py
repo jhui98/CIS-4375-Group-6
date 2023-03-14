@@ -478,17 +478,17 @@ def api_merchant_all():
 def add_merchant():
     request_data = request.get_json()
     new_merchant_name = request_data['merchant_name']
-    new_merchant_address1 = request.data['merchant_address1']
-    new_merchant_address2 = request.data['merchant_address2']
-    new_merchant_city = request.data['merchant_city']
-    new_merchant_state = request.data['merchant_state']
-    new_merchant_zip = request.data['merchant_zip']
-    new_merchant_email = request.data['merchant_email']
-    new_merchant_phone = request.data['merchant_phone']
-    foreign_reseller_id = request.data['reseller_id']
+    new_merchant_address1 = request_data['merchant_address1']
+    new_merchant_address2 = request_data['merchant_address2']
+    new_merchant_city = request_data['merchant_city']
+    new_merchant_state = request_data['merchant_state']
+    new_merchant_zip = request_data['merchant_zip']
+    new_merchant_email = request_data['merchant_email']
+    new_merchant_phone = request_data['merchant_phone']
+    foreign_reseller_id = request_data['reseller_id']
     
     add_merchant_query = """
-    INSERT INTO MERCHANT(merchant_name,merchant_address1,merchant_address2,merchant_city,merchant_state,merchant_zip,merchant_email,merchant_phone,reseller_id) 
+    INSERT INTO merchant(merchant_name,merchant_address1,merchant_address2,merchant_city,merchant_state,merchant_zip,merchant_email,merchant_phone,reseller_id) 
     VALUES('%s','%s','%s','%s','%s',%s,'%s',%s,%s)""" % (new_merchant_name,new_merchant_address1,new_merchant_address2,new_merchant_city,new_merchant_state,new_merchant_zip,
     new_merchant_email,new_merchant_phone,foreign_reseller_id)
     print("Insert query is: ", add_merchant_query) # just checking query syntax
@@ -506,14 +506,14 @@ def update_merchant():
     request_data = request.get_json()
     idToUpdate = request_data['merchant_id']
     new_merchant_name = request_data['merchant_name']
-    new_merchant_address1 = request.data['merchant_address1']
-    new_merchant_address2 = request.data['merchant_address2']
-    new_merchant_city = request.data['merchant_city']
-    new_merchant_state = request.data['merchant_state']
-    new_merchant_zip = request.data['merchant_zip']
-    new_merchant_email = request.data['merchant_email']
-    new_merchant_phone = request.data['merchant_phone']
-    foreign_reseller_id = request.data['reseller_id']
+    new_merchant_address1 = request_data['merchant_address1']
+    new_merchant_address2 = request_data['merchant_address2']
+    new_merchant_city = request_data['merchant_city']
+    new_merchant_state = request_data['merchant_state']
+    new_merchant_zip = request_data['merchant_zip']
+    new_merchant_email = request_data['merchant_email']
+    new_merchant_phone = request_data['merchant_phone']
+    foreign_reseller_id = request_data['reseller_id']
 
     
     update_merchant_query = """
@@ -608,14 +608,14 @@ app.run()
 
 ##### ISO  ####################
 #   api/iso (GET all) =>  OK
-#   api/iso(POST = INSERT INTO) =>
-#   api/iso (PUT = UPDATE) =>
-#   api/iso?id=x (Do a physical DELETE for now) =>
+#   api/iso(POST = INSERT INTO) => OK
+#   api/iso (PUT = UPDATE) => OK
+#   api/iso?id=x (Do a physical DELETE for now) => OK
 #   api/iso?id=x (GET iso with id in params)=> OK
 
 ##### MERCHANT  ####################
 #   api/merchant (GET all) => OK
-#   api/merchant(POST = INSERT INTO) =>
-#   api/merchant (PUT = UPDATE) =>
-#   api/merchant?id=x (Do a physical DELETE for now) =>
+#   api/merchant(POST = INSERT INTO) => OK, Needs Error Detection.
+#   api/merchant (PUT = UPDATE) => OK
+#   api/merchant?id=x (Do a physical DELETE for now) => OK
 #   api/merchant?id=x (GET merchant with id in params)=> OK
