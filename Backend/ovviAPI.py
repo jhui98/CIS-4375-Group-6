@@ -431,7 +431,7 @@ def delete_iso():
 #===============================================================#
 # 4.5. - Implement GET method for a specific ISO here #
 #===============================================================#
-# Endpoint to GET all hardware_types http://127.0.0.1:5000/api/iso?id=x (takes an iso ID and retrieve it from DB)
+# Endpoint to GET a specific ISO company http://127.0.0.1:5000/api/iso?id=x (takes an iso ID and retrieve it from DB)
 @app.route('/api/iso', methods=['GET'])
 def api_iso():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
@@ -473,9 +473,7 @@ def api_merchant_all():
 #========================================================#
 # 5.2 - Implement POST method for MERCHANT table here     #
 #========================================================#
-# Endpoint to ADD an merchant http://127.0.0.1:5000/api/merchant
-
-
+# Endpoint to ADD a merchant http://127.0.0.1:5000/api/merchant
 
 # Check if Josh corrected "request.data" on all Merchant CRUD Ops and pull from origin
 @app.route('/api/merchant', methods=['POST'])
@@ -504,7 +502,7 @@ def add_merchant():
 #====================================================#
 # 5.3 - Implement PUT method for MERCHANT here     #
 #====================================================#
-# Endpoint to UPDATE an hardware_type http://127.0.0.1:5000/api/merchant (takes a JSON object and update merchant table)
+# Endpoint to UPDATE a merchant http://127.0.0.1:5000/api/merchant (takes a JSON object and update merchant table)
 @app.route('/api/merchant', methods=['PUT'])
 def update_merchant():
     request_data = request.get_json()
@@ -541,7 +539,7 @@ def update_merchant():
 #====================================================#
 # 5.4 - Implement DELETE method for MERCHANT here   #
 #====================================================#
-# Endpoint to delete an hardware_type http://127.0.0.1:5000/api/merchant?id=x (takes a merchant ID and set isDelete to 'Y')
+# Endpoint to delete a merchant http://127.0.0.1:5000/api/merchant?id=x (takes a merchant ID and set isDelete to 'Y')
 @app.route('/api/merchant', methods=['DELETE'])
 def delete_merchant():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
@@ -558,7 +556,7 @@ def delete_merchant():
 #===============================================================#
 # 5.5. - Implement GET method for a specific MERCHANT here #
 #===============================================================#
-# Endpoint to GET all hardware_types http://127.0.0.1:5000/api/merchant?id=x (takes a merchant ID and retrieve it from DB)
+# Endpoint to GET a specific merchant http://127.0.0.1:5000/api/merchant?id=x (takes a merchant ID and retrieve it from DB)
 @app.route('/api/merchant', methods=['GET'])
 def api_merchant_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
@@ -576,6 +574,115 @@ def api_merchant_id():
         return jsonify(results)
     else:
         return "No merchant ID provided"
+
+######################################################
+# 6 -  CRUD operations for the Orders table     #
+######################################################
+
+#=========================================================#
+# 6.1. - Implement GET method for all Orders here #
+#=========================================================#
+# Endpoint to GET all orders http://127.0.0.1:5000/api/orders/all
+@app.route('/api/orders/all', methods=['GET'])
+def api_iso_all():
+    select_orders = """
+        SELECT *
+        FROM orders;  """ 
+
+    order_results = execute_read_query(conn, select_orders)
+    results = [] 
+    for order in order_results:
+        results.append(order)
+    return jsonify(results)
+
+#========================================================#
+# 6.2 - Implement POST method for Orders here     #
+#========================================================#
+# Endpoint to ADD an Order http://127.0.0.1:5000/api/orders
+@app.route('/api/orders', methods=['POST'])
+def add_iso():
+    request_data = request.get_json()
+    new_serial_number = request_data['SERIAL_NUMBER']
+    new_tracking_num = request_data['TRACKING_NUM']
+    new_order_date = request_data['ORDER_DATE']
+    new_ship_date = request_data['SHIP_DATE']
+    new_hardware_id = request_data['HARDWARE_ID']
+    new_merchant_id = request_data['MERCHANT_ID']
+    
+    add_orders_query = """
+    INSERT INTO orders(SERIAL_NUMBER,TRACKING_NUM,ORDER_DATE,SHIP_DATE,HARDWARE_ID,MERCHANT_ID) 
+    VALUES('%s','%s','%s','%s',%s,%s)""" % (new_serial_number,new_tracking_num,new_order_date,new_ship_date,new_hardware_id,new_merchant_id)
+    execute_query(conn, add_orders_query) 
+    
+    return 'Add request was successful'
+
+
+#====================================================#
+# 6.3 - Implement PUT method for Orders here     #
+#====================================================#
+# Endpoint to UPDATE an Order http://127.0.0.1:5000/api/orders (takes a JSON object and update orders table)
+@app.route('/api/orders', methods=['PUT'])
+def update_iso():
+    request_data = request.get_json()
+
+    idToUpdate = request_data['ORDER_ID']
+    new_serial_number = request_data['SERIAL_NUMBER']
+    new_tracking_num = request_data['TRACKING_NUM']
+    new_order_date = request_data['ORDER_DATE']
+    new_ship_date = request_data['SHIP_DATE']
+    new_hardware_id = request_data['HARDWARE_ID']
+    new_merchant_id = request_data['MERCHANT_ID']
+    
+    update_orders_query = """
+    UPDATE orders
+    SET SERIAL_NUMBER = '%s',
+    TRACKING_NUM = '%s',
+    ORDER_DATE = '%s',
+    SHIP_DATE = '%s',
+    HARDWARE_ID = %s,
+    MERCHANT_ID = %s  
+    WHERE ORDER_ID = %s """ % (new_serial_number,new_tracking_num,new_order_date,new_ship_date,new_hardware_id,new_merchant_id,idToUpdate)
+    execute_query(conn, update_orders_query)
+
+    return "Update request successful"
+
+#====================================================#
+# 6.4 - Implement DELETE method for Orders here   #
+#====================================================#
+# Endpoint to delete an Order http://127.0.0.1:5000/api/orders?id=x (takes an order_ID)
+@app.route('/api/orders', methods=['DELETE'])
+def delete_iso():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToDelete = int(request.args['id']) # ORDER_ID to delete 
+        delete_order_query = """
+        DELETE FROM order 
+        WHERE ORDER_ID = %s """ % (idToDelete)
+        execute_query(conn, delete_order_query)
+        return "Delete request was successful"
+    else:
+        return "No ORDER_ID provided"
+
+
+#===============================================================#
+# 6.5. - Implement GET method for a specific Orders here #
+#===============================================================#
+# Endpoint to GET specific Orders http://127.0.0.1:5000/api/orders?id=x (takes an ORDER_ID and retrieve it from DB)
+@app.route('/api/orders', methods=['GET'])
+def api_iso():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) # ORDER_ID to Retrieve
+        results = [] # List of resulting order(s) to return
+        retrieve_order_query = """
+        SELECT *
+        FROM orders
+        WHERE ORDER_ID = %s; """ % (idToRetrieve)
+        order_query = execute_read_query(conn, retrieve_order_query)
+        for order in order_query:
+            if order['ORDER_ID'] == idToRetrieve:
+                results.append(order)
+        return jsonify(results)
+    else:
+        return "No ORDER_ID provided"
 
 # NB: ALWAYS remember to add this line or app won't run
 app.run()
@@ -610,16 +717,23 @@ app.run()
 #   api/reseller?id=x (Do a physical DELETE for now) => OK
 #   api/reseller?id=x (GET reseller with id in params)=> OK
 
-##### ISO  ####################
+##### 4. ISO  ####################
 #   api/iso (GET all) =>  OK
 #   api/iso(POST = INSERT INTO) => OK
 #   api/iso (PUT = UPDATE) => OK
 #   api/iso?id=x (Do a physical DELETE for now) => OK
 #   api/iso?id=x (GET iso with id in params)=> OK
 
-##### MERCHANT  ####################
+##### 5. MERCHANT  ####################
 #   api/merchant (GET all) => OK
 #   api/merchant(POST = INSERT INTO) => OK, Needs Error Detection.
 #   api/merchant (PUT = UPDATE) => OK
 #   api/merchant?id=x (Do a physical DELETE for now) => OK
 #   api/merchant?id=x (GET merchant with id in params)=> OK
+
+##### 5. ORDERS  ####################
+#   api/orders (GET all) => 
+#   api/orders(POST = INSERT INTO) => 
+#   api/orders (PUT = UPDATE) => 
+#   api/orders?id=x (Do a physical DELETE for now) => 
+#   api/orders?id=x (GET merchant with id in params)=> 
