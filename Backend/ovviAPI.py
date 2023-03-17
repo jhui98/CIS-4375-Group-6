@@ -433,7 +433,7 @@ def delete_iso():
 #===============================================================#
 # Endpoint to GET a specific ISO company http://127.0.0.1:5000/api/iso?id=x (takes an iso ID and retrieve it from DB)
 @app.route('/api/iso', methods=['GET'])
-def api_iso():
+def api_iso_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) # iso ID to Retrieve
         results = [] # List of resulting iso(s) to return
@@ -460,7 +460,7 @@ def api_iso():
 @app.route('/api/merchant/all', methods=['GET'])
 def api_merchant_all():
     select_merchant_query = """
-    SELECT *
+    SELECT merchant_id, merchant_name,merchant_address1,merchant_address2,merchant_city,merchant_state,merchant_zip,merchant_email,merchant_phone,reseller_id
     FROM merchant; """
 
     merchants = execute_read_query(conn, select_merchant_query)
@@ -570,7 +570,7 @@ def api_merchant_id():
         for merchant in merchants:
             #print(info)
             if merchant['merchant_id'] == idToRetrieve:
-                results.append(info)
+                results.append(merchant)
         return jsonify(results)
     else:
         return "No merchant ID provided"
