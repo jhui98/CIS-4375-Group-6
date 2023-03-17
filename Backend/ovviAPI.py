@@ -493,7 +493,7 @@ def add_merchant():
     INSERT INTO merchant(merchant_name,merchant_address1,merchant_address2,merchant_city,merchant_state,merchant_zip,merchant_email,merchant_phone,reseller_id) 
     VALUES('%s','%s','%s','%s','%s',%s,'%s',%s,%s)""" % (new_merchant_name,new_merchant_address1,new_merchant_address2,new_merchant_city,new_merchant_state,new_merchant_zip,
     new_merchant_email,new_merchant_phone,foreign_reseller_id)
-    print("Insert query is: ", add_merchant_query) # just checking query syntax
+    #print("Insert query is: ", add_merchant_query) # just checking query syntax
     execute_query(conn, add_merchant_query) 
     
     return 'Add request was successful'
@@ -531,7 +531,7 @@ def update_merchant():
     reseller_id = %s   
     WHERE merchant_id = %s """ % (new_merchant_name,new_merchant_address1,new_merchant_address2,new_merchant_city,new_merchant_state,new_merchant_zip,
     new_merchant_email,new_merchant_phone,foreign_reseller_id,idToUpdate)
-    print("Update query is: ", update_merchant_query) # just checking query
+    #print("Update query is: ", update_merchant_query) # just checking query
     execute_query(conn, update_merchant_query)
 
     return "Update request successful"
@@ -562,29 +562,29 @@ def api_merchant_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) # hardware_type ID to Retrieve
         retrieve_merchant_query = """
-        SELECT * 
+        SELECT merchant_id, merchant_name,merchant_address1,merchant_address2,merchant_city,merchant_state,merchant_zip,merchant_email,merchant_phone,reseller_id 
         FROM merchant
         WHERE merchant_id = %s; """ % (idToRetrieve)
-        merchant  = execute_read_query(conn, retrieve_merchant_query)
+        merchants  = execute_read_query(conn, retrieve_merchant_query)
         results = []
-        for info in merchant:
-            print(info)
-            if info['MERCHANT_ID'] == idToRetrieve:
+        for merchant in merchants:
+            #print(info)
+            if merchant['merchant_id'] == idToRetrieve:
                 results.append(info)
         return jsonify(results)
     else:
         return "No merchant ID provided"
 
 ######################################################
-# 6 -  CRUD operations for the Orders table     #
+# 6 -  CRUD operations for the ORDERS table          #
 ######################################################
 
 #=========================================================#
-# 6.1. - Implement GET method for all Orders here #
+# 6.1. - Implement GET method for all Orders here         #
 #=========================================================#
 # Endpoint to GET all orders http://127.0.0.1:5000/api/orders/all
 @app.route('/api/orders/all', methods=['GET'])
-def api_iso_all():
+def api_orders_all():
     select_orders = """
         SELECT *
         FROM orders;  """ 
@@ -596,22 +596,23 @@ def api_iso_all():
     return jsonify(results)
 
 #========================================================#
-# 6.2 - Implement POST method for Orders here     #
+# 6.2 - Implement POST method for Orders here            #
 #========================================================#
 # Endpoint to ADD an Order http://127.0.0.1:5000/api/orders
 @app.route('/api/orders', methods=['POST'])
-def add_iso():
+def add_order():
     request_data = request.get_json()
-    new_serial_number = request_data['SERIAL_NUMBER']
-    new_tracking_num = request_data['TRACKING_NUM']
-    new_order_date = request_data['ORDER_DATE']
-    new_ship_date = request_data['SHIP_DATE']
-    new_hardware_id = request_data['HARDWARE_ID']
-    new_merchant_id = request_data['MERCHANT_ID']
+    new_order_number = request_data['order_num']
+    new_serial_number = request_data['serial_number']
+    new_tracking_num = request_data['tracking_num']
+    new_order_date = request_data['order_date']
+    new_ship_date = request_data['ship_date']
+    new_hardware_id = request_data['hardware_id']
+    new_merchant_id = request_data['merchant_id']
     
     add_orders_query = """
-    INSERT INTO orders(SERIAL_NUMBER,TRACKING_NUM,ORDER_DATE,SHIP_DATE,HARDWARE_ID,MERCHANT_ID) 
-    VALUES('%s','%s','%s','%s',%s,%s)""" % (new_serial_number,new_tracking_num,new_order_date,new_ship_date,new_hardware_id,new_merchant_id)
+    INSERT INTO orders(order_num,serial_number,tracking_num,order_date,ship_date,hardware_id,merchant_id) 
+    VALUES(%s, '%s','%s','%s','%s',%s,%s);""" % (new_order_number, new_serial_number,new_tracking_num,new_order_date,new_ship_date,new_hardware_id,new_merchant_id)
     execute_query(conn, add_orders_query) 
     
     return 'Add request was successful'
@@ -622,26 +623,28 @@ def add_iso():
 #====================================================#
 # Endpoint to UPDATE an Order http://127.0.0.1:5000/api/orders (takes a JSON object and update orders table)
 @app.route('/api/orders', methods=['PUT'])
-def update_iso():
+def update_order():
     request_data = request.get_json()
 
-    idToUpdate = request_data['ORDER_ID']
-    new_serial_number = request_data['SERIAL_NUMBER']
-    new_tracking_num = request_data['TRACKING_NUM']
-    new_order_date = request_data['ORDER_DATE']
-    new_ship_date = request_data['SHIP_DATE']
-    new_hardware_id = request_data['HARDWARE_ID']
-    new_merchant_id = request_data['MERCHANT_ID']
+    idToUpdate = request_data['order_id']
+    new_order_number = request_data['order_num']
+    new_serial_number = request_data['serial_number']
+    new_tracking_num = request_data['tracking_num']
+    new_order_date = request_data['order_date']
+    new_ship_date = request_data['ship_date']
+    new_hardware_id = request_data['hardware_id']
+    new_merchant_id = request_data['merchant_id']
     
     update_orders_query = """
     UPDATE orders
-    SET SERIAL_NUMBER = '%s',
-    TRACKING_NUM = '%s',
-    ORDER_DATE = '%s',
-    SHIP_DATE = '%s',
-    HARDWARE_ID = %s,
-    MERCHANT_ID = %s  
-    WHERE ORDER_ID = %s """ % (new_serial_number,new_tracking_num,new_order_date,new_ship_date,new_hardware_id,new_merchant_id,idToUpdate)
+    SET order_num = %s,
+    serial_number = '%s',
+    tracking_num = '%s',
+    order_date = '%s',
+    ship_date = '%s',
+    hardware_id = %s,
+    merchant_id = %s  
+    WHERE order_id = %s """ % (new_order_number, new_serial_number,new_tracking_num,new_order_date,new_ship_date,new_hardware_id,new_merchant_id,idToUpdate)
     execute_query(conn, update_orders_query)
 
     return "Update request successful"
@@ -651,12 +654,12 @@ def update_iso():
 #====================================================#
 # Endpoint to delete an Order http://127.0.0.1:5000/api/orders?id=x (takes an order_ID)
 @app.route('/api/orders', methods=['DELETE'])
-def delete_iso():
+def delete_order():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToDelete = int(request.args['id']) # ORDER_ID to delete 
         delete_order_query = """
-        DELETE FROM order 
-        WHERE ORDER_ID = %s """ % (idToDelete)
+        DELETE FROM orders 
+        WHERE order_id = %s """ % (idToDelete)
         execute_query(conn, delete_order_query)
         return "Delete request was successful"
     else:
@@ -668,21 +671,23 @@ def delete_iso():
 #===============================================================#
 # Endpoint to GET specific Orders http://127.0.0.1:5000/api/orders?id=x (takes an ORDER_ID and retrieve it from DB)
 @app.route('/api/orders', methods=['GET'])
-def api_iso():
+def api_order_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) # ORDER_ID to Retrieve
         results = [] # List of resulting order(s) to return
         retrieve_order_query = """
-        SELECT *
+        SELECT order_id, order_num,serial_number,tracking_num,order_date,ship_date,hardware_id,merchant_id
         FROM orders
-        WHERE ORDER_ID = %s; """ % (idToRetrieve)
-        order_query = execute_read_query(conn, retrieve_order_query)
-        for order in order_query:
-            if order['ORDER_ID'] == idToRetrieve:
+        WHERE order_id = %s; """ % (idToRetrieve)
+        orders = execute_read_query(conn, retrieve_order_query)
+        for order in orders:
+            if order['order_id'] == idToRetrieve:
                 results.append(order)
         return jsonify(results)
     else:
         return "No ORDER_ID provided"
+
+
 
 # NB: ALWAYS remember to add this line or app won't run
 app.run()
@@ -703,7 +708,7 @@ app.run()
 #   api/hardware_type?id=x (Do a physical DELETE for now) => OK
 #   api/hardware_type?id=x (GET Hardware Type with id in params)=> OK
 
-##### 2. HARDAWRE  ####################
+##### 2. HARDWARE  ####################
 #   api/hardware (GET all) =>  OK
 #   api/hardware(POST = INSERT INTO) => OK
 #   api/hardware (PUT = UPDATE) => OK
