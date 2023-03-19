@@ -5,10 +5,11 @@
 Members:
 1) Hui, Jacob ==> PM (DBA)		
 2) Arroyo, Zachary M  ==> APM (DBA)
-3) Patel, Parth ==> Frontend Developper
-4) Euceda, Jonathan ==> Backend Developer
-5) Kindo, Windinle ==> Backend Developer
-6) Soto, Joshua ==> Frontend Developer
+3) Soto, Joshua ==> Frontend Developer
+4) Patel, Parth ==> Frontend Developper
+5) Euceda, Jonathan ==> Backend Developer
+6) Kindo, Windinle ==> Backend Developer
+
 ========================================================
 # @wakindo
 # ==================
