@@ -736,9 +736,9 @@ app.run()
 #   api/merchant?id=x (Do a physical DELETE for now) => OK
 #   api/merchant?id=x (GET merchant with id in params)=> OK
 
-##### 5. ORDERS  ####################
+##### 6. ORDERS  ####################
 #   api/orders (GET all) => 
-#   api/orders(POST = INSERT INTO) => 
-#   api/orders (PUT = UPDATE) => 
-#   api/orders?id=x (Do a physical DELETE for now) => 
-#   api/orders?id=x (GET merchant with id in params)=> 
+#   api/orders(POST = INSERT INTO) => OK
+#   api/orders (PUT = UPDATE) => OK
+#   api/orders?id=x (Do a physical DELETE for now) => OK
+#   api/orders?id=x (GET merchant with id in params)=> OK
