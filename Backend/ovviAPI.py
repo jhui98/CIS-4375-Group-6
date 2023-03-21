@@ -687,7 +687,71 @@ def api_order_id():
     else:
         return "No ORDER_ID provided"
 
+######################################################
+# 7 - Reports JSON Operations                   #
+######################################################
 
+#===============================================================#
+# 7.1 - Viewing an ISO you should be able to view the resellers within them and their contact information #
+#===============================================================#
+# Endpoint is http://127.0.0.1:5000/api/SevenOne?id=x
+@app.route('/api/SevenOne', methods=['GET'])
+def api_seven_one():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) 
+        seven_one_query = """
+        SELECT iso.ISO_COMPANY as "ISO Company", reseller.RESELLER_ID as "Reseller ID",
+        reseller.RESELLER_NAME as "Reseller Name", reseller.RESELLER_EMAIL as "Reseller Email", reseller.RESELLER_PHONE as "Reseller Phone Number"
+        FROM iso
+        JOIN reseller
+        ON iso.ISO_ID = reseller.ISO_ID
+        WHERE iso.ISO_ID = %s; """ % (idToRetrieve)
+        results  = execute_read_query(conn, seven_one_query)
+        return jsonify(results)
+    else:
+        return "No ISO ID provided"
+
+#===============================================================#
+# 7.2 - Viewing a Reseller you should get all their information as well as what ISO they are under #
+#===============================================================#
+# Endpoint is http://127.0.0.1:5000/api/SevenTwo?id=x
+@app.route('/api/SevenTwo', methods=['GET'])
+def api_seven_two():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) 
+        seven_two_query = """
+        SELECT iso.ISO_COMPANY as "ISO Company", iso.ISO_ID as "ISO ID", reseller.RESELLER_ID as "Reseller ID",
+        reseller.RESELLER_NAME as "Name", reseller.RESELLER_EMAIL as "Email", reseller.RESELLER_PHONE as "Phone Number"
+        FROM reseller
+        JOIN iso
+        ON reseller.ISO_ID = iso.ISO_ID
+        WHERE reseller.RESELLER_ID = %s; """ % (idToRetrieve)
+        results  = execute_read_query(conn, seven_two_query)
+        return jsonify(results)
+    else:
+        return "No ISO ID provided"
+
+#===============================================================#
+# 7.3 - Should have another view that shows all merchants attached to a reseller with contact info #
+#===============================================================#
+# Endpoint is http://127.0.0.1:5000/api/SevenThree?id=x
+@app.route('/api/SevenThree', methods=['GET'])
+def api_seven_three():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) 
+        seven_three_query = """
+        SELECT reseller.RESELLER_ID as "Reseller ID", reseller.RESELLER_NAME as "Reseller Name", reseller.RESELLER_EMAIL as "Reseller Email",
+        reseller.RESELLER_PHONE as "Reseller Phone", merchant.MERCHANT_ID as "Merchant ID", merchant.MERCHANT_NAME as "Merchant Name",
+        CONCAT_WS(', ',merchant.MERCHANT_ADDRESS1, merchant.MERCHANT_ADDRESS2, merchant.MERCHANT_CITY, merchant.MERCHANT_STATE, merchant.MERCHANT_ZIP)
+        as "Merchant Address", merchant.MERCHANT_EMAIL as "Merchant Email", merchant.MERCHANT_PHONE as "Merchant Phone"
+        FROM reseller
+        JOIN merchant
+        ON reseller.RESELLER_ID = merchant.RESELLER_ID
+        WHERE reseller.RESELLER_ID = %s; """ % (idToRetrieve)
+        results  = execute_read_query(conn, seven_three_query)
+        return jsonify(results)
+    else:
+        return "No Reseller ID provided"
 
 # NB: ALWAYS remember to add this line or app won't run
 app.run()
