@@ -753,6 +753,79 @@ def api_seven_three():
     else:
         return "No Reseller ID provided"
 
+#===============================================================#
+# 7.4 - Viewing Hardware Type you should be able to see all     #
+#       Hardwares items under that Hardware type                #
+#===============================================================#
+# Endpoint is http://127.0.0.1:5000/api/HardwareByType?id=x
+@app.route('/api/HardwareByType', methods=['GET'])
+def api_hardwareByTypeID():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) 
+        HardwareByTypeQuery = """
+        SELECT 
+                H.hardware_name AS "HARDWARE", 
+                H.model_number as "MODEL NUMBER"
+        FROM hardware_type HT 
+        JOIN hardware H
+        ON HT.htype_id = H.htype_id
+        WHERE H.Htype_id = %s; """ % (idToRetrieve)
+        results  = execute_read_query(conn, HardwareByTypeQuery)
+        return jsonify(results)
+    else:
+        return "No Hardware Type ID provided"
+#===============================================================#
+# 7.5 - Viewing Hardware we should see Hardware name            #
+#       as well as Hardware Type                                #
+#===============================================================#
+# Endpoint is http://127.0.0.1:5000/api/HardwareWithTypeName
+@app.route('/api/HardwareWithTypeName', methods=['GET'])
+def api_HardwareWithTypeName():
+    # select all hardware and match with their hardware_type using FK/PK htype_id
+    select_hardwaresJoinType = """
+        SELECT hardware_name AS "HARDWARE", 
+		       model_number AS "MODEL NUMBER",
+               htype_name AS "TYPE"
+        FROM hardware H
+        JOIN hardware_type HT
+        ON H.htype_id = HT.htype_id
+        ORDER BY hardware_name ASC; """ 
+
+    hardwares = execute_read_query(conn, select_hardwaresJoinType)
+    results = [] # List of resulting hardware(s) to return
+    for hardware in hardwares:
+        results.append(hardware)
+    return jsonify(results)
+
+
+#===============================================================#
+# 7.6 - Viewing Merchants you should be able to see all their    #
+#       information and reseller with contact info              #
+#===============================================================#
+# Endpoint is http://127.0.0.1:5000/api/MerchantsResellerID?id=x
+@app.route('/api/MerchantsResellerID', methods=['GET'])
+def api_merchants_reseller_id():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) 
+        MerchantsReseller_query = """
+        SELECT 	M.merchant_name AS "Merchant Name",
+                M.merchant_email AS "Merchant Email",
+                M.merchant_phone AS "Merchant Phone", 
+                CONCAT_WS(', ', M.MERCHANT_ADDRESS1, M.MERCHANT_ADDRESS2, M.MERCHANT_CITY, M.MERCHANT_STATE, M.MERCHANT_ZIP) AS "Merchant Address",
+                R.reseller_name AS "Reseller Name",
+                R.reseller_phone AS "Reseller Phone",
+                R.reseller_email AS "Reseller Email"
+        FROM merchant M 
+        JOIN reseller R
+        ON M.reseller_id = R.reseller_id
+        WHERE R.RESELLER_ID = %s; """ % (idToRetrieve)
+        results  = execute_read_query(conn, MerchantsReseller_query)
+        return jsonify(results)
+    else:
+        return "No Reseller ID provided"
+
+
+
 # NB: ALWAYS remember to add this line or app won't run
 app.run()
 
@@ -765,7 +838,7 @@ app.run()
 
 #   Home page => OK
 
-##### 1. HARDAWRE TYPE ####################
+##### 1. HARDWARE TYPE ####################
 #   api/hardware_type (GET all) =>  OK
 #   api/hardware_type (POST = INSERT INTO) => OK
 #   api/hardware_type (PUT = UPDATE) => OK
@@ -806,3 +879,11 @@ app.run()
 #   api/orders (PUT = UPDATE) => OK
 #   api/orders?id=x (Do a physical DELETE for now) => OK
 #   api/orders?id=x (GET merchant with id in params)=> OK
+
+##### 7. REPORTS  ####################
+# 7.1 - 
+# 7.2 - 
+# 7.3 - 
+# 7.4 - Viewing Hardware Type you should be able to see all Hardware items under that Hardware type => OK
+# 7.5 - Viewing Hardware you should see Hardware name as well as Hardware Type => OK
+# 7.6 - Viewing Merchant you should be able to see all their information and reseller with contact info - OK
