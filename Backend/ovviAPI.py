@@ -824,6 +824,33 @@ def api_merchants_reseller_id():
     else:
         return "No Reseller ID provided"
 
+#===============================================================#
+# 7.7 - Should also be able to see all orders under that        #
+#       merchant with order_date, ship_date, hardware, ...      #
+#===============================================================#
+# Endpoint is http://127.0.0.1:5000/api/MerchantOrders?id=x
+@app.route('/api/MerchantOrders', methods=['GET'])
+def api_orders_merchant_id():
+    if 'id' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['id']) 
+        MerchantsOrders_query = """
+        SELECT  merchant_name AS "MERCHANT",
+                order_num AS "ORDER NUMBER",
+                hardware_name AS "HARDWARE",
+                serial_number AS "SERIAL NUMBER",
+                tracking_num AS "TRACKING NUMBER",
+                order_date AS "ORDER DATE",
+                ship_date AS "SHIP DATE"        
+        FROM merchant M
+        JOIN orders O
+        ON M.merchant_id = O.merchant_id
+        JOIN hardware H
+        ON O.hardware_id = H.hardware_id 
+        WHERE M.merchant_id= %s; """ % (idToRetrieve)
+        results  = execute_read_query(conn, MerchantsOrders_query)
+        return jsonify(results)
+    else:
+        return "No Merchant ID provided"
 
 
 # NB: ALWAYS remember to add this line or app won't run
