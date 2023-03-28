@@ -914,3 +914,4 @@ app.run()
 # 7.4 - Viewing Hardware Type you should be able to see all Hardware items under that Hardware type => OK
 # 7.5 - Viewing Hardware you should see Hardware name as well as Hardware Type => OK
 # 7.6 - Viewing Merchant you should be able to see all their information and reseller with contact info - OK
+# 7.7 - Should also be able to see all orders under that merchant with order_date, ship_date, hardware, ... - OK
