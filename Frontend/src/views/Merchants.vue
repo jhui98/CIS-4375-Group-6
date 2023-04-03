@@ -6,12 +6,18 @@
         <br>
 
         <label class="block">
-            <input
-              type="text"
-              class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              placeholder="Enter Company name here"
-              
-            />
+            <p>Enter Company ID: {{ message }}
+                <input
+                    v-model="message"
+                type="text"
+                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                placeholder="Enter Company name here"
+                
+                />
+            </p>
+            <button class="add" type='submit'>Add</button>
+            <button class="edit" type='submit'>Edit</button>
+            <button class="delete" type='submit'>Delete</button>
           </label>
 
 
@@ -38,6 +44,18 @@
 
     </main>
 </template>
+
+
+<script>
+export default {
+  data() {
+    return {
+      message: ''
+    }
+  }
+}
+</script>
+
 
 <!-- <script>
     new VUE({
