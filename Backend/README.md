@@ -23,7 +23,7 @@ Members:
 # ========================
 # - Windows Users:
 #       + Go to Systems Environment & edit PATH variable to add necessary path
-#            to your python, nodjs, etc for commands like "pip", "npm" to work
+#            to your python, nodejs, etc for commands like "pip", "npm" to work
 
 # ================================================================
 # NB: Never Commit the "node_modules" folder to the GitHut repo  =
