@@ -853,6 +853,40 @@ def api_orders_merchant_id():
         return "No Merchant ID provided"
 
 
+
+#====================================================================================#
+#                            USER LOGIN SECTION                                      #
+# a- The user logs in and we should display the Home page / Current Orders ???       #
+#====================================================================================#
+
+
+
+# route to authenticate with username and password against a dataset (ideally from database and also hashed, not clear strings for passwords)
+# test in postman by creating header parameters 'username' and 'password' and pass in credentials
+# endpoint http://127.0.0.1:5000/api/login
+@app.route('/api/login', methods=['GET'])
+def user_login():
+    # Get the header parameters. 
+    # Request headers are interpreted as dictionaries, so value access is easy and direct
+    username = request.headers['username'] 
+    pwd = request.headers['password']
+    foundUser = False
+    # select login info from LOGIN table and find user with corresponding username and password
+    user_login_query = """
+        SELECT  username, user_pw       
+        FROM login
+        WHERE username = '%s' AND user_pw='%s'; """ % (username, pwd)
+    authorizedUsers  = execute_read_query(conn, user_login_query)
+    for user in authorizedUsers: # loop over all users and find one that is authorized to access
+        if user['username'] == username and user['user_pw'] == pwd: #found an authorized user
+            foundUser = True # set boolean to true 
+            return jsonify(foundUser) 
+
+    return 'SECURITY ERROR' # never give away too many details what went wrong
+
+
+
+
 # NB: ALWAYS remember to add this line or app won't run
 app.run()
 
