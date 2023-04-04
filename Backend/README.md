@@ -24,7 +24,13 @@ Members:
 # - Windows Users:
 #       + Go to Systems Environment & edit PATH variable to add necessary path
 #            to your python, nodejs, etc for commands like "pip", "npm" to work
-
+#
+# ==================
+# Initial pip install requirement #
+# ==================
+# - Run the following command below in a terminal window before running backend:  
+#                pip install flask-cors
+#
 # ================================================================
 # NB: Never Commit the "node_modules" folder to the GitHut repo  =
 # ================================================================

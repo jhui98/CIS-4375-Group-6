@@ -9,9 +9,11 @@ export default {
     }
   },
   methods: {
-    async handleSubmitForm() {
+    /* method to handle form submission*/
+    async submitForm() {
         let apiURL =`http://localhost:5000/api/hardware_type`;
         axios
+          /* sends POST request through axios to backend, alerts user of success, then reloads page through router */
           .post(apiURL, this.hardwaretype)
           .then(() => {
             alert("Hardware Type has been succesfully added.");
@@ -76,10 +78,11 @@ export default {
         <p>This is the Hardware Type input form</p><br>
         <div>
           <!-- @submit.prevent stops the submit event from reloading the page-->
-          <form @submit.prevent="handleSubmitForm">
+          <form @submit.prevent="submitForm">
               <!-- form field -->
               <div>
                 <label class="block">
+                  <!-- asterisk to denote required field-->
                   <span style="color:#ff0000">* </span>
                   <span class="text-gray-700">Hardware Type Name: </span>
                   <input

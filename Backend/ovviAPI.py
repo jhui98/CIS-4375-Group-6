@@ -29,8 +29,8 @@ conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, 
 
 # Setting up an application name
 app = Flask(__name__) # sets up the application
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app) # sets up CORS functionality
+app.config['CORS_HEADERS'] = 'Content-Type' # tells browsers that content-type is being pushed for CORS purposes 
 app.config["DEBUG"] = True # allow to show errors in browser
 
 #=================================================
