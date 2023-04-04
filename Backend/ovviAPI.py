@@ -890,7 +890,7 @@ def api_ordersReport():
 def api_orderDetails_num():
     if 'ORDER_NUMBER' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['ORDER_NUMBER']) # order_num to Retrieve
-        print("ID to retrieve is: ", idToRetrieve)
+        # print("ID to retrieve is: ", idToRetrieve) // just checking
         results = [] # List of resulting order(s) to return
         retrieve_order_query = """
         SELECT  order_id,  
@@ -998,7 +998,7 @@ app.run()
 #   api/merchant?id=x (GET merchant with id in params)=> OK
 
 ##### 6. ORDERS  ####################
-#   api/orders (GET all) => 
+#   api/orders (GET all) => OK
 #   api/orders(POST = INSERT INTO) => OK
 #   api/orders (PUT = UPDATE) => OK
 #   api/orders?id=x (Do a physical DELETE for now) => OK
@@ -1014,3 +1014,6 @@ app.run()
 # 7.7 - Should also be able to see all orders under that merchant with order_date, ship_date, hardware, ... => OK
 # 7.8 - Viewing Orders should have a table with order number, reseller_name, order_date, merchant_name ship_date => OK
 # 7.9 - Viewing an Individual order should show all order information as with line items and merchant information => OK
+
+##### 8. LOGIN  ####################
+#   api/login (GET) => OK
