@@ -852,6 +852,71 @@ def api_orders_merchant_id():
     else:
         return "No Merchant ID provided"
 
+#===============================================================#
+# 7.8 - Viewing Orders should have a table with order number,   #
+#       reseller_name, order_date, merchant_name ship_date      #
+#===============================================================#
+# Endpoint is http://127.0.0.1:5000/api/ordersReport
+@app.route('/api/ordersReport', methods=['GET'])
+def api_ordersReport():
+    # added the order_id so we can use it to display all details when need
+    # Never display the ID on Backend please
+    select_orders = """
+        SELECT order_id, 
+            order_num AS "ORDER_NUMBER",
+            merchant_name AS "MERCHANT",
+            order_date AS "ORDER DATE",
+            reseller_name AS "RESELLER",
+            ship_date AS "SHIP DATE"
+        FROM orders O
+        JOIN merchant M
+        ON O.merchant_id = M.merchant_id
+        JOIN reseller R 
+        ON M.reseller_id = R.reseller_id
+        ORDER BY order_date DESC;  """ 
+
+    order_results = execute_read_query(conn, select_orders)
+    results = [] 
+    for order in order_results:
+        results.append(order)
+    return jsonify(results)
+
+ #===============================================================#
+# 7.9 - Viewing an Individual order should show all order        #
+#        information as with line items and merchant information #
+#================================================================#
+# Endpoint is http://127.0.0.1:5000/api/detailsOrder?ORDER_NUMBER=x
+@app.route('/api/detailsOrder', methods=['GET'])
+def api_orderDetails_num():
+    if 'ORDER_NUMBER' in request.args: # only if an ID is provided as an argument, proceed
+        idToRetrieve = int(request.args['ORDER_NUMBER']) # order_num to Retrieve
+        print("ID to retrieve is: ", idToRetrieve)
+        results = [] # List of resulting order(s) to return
+        retrieve_order_query = """
+        SELECT  order_id,  
+            order_num AS "ORDER_NUMBER",
+            merchant_name AS "MERCHANT",
+            CONCAT_WS(', ', M.merchant_address1, M.merchant_address2, M.merchant_city, M.merchant_state, M.merchant_zip)
+            AS "ADDRESS",
+            merchant_email AS "EMAIL",
+            order_date AS "ORDER DATE",
+            hardware_name AS "HARDWARE",
+            ship_date AS "SHIP DATE",
+            tracking_num AS "TRACKING NUMBER"
+        FROM orders O
+        JOIN merchant M
+        ON O.merchant_id = M.merchant_id
+        JOIN hardware H 
+        ON O.hardware_id = H.hardware_id
+        WHERE order_num = %s; """ % (idToRetrieve)
+        orders = execute_read_query(conn, retrieve_order_query)
+        for order in orders:
+            if order['ORDER_NUMBER'] == idToRetrieve:
+                results.append(order)
+        return jsonify(results)
+    else:
+        return "No ORDER_NUMBER provided"  
+
 
 
 #===============================================================#
@@ -945,5 +1010,7 @@ app.run()
 # 7.3 - 
 # 7.4 - Viewing Hardware Type you should be able to see all Hardware items under that Hardware type => OK
 # 7.5 - Viewing Hardware you should see Hardware name as well as Hardware Type => OK
-# 7.6 - Viewing Merchant you should be able to see all their information and reseller with contact info - OK
-# 7.7 - Should also be able to see all orders under that merchant with order_date, ship_date, hardware, ... - OK
+# 7.6 - Viewing Merchant you should be able to see all their information and reseller with contact info => OK
+# 7.7 - Should also be able to see all orders under that merchant with order_date, ship_date, hardware, ... => OK
+# 7.8 - Viewing Orders should have a table with order number, reseller_name, order_date, merchant_name ship_date => OK
+# 7.9 - Viewing an Individual order should show all order information as with line items and merchant information => OK
