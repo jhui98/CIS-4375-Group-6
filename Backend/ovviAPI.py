@@ -854,12 +854,10 @@ def api_orders_merchant_id():
 
 
 
-#====================================================================================#
-#                            USER LOGIN SECTION                                      #
-# a- The user logs in and we should display the Home page / Current Orders ???       #
-#====================================================================================#
-
-
+#===============================================================#
+#                            USER LOGIN SECTION                 #
+# a- The user logs in and we should display the Home page       #
+#===============================================================#
 
 # route to authenticate with username and password against a dataset (ideally from database and also hashed, not clear strings for passwords)
 # test in postman by creating header parameters 'username' and 'password' and pass in credentials
