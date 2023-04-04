@@ -6,7 +6,7 @@
         <br>
 
         <label class="block">
-            <p>Enter Company ID: {{ message }}
+            <p>Enter Company ID: 
                 <input
                     v-model="message"
                 type="text"
@@ -28,18 +28,22 @@
       <div class="flex flex-col col-span-2">
         <table class="min-w-full shadow-md rounded">
           <thead class="bg-gray-50 text-xl">
-            <tr>
-              <th class="p-4 text-left">ISO Company Name</th>
-
-            </tr>
+              <tr>
+                <th class="p-4 text-left">ISO ID</th>
+                <th class="p-4 text-left">ISO Company Name</th>
+              </tr>
           </thead>
           <tbody class="divide-y divide-gray-300">
-            <!-- <tr v-for="(ISO, index) in isos" :key="index">
-              <td class="p-2 text-left" v-text="iso.iso_company"></td>
-            </tr> -->
+              <tr v-for=" iso in isoData" :key="iso.ISO_ID">
+                <td class="p-2 text-left" >{{ iso.id }}</td>
+                <td class="p-2 text-left" >{{ iso.name }}</td>
+              </tr>
           </tbody>
         </table>
       </div>
+
+
+
     </div>
 
     </main>
@@ -47,36 +51,57 @@
 
 
 <script>
+
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      message: ''
-    }
-  }
-}
-</script>
+      isoData: {},
+      ISO_ID:[],
+      ISO_COMPANY:[],
+      loading: false,
+      error: null,
+    };
+  },
+    methods: {
+      async fetchData() {
+        try {
+          this,error = null;
+          this.loading = true;
 
+          const url='http://127.0.0.1:5000/api/iso/all';
+          const resp = await axios.get(url);
 
-<!-- <script>
-    new VUE({
-        el: '#app',
-        data: {
-            isos: []
-        },
-        methods: {
-            getISO() {
-                const URL = "http://127.0.0.1:5000/api/iso/all";
-                axios
-                .get(URL)
-                .then( res => {
-                    this.isos = res.data.data;
-                })
-            }
-        },
-        mounted() {
-            this.getISO();
+          this.isoData = resp.data;
+          this.ISO_ID = resp.data.map((iso) =>iso.id);
+          this.ISO_COMPANY = resp.data.map((iso) => iso.name);
+        } catch (err){
+          if (err.response) {
+          // client received an error response (5xx, 4xx)
+          this.error = {
+            title: "Server Response",
+            message: err.message,
+          };
+        } else if (err.request) {
+          // client never received a response, or request never left
+          this.error = {
+            title: "Unable to Reach Server",
+            message: err.message,
+          };
+        } else {
+          // There's probably an error in your code
+          this.error = {
+            title: "Application Error",
+            message: err.message,
+          };
         }
-    })
-
-
-</script> -->
+        }
+        this.loading = false;
+      },
+    },
+    mounted () {
+      this.fetchData();
+    },
+};
+</script>
