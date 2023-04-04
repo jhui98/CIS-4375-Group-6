@@ -20,6 +20,10 @@
                 <span class="material-icons">memory</span>
                 <span class="text">Hardware</span>
             </router-link>
+            <router-link class="button" to="/hardwaretype">
+                <span class="material-icons">category</span>
+                <span class="text">Hardware Type</span>
+            </router-link>
             <router-link class="button" to="/merchants">
                 <span class="material-icons">store</span>
                 <span class="text">Merchants</span>
@@ -27,6 +31,10 @@
             <router-link class="button" to="/resellers">
                 <span class="material-icons">storefront</span>
                 <span class="text">Resellers</span>
+            </router-link>
+            <router-link class="button" to="/iso">
+                <span class="material-icons">business_center</span>
+                <span class="text">ISOs</span>
             </router-link>
             <router-link class="button" to="/orders">
                 <span class="material-icons">shopping_bag</span>

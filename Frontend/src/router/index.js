@@ -14,12 +14,20 @@ const router = createRouter({
             component: () => import('../views/Hardware.vue')
         },
         {
+            path: '/hardwaretype',
+            component: () => import('../views/HardwareType.vue')
+        },
+        {
             path: '/merchants',
             component: () => import('../views/Merchants.vue')
         },
         {
             path: '/resellers',
             component: () => import('../views/Resellers.vue')
+        },
+        {
+            path: '/iso',
+            component: () => import('../views/iso.vue')
         },
         {
             path: '/orders',

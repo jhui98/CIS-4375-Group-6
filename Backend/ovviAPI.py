@@ -3,8 +3,12 @@
 
 # Flask imports
 import flask
-from flask import jsonify
+from flask import jsonify, request, make_response, Flask
 from flask import request, make_response
+
+# Flash CORS setup
+# !!! need to run 'pip install flask-cors' in terminal !!!
+from flask_cors import CORS, cross_origin
 
 # MySQL connector import
 import mysql.connector
@@ -24,7 +28,9 @@ conn = create_connection(myCreds.conString, myCreds.userName, myCreds.password, 
 
 
 # Setting up an application name
-app = flask.Flask(__name__) # sets up the application
+app = Flask(__name__) # sets up the application
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config["DEBUG"] = True # allow to show errors in browser
 
 #=================================================
@@ -34,6 +40,13 @@ app.config["DEBUG"] = True # allow to show errors in browser
 @app.route('/', methods=['GET'])
 def home():
     return "<h1> Welcome to OVVI Shipping Management System v1.0! </h1>"
+
+# attaches Access-Control-Allow-Origin header at end of every single request for CORS policies
+# additionally, every endpoint also has '@cross_origin(origin='*')' added to ensure CORS compliance
+@app.after_request
+def after_request(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 
 ######################################################
@@ -45,6 +58,7 @@ def home():
 #=========================================================#
 # Endpoint to GET all hardware_types http://127.0.0.1:5000/api/hardware_type/all
 @app.route('/api/hardware_type/all', methods=['GET'])
+@cross_origin(origin='*')
 def api_hardware_type_all():
     # select all hardware_types from DB
     # Add HTYPE_ID and use for Update/Delete but never show it on the frontend to user
@@ -64,6 +78,7 @@ def api_hardware_type_all():
 #========================================================#
 # Endpoint to ADD an hardware_type http://127.0.0.1:5000/api/hardware_type
 @app.route('/api/hardware_type', methods=['POST'])
+@cross_origin(origin='*')
 def add_hardware_type():
     request_data = request.get_json()
     new_htype_name = request_data['htype_name']
@@ -74,7 +89,9 @@ def add_hardware_type():
     # print("Insert query is: ", add_hardware_type_query) // just checking query syntax
     execute_query(conn, add_hardware_type_query) 
     
-    return 'Add request was successful'
+    response = jsonify('Add request was successful')
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 #====================================================#
@@ -82,6 +99,7 @@ def add_hardware_type():
 #====================================================#
 # Endpoint to UPDATE an hardware_type http://127.0.0.1:5000/api/hardware_type (takes a JSON object and update hardware_type table)
 @app.route('/api/hardware_type', methods=['PUT'])
+@cross_origin(origin='*')
 def update_hardware_type():
     request_data = request.get_json()
     # hardware_type data to update 
@@ -101,6 +119,7 @@ def update_hardware_type():
 #====================================================#
 # Endpoint to delete an hardware_type http://127.0.0.1:5000/api/hardware_type?id=x (takes an hardware_type ID and set isDelete to 'Y')
 @app.route('/api/hardware_type', methods=['DELETE'])
+@cross_origin(origin='*')
 def delete_hardware_type():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToDelete = int(request.args['id']) # hardware_type ID to delete 
@@ -119,6 +138,7 @@ def delete_hardware_type():
 #===============================================================#
 # Endpoint to GET all hardware_types http://127.0.0.1:5000/api/hardware_type?id=x (takes an hardware_type ID and retrieve it from DB)
 @app.route('/api/hardware_type', methods=['GET'])
+@cross_origin(origin='*')
 def api_hardware_type_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) # hardware_type ID to Retrieve
@@ -147,6 +167,7 @@ def api_hardware_type_id():
 #=========================================================#
 # Endpoint to GET all hardwares http://127.0.0.1:5000/api/hardware/all
 @app.route('/api/hardware/all', methods=['GET'])
+@cross_origin(origin='*')
 def api_hardware_all():
     # select all hardware_types from DB
     # Add HARDWARE_ID and use for Update/Delete but never show it on the frontend to user
@@ -166,6 +187,7 @@ def api_hardware_all():
 #========================================================#
 # Endpoint to ADD an hardware_type http://127.0.0.1:5000/api/hardware
 @app.route('/api/hardware', methods=['POST'])
+@cross_origin(origin='*')
 def add_hardware():
     request_data = request.get_json()
     new_hardware_name = request_data['hardware_name']
@@ -186,6 +208,7 @@ def add_hardware():
 #====================================================#
 # Endpoint to UPDATE an hardware_type http://127.0.0.1:5000/api/hardware (takes a JSON object and update hardware table)
 @app.route('/api/hardware', methods=['PUT'])
+@cross_origin(origin='*')
 def update_hardware():
     request_data = request.get_json()
     # hardware data to update 
@@ -210,6 +233,7 @@ def update_hardware():
 #====================================================#
 # Endpoint to delete an hardware_type http://127.0.0.1:5000/api/hardware?id=x (takes an hardware ID and set isDelete to 'Y')
 @app.route('/api/hardware', methods=['DELETE'])
+@cross_origin(origin='*')
 def delete_hardware():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToDelete = int(request.args['id']) # hardware_type ID to delete 
@@ -227,6 +251,7 @@ def delete_hardware():
 #==========================================================#
 # Endpoint to GET all hardware_types http://127.0.0.1:5000/api/hardware?id=x (takes an hardware ID and retrieve it from DB)
 @app.route('/api/hardware', methods=['GET'])
+@cross_origin(origin='*')
 def api_hardware_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) # hardware ID to Retrieve
@@ -255,6 +280,7 @@ def api_hardware_id():
 #=========================================================#
 # Endpoint to GET all resellers http://127.0.0.1:5000/api/reseller/all
 @app.route('/api/reseller/all', methods=['GET'])
+@cross_origin(origin='*')
 def api_reseller_all():
     # select all reseller_types from DB
     # Add Reseller_ID and use for Update/Delete but never show it on the frontend to user
@@ -274,6 +300,7 @@ def api_reseller_all():
 #========================================================#
 # Endpoint to ADD an reseller http://127.0.0.1:5000/api/reseller
 @app.route('/api/reseller', methods=['POST'])
+@cross_origin(origin='*')
 def add_reseller():
     request_data = request.get_json()
     new_reseller_name = request_data['reseller_name']
@@ -295,6 +322,7 @@ def add_reseller():
 #====================================================#
 # Endpoint to UPDATE a reseller http://127.0.0.1:5000/api/reseller (takes a JSON object and update reseller table)
 @app.route('/api/reseller', methods=['PUT'])
+@cross_origin(origin='*')
 def update_reseller():
     request_data = request.get_json()
     # reseller data to update 
@@ -321,6 +349,7 @@ def update_reseller():
 #====================================================#
 # Endpoint to delete an reseller http://127.0.0.1:5000/api/reseller?id=x (takes an reseller ID and delete record)
 @app.route('/api/reseller', methods=['DELETE'])
+@cross_origin(origin='*')
 def delete_reseller():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToDelete = int(request.args['id']) # reseller ID to delete 
@@ -338,6 +367,7 @@ def delete_reseller():
 #==========================================================#
 # Endpoint to GET all resellers http://127.0.0.1:5000/api/reseller?id=x (takes a reseller ID and retrieve it from DB)
 @app.route('/api/reseller', methods=['GET'])
+@cross_origin(origin='*')
 def api_reseller_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) # reseller_type ID to Retrieve
@@ -365,6 +395,7 @@ def api_reseller_id():
 #=========================================================#
 # Endpoint to GET iso http://127.0.0.1:5000/api/iso/all
 @app.route('/api/iso/all', methods=['GET'])
+@cross_origin(origin='*')
 def api_iso_all():
     select_iso = """
         SELECT *
@@ -381,12 +412,13 @@ def api_iso_all():
 #========================================================#
 # Endpoint to ADD an ISO http://127.0.0.1:5000/api/iso
 @app.route('/api/iso', methods=['POST'])
+@cross_origin(origin='*')
 def add_iso():
     request_data = request.get_json()
-    new_iso_company = request_data['ISO_COMPANY']
+    new_iso_company = request_data['iso_company']
     
     add_iso_query = """
-    INSERT INTO iso(ISO_COMPANY) 
+    INSERT INTO iso(iso_company) 
     VALUES('%s')""" % (new_iso_company)
     execute_query(conn, add_iso_query) 
     
@@ -398,6 +430,7 @@ def add_iso():
 #====================================================#
 # Endpoint to UPDATE an ISO http://127.0.0.1:5000/api/iso (takes a JSON object and update iso table)
 @app.route('/api/iso', methods=['PUT'])
+@cross_origin(origin='*')
 def update_iso():
     request_data = request.get_json()
 
@@ -416,6 +449,7 @@ def update_iso():
 #====================================================#
 # Endpoint to delete an iso http://127.0.0.1:5000/api/iso?id=x (takes an iso ID)
 @app.route('/api/iso', methods=['DELETE'])
+@cross_origin(origin='*')
 def delete_iso():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToDelete = int(request.args['id']) # hardware_type ID to delete 
@@ -433,6 +467,7 @@ def delete_iso():
 #===============================================================#
 # Endpoint to GET a specific ISO company http://127.0.0.1:5000/api/iso?id=x (takes an iso ID and retrieve it from DB)
 @app.route('/api/iso', methods=['GET'])
+@cross_origin(origin='*')
 def api_iso_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) # iso ID to Retrieve
@@ -458,6 +493,7 @@ def api_iso_id():
 #=========================================================#
 # Endpoint to GET all merchants http://127.0.0.1:5000/api/merchant/all
 @app.route('/api/merchant/all', methods=['GET'])
+@cross_origin(origin='*')
 def api_merchant_all():
     select_merchant_query = """
     SELECT merchant_id, merchant_name,merchant_address1,merchant_address2,merchant_city,merchant_state,merchant_zip,merchant_email,merchant_phone,reseller_id
@@ -477,6 +513,7 @@ def api_merchant_all():
 
 # Check if Josh corrected "request.data" on all Merchant CRUD Ops and pull from origin
 @app.route('/api/merchant', methods=['POST'])
+@cross_origin(origin='*')
 def add_merchant():
     request_data = request.get_json()
     new_merchant_name = request_data['merchant_name']
@@ -504,6 +541,7 @@ def add_merchant():
 #====================================================#
 # Endpoint to UPDATE a merchant http://127.0.0.1:5000/api/merchant (takes a JSON object and update merchant table)
 @app.route('/api/merchant', methods=['PUT'])
+@cross_origin(origin='*')
 def update_merchant():
     request_data = request.get_json()
     idToUpdate = request_data['merchant_id']
@@ -541,6 +579,7 @@ def update_merchant():
 #====================================================#
 # Endpoint to delete a merchant http://127.0.0.1:5000/api/merchant?id=x (takes a merchant ID and set isDelete to 'Y')
 @app.route('/api/merchant', methods=['DELETE'])
+@cross_origin(origin='*')
 def delete_merchant():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToDelete = int(request.args['id']) # merchant ID to delete 
@@ -558,6 +597,7 @@ def delete_merchant():
 #===============================================================#
 # Endpoint to GET a specific merchant http://127.0.0.1:5000/api/merchant?id=x (takes a merchant ID and retrieve it from DB)
 @app.route('/api/merchant', methods=['GET'])
+@cross_origin(origin='*')
 def api_merchant_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) # hardware_type ID to Retrieve
@@ -584,6 +624,7 @@ def api_merchant_id():
 #=========================================================#
 # Endpoint to GET all orders http://127.0.0.1:5000/api/orders/all
 @app.route('/api/orders/all', methods=['GET'])
+@cross_origin(origin='*')
 def api_orders_all():
     select_orders = """
         SELECT *
@@ -600,6 +641,7 @@ def api_orders_all():
 #========================================================#
 # Endpoint to ADD an Order http://127.0.0.1:5000/api/orders
 @app.route('/api/orders', methods=['POST'])
+@cross_origin(origin='*')
 def add_order():
     request_data = request.get_json()
     new_order_number = request_data['order_num']
@@ -623,6 +665,7 @@ def add_order():
 #====================================================#
 # Endpoint to UPDATE an Order http://127.0.0.1:5000/api/orders (takes a JSON object and update orders table)
 @app.route('/api/orders', methods=['PUT'])
+@cross_origin(origin='*')
 def update_order():
     request_data = request.get_json()
 
@@ -654,6 +697,7 @@ def update_order():
 #====================================================#
 # Endpoint to delete an Order http://127.0.0.1:5000/api/orders?id=x (takes an order_ID)
 @app.route('/api/orders', methods=['DELETE'])
+@cross_origin(origin='*')
 def delete_order():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToDelete = int(request.args['id']) # ORDER_ID to delete 
@@ -671,6 +715,7 @@ def delete_order():
 #===============================================================#
 # Endpoint to GET specific Orders http://127.0.0.1:5000/api/orders?id=x (takes an ORDER_ID and retrieve it from DB)
 @app.route('/api/orders', methods=['GET'])
+@cross_origin(origin='*')
 def api_order_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) # ORDER_ID to Retrieve
@@ -696,6 +741,7 @@ def api_order_id():
 #===============================================================#
 # Endpoint is http://127.0.0.1:5000/api/SevenOne?id=x
 @app.route('/api/SevenOne', methods=['GET'])
+@cross_origin(origin='*')
 def api_seven_one():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) 
@@ -716,6 +762,7 @@ def api_seven_one():
 #===============================================================#
 # Endpoint is http://127.0.0.1:5000/api/SevenTwo?id=x
 @app.route('/api/SevenTwo', methods=['GET'])
+@cross_origin(origin='*')
 def api_seven_two():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) 
@@ -736,6 +783,7 @@ def api_seven_two():
 #===============================================================#
 # Endpoint is http://127.0.0.1:5000/api/SevenThree?id=x
 @app.route('/api/SevenThree', methods=['GET'])
+@cross_origin(origin='*')
 def api_seven_three():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) 
@@ -759,6 +807,7 @@ def api_seven_three():
 #===============================================================#
 # Endpoint is http://127.0.0.1:5000/api/HardwareByType?id=x
 @app.route('/api/HardwareByType', methods=['GET'])
+@cross_origin(origin='*')
 def api_hardwareByTypeID():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) 
@@ -780,6 +829,7 @@ def api_hardwareByTypeID():
 #===============================================================#
 # Endpoint is http://127.0.0.1:5000/api/HardwareWithTypeName
 @app.route('/api/HardwareWithTypeName', methods=['GET'])
+@cross_origin(origin='*')
 def api_HardwareWithTypeName():
     # select all hardware and match with their hardware_type using FK/PK htype_id
     select_hardwaresJoinType = """
@@ -804,6 +854,7 @@ def api_HardwareWithTypeName():
 #===============================================================#
 # Endpoint is http://127.0.0.1:5000/api/MerchantsResellerID?id=x
 @app.route('/api/MerchantsResellerID', methods=['GET'])
+@cross_origin(origin='*')
 def api_merchants_reseller_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) 
@@ -830,6 +881,7 @@ def api_merchants_reseller_id():
 #===============================================================#
 # Endpoint is http://127.0.0.1:5000/api/MerchantOrders?id=x
 @app.route('/api/MerchantOrders', methods=['GET'])
+@cross_origin(origin='*')
 def api_orders_merchant_id():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) 
@@ -863,6 +915,7 @@ def api_orders_merchant_id():
 # test in postman by creating header parameters 'username' and 'password' and pass in credentials
 # endpoint http://127.0.0.1:5000/api/login
 @app.route('/api/login', methods=['GET'])
+@cross_origin(origin='*')
 def user_login():
     # Get the header parameters. 
     # Request headers are interpreted as dictionaries, so value access is easy and direct
