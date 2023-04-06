@@ -16,23 +16,24 @@ export default {
         .then(response => this.isoData = response.data)
         console.log("ISO Table Pulled");
     },
+    methods: {
     async submitForm() {
-      let apiURL = 'http:localhost:5000/api/iso';
-      axios
+        let apiURL = 'http:localhost:5000/api/iso';
+        axios
 
-      .post(apiURL, this.iso)
-      .then(() => {
-        alert("ISO has been successfully added.");
-        this.$router.push("/merchants");
-        this.iso = {
-          iso_company: "",
-        };
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    },
-    
+        .post(apiURL, this.iso)
+        .then(() => {
+          alert("ISO has been successfully added.");
+          this.$router.push("/merchants");
+          this.iso = {
+            iso_company: "",
+          };
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      },
+  },
 }
 </script>
 
