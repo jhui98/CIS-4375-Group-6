@@ -4,9 +4,6 @@ export default{
     data() {
         return {
             isoData:[],
-            addISOForm: {
-                isoName: "",
-            }
         };
     },
 
@@ -22,38 +19,10 @@ export default{
                 console.error(err);
             });
         },
-        //Post Function, adds new ISOs to table
-        postISO(data) {
-            const path = `http://localhost:5000/api/iso`;
-            axios.get(path,data)
-            .then((res) => {
-                this.getISO();
-            })
-            .catch((err) => {
-                console.error(err);
-                this.getISO();
-            })
-        },
-        initForm () {
-            this.addISOForm.isoName = "";
-        },
-
-        onSubmit(e) {
-            e.preventDefault();
-            this.$refs.addISOModal.hide();
-            const payload = {
-                ISO_COMPANY: this.addISOForm.isoName
-            };
-            this.postISO(payload);
-            this.initForm;
-        }
-
     },
     created () {
         this.getISO();
     }
-
-
 }
 
 </script>
@@ -109,7 +78,7 @@ export default{
         </div>
     </main>
 
-    <b-modal ref="addISOModal" id="iso-modal" title="Add an ISO" >
+    <!-- <b-modal ref="addISOModal" id="iso-modal" title="Add an ISO" >
         <b-form @submit ="onSubmit" @reset="onReset" class="w-100">
             <b-form-group id="form-title-group" label="Title:" label-for="form-title-input">
                 <b-form-input id="form-title-input"
@@ -121,11 +90,11 @@ export default{
                 </b-form-input>
             </b-form-group>
 
-            <!-- Submit and Reset Buttons-->
+       
             <button type="submit" varient="primary">Submit</button>
             <button type="reset" varient="primary">Reset</button>
         </b-form>
 
-    </b-modal>
+    </b-modal> -->
 
 </template>
