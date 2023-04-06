@@ -1,30 +1,45 @@
 <script>
+let apiURL =`http://localhost:5000/api/iso`;
 import axios from "axios";
 export default {
   data() {
     return {
       iso: {
+        iso_id: "",
         iso_company: ""
-      }
+      },
+      isoData:[]
     }
   },
-  methods: {
-    /* method to handle form submission*/
-    async submitForm() {
-        let apiURL =`http://localhost:5000/api/iso`;
+  mounted(){
+    this.isoData = [];
+    axios.get(apiURL + '/all')
+      .then((resp) => {
+        console.log(apiURL + '/all')
+        this.isoData = resp.data;
+      });
+    },
+    methods: {
+      /* method to handle form submission*/
+      async submitForm() {
         axios
           /* sends POST request through axios to backend, alerts user of success, then reloads page through router */        
           .post(apiURL, this.iso)
           .then(() => {
             alert("ISO has been succesfully added.");
-            this.$router.push("/iso");
-            this.iso = {
-              iso_company: "",
-            };
+            window.location.reload(); 
           })
           .catch((error) => {
             console.log(error);
           });
+    },
+    deleteISO(isoid) {
+      if(confirm("Are you sure you want to permanently delete this ISO? This cannot be undone.")){
+        console.log(apiURL+"/" + isoid)
+        axios.delete(apiURL+"/'" + isoid).then(() => {
+          window.location.reload();
+        });
+      }
     },
   },
 }
@@ -61,7 +76,8 @@ export default {
   border: none;
   color: white;
   padding: 15px 25px;
-  text-align: center;
+  text-align: 
+  center;
   text-decoration: none;
   display: inline-block;
   font-size: 12px;
@@ -73,7 +89,7 @@ export default {
 
 <template>
     <main class="iso-page">
-        <h1>HardwareType</h1>
+        <h1>ISO</h1>
         <br>
         <p>This is the ISO input form</p><br>
         <div>
@@ -126,7 +142,7 @@ export default {
                                             <button type="button" class="btn btn-info
                                             btn-sm">Update</button>
                                             <button type="button" class="btn btn-danger
-                                            btn-sm" @click ="deleteISO(buttonid)">Delete</button>
+                                            btn-sm" @click ="deleteISO(iso.iso_id)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
