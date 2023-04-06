@@ -11,11 +11,13 @@ export default {
       isoData:[]
     }
   },
+  /* once axios is mounted, automatically sends get request to pull all ISOs */
   mounted(){
+    /* array to store response data */
     this.isoData = [];
     axios.get(apiURL + '/all')
+      /* takes response from get request and compiles it into array */
       .then((resp) => {
-        console.log(apiURL + '/all')
         this.isoData = resp.data;
       });
     },
@@ -27,16 +29,19 @@ export default {
           .post(apiURL, this.iso)
           .then(() => {
             alert("ISO has been succesfully added.");
+            /* reloads window to show changes */
             window.location.reload(); 
           })
           .catch((error) => {
             console.log(error);
           });
     },
+    /* method for deleting iso */
     deleteISO(isoid) {
       if(confirm("Are you sure you want to permanently delete this ISO? This cannot be undone.")){
-        console.log(apiURL+"/" + isoid)
-        axios.delete(apiURL+"/'" + isoid).then(() => {
+        /* axios delete request, uses api URL and attaches id at end of it to specify what id to delete */
+        axios.delete(apiURL+"?id=" + isoid).then(() => {
+          /* reloads window to show changes */
           window.location.reload();
         });
       }
@@ -134,7 +139,8 @@ export default {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item, ISO_ID in isoData" :key="ISO_ID">
+                                <!-- Takes every entry stored in beginning pull request and loads into table rows -->
+                                <tr v-for="item in isoData" :key="item.ISO_ID">
                                     <td> {{item.ISO_ID}} </td>
                                     <td> {{ item.ISO_COMPANY }} </td>
                                     <td> 
@@ -142,7 +148,7 @@ export default {
                                             <button type="button" class="btn btn-info
                                             btn-sm">Update</button>
                                             <button type="button" class="btn btn-danger
-                                            btn-sm" @click ="deleteISO(iso.iso_id)">Delete</button>
+                                            btn-sm" @click ="deleteISO(item.ISO_ID)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
