@@ -8,6 +8,7 @@
 </template>
 
 <script setup>
+import "bootswatch/dist/flatly/bootstrap.min.css";
 import Sidebar from "./components/Sidebar.vue"
 
 

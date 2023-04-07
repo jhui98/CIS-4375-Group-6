@@ -1,30 +1,50 @@
 <script>
+let apiURL =`http://localhost:5000/api/iso`;
 import axios from "axios";
 export default {
   data() {
     return {
       iso: {
+        iso_id: "",
         iso_company: ""
-      }
+      },
+      isoData:[]
     }
   },
-  methods: {
-    /* method to handle form submission*/
-    async submitForm() {
-        let apiURL =`http://localhost:5000/api/iso`;
+  /* once axios is mounted, automatically sends get request to pull all ISOs */
+  mounted(){
+    /* array to store response data */
+    this.isoData = [];
+    axios.get(apiURL + '/all')
+      /* takes response from get request and compiles it into array */
+      .then((resp) => {
+        this.isoData = resp.data;
+      });
+    },
+    methods: {
+      /* method to handle form submission*/
+      async submitForm() {
         axios
           /* sends POST request through axios to backend, alerts user of success, then reloads page through router */        
           .post(apiURL, this.iso)
           .then(() => {
             alert("ISO has been succesfully added.");
-            this.$router.push("/iso");
-            this.iso = {
-              iso_company: "",
-            };
+            /* reloads window to show changes */
+            window.location.reload(); 
           })
           .catch((error) => {
             console.log(error);
           });
+    },
+    /* method for deleting iso */
+    deleteISO(isoid) {
+      if(confirm("Are you sure you want to permanently delete this ISO? This cannot be undone.")){
+        /* axios delete request, uses api URL and attaches id at end of it to specify what id to delete */
+        axios.delete(apiURL+"?id=" + isoid).then(() => {
+          /* reloads window to show changes */
+          window.location.reload();
+        });
+      }
     },
   },
 }
@@ -61,7 +81,8 @@ export default {
   border: none;
   color: white;
   padding: 15px 25px;
-  text-align: center;
+  text-align: 
+  center;
   text-decoration: none;
   display: inline-block;
   font-size: 12px;
@@ -73,7 +94,7 @@ export default {
 
 <template>
     <main class="iso-page">
-        <h1>HardwareType</h1>
+        <h1>ISO</h1>
         <br>
         <p>This is the ISO input form</p><br>
         <div>
@@ -98,5 +119,48 @@ export default {
             </div>
           </form>
         </div>
+
+        <div class="jumbotron vertical center">
+            <div class="container">
+                
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p> Header</p>
+
+                        <table class="table table-hover">
+                            <!-- Table Head-->
+                            <thead>
+                                <tr>
+                                    <!--Table Head cells-->
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Takes every entry stored in beginning pull request and loads into table rows -->
+                                <tr v-for="item in isoData" :key="item.ISO_ID">
+                                    <td> {{item.ISO_ID}} </td>
+                                    <td> {{ item.ISO_COMPANY }} </td>
+                                    <td> 
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-info
+                                            btn-sm">Update</button>
+                                            <button type="button" class="btn btn-danger
+                                            btn-sm" @click ="deleteISO(item.ISO_ID)">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
     </main>
 </template>

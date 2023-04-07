@@ -3,7 +3,10 @@ import axios from "axios";
 export default {
   data() {
     return {
-      isoData: []
+      isoData: [],
+      iso: {
+        iso_company: ""
+      }
     }
   },
   mounted() {
@@ -11,7 +14,26 @@ export default {
     axios.get(`http://localhost:5000/api/iso/all`)
         /* Holds data in variable isoData, used to fill in table */        
         .then(response => this.isoData = response.data)
-    }
+        console.log("ISO Table Pulled");
+    },
+    methods: {
+    async submitForm() {
+        let apiURL = 'http:localhost:5000/api/iso';
+        axios
+
+        .post(apiURL, this.iso)
+        .then(() => {
+          alert("ISO has been successfully added.");
+          this.$router.push("/merchants");
+          this.iso = {
+            iso_company: "",
+          };
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      },
+  },
 }
 </script>
 
@@ -62,7 +84,37 @@ export default {
         <p>This is the Merchants page</p>
         <br>
 
-        <label class="block">
+        <div>
+          <!-- @submit.prevent stops the submit event from reloading the page-->
+          <form @submit.prevent="submitForm">
+              <!-- form field -->
+              <div>
+                <label class="block">
+                  <!-- asterisk to denote required field-->
+                  <span style="color:#ff0000">* </span>
+                  <span class="text-gray-700">ISO Company: </span>
+                  <input
+                    
+                    type="text"
+                    v-model="iso.iso_company"
+                    placeholder="Name"
+                  />
+                </label>
+              <!-- submit button -->
+              <div>
+                <button class="add" type='submit'>Add</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+
+
+
+
+
+
+        <!-- <label class="block">
             <p>Enter Company ID: {{ message }}
                 <input
                     v-model="message"
@@ -75,7 +127,7 @@ export default {
             <button class="add" type='submit'>Add</button>
             <button class="edit" type='submit'>Edit</button>
             <button class="delete" type='submit'>Delete</button>
-          </label>
+          </label> -->
 
 
         <hr class="mt-10 mb-10" />
@@ -100,6 +152,9 @@ export default {
         </table>
       </div>
     </div>
+
+    
+
 
     </main>
 </template>
