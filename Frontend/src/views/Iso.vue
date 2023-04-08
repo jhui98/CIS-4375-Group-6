@@ -46,6 +46,9 @@ export default {
         });
       }
     },
+    editISO(ISO_ID) {
+      this.$router.push({ name: "updateiso", params: {id: ISO_ID}})
+    },
   },
 }
 
@@ -140,13 +143,11 @@ export default {
                             </thead>
                             <tbody>
                                 <!-- Takes every entry stored in beginning pull request and loads into table rows -->
-                                <tr v-for="item in isoData" :key="item.ISO_ID">
+                                <tr @click="editISO(item.ISO_ID)" v-for="item in isoData" :key="item.ISO_ID">
                                     <td> {{item.ISO_ID}} </td>
                                     <td> {{ item.ISO_COMPANY }} </td>
                                     <td> 
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-info
-                                            btn-sm">Update</button>
                                             <button type="button" class="btn btn-danger
                                             btn-sm" @click ="deleteISO(item.ISO_ID)">Delete</button>
                                         </div>
