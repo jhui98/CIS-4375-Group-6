@@ -1,160 +1,141 @@
 <script>
 import axios from "axios";
+// backend endpoint for list of all merchants
+let apiURL =`http://127.0.0.1:5000/api/merchant`;
 export default {
   data() {
     return {
-      isoData: [],
       iso: {
-        iso_company: ""
-      }
-    }
+        merchant_id: "",
+        merchant_name: "",
+        merchant_address1: "",
+        merchant_address2: "",
+        merchant_city: "", 
+        merchant_state: "", 
+        merchant_zip: "",
+        merchant_email: "", 
+        merchant_phone: "",
+        reseller_name: "" 
+      },
+      merchantData: []
+    };
   },
-  mounted() {
-    /* sends GET request through axios to recieve data from ISO table */   
-    axios.get(`http://localhost:5000/api/iso/all`)
-        /* Holds data in variable isoData, used to fill in table */        
-        .then(response => this.isoData = response.data)
-        console.log("ISO Table Pulled");
+  /* once axios is mounted, automatically sends get request to pull all merchants */
+  mounted(){
+    /* array to store response data */
+    this.merchantData = [];
+    axios.get(apiURL + '/all')
+      /* takes response from get request and compiles it into array */
+      .then((resp) => {
+        this.merchantData = resp.data;
+      });
     },
     methods: {
-    async submitForm() {
-        let apiURL = 'http:localhost:5000/api/iso';
+      /* method to handle form submission*/
+      async submitForm() {
         axios
-
-        .post(apiURL, this.iso)
-        .then(() => {
-          alert("ISO has been successfully added.");
-          this.$router.push("/merchants");
-          this.iso = {
-            iso_company: "",
-          };
-        })
-        .catch((error) => {
-          console.log(error);
+          /* sends POST request through axios to backend, alerts user of success, then reloads page through router */        
+          .post(apiURL, this.iso)
+          .then(() => {
+            alert("ISO has been succesfully added.");
+            /* reloads window to show changes */
+            window.location.reload(); 
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    },
+    /* method for deleting iso */
+    deleteISO(isoid) {
+      if(confirm("Are you sure you want to permanently delete this ISO? This cannot be undone.")){
+        /* axios delete request, uses api URL and attaches id at end of it to specify what id to delete */
+        axios.delete(apiURL+"?id=" + isoid).then(() => {
+          /* reloads window to show changes */
+          window.location.reload();
         });
-      },
+      }
+    },
   },
 }
+
+
 </script>
 
-<style>
-.edit {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-.add {
-  background-color: #008CBA; /* Blue */
-  border: none;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-.delete {
-  background-color: #f44336; /* Red */
-  border: none;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-
-</style>
-
 <template>
-    <main class="Merchants-page">
-        <h1>Merchants</h1>
-        <br>
-        <p>This is the Merchants page</p>
-        <br>
+  <main class="home-page">
+    <h1>Merchants Management</h1>
+    <p>All Merchants with their details are listed below</p>
+    <div class="jumbotron vertical center">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <hr />
+            <br />
+            <button type="button" class="btn btn-success btn-sm" v-b-modal.iso-modal>
+              Add Merchant
+            </button>
+            <br /><br />
+            <table class="table table-hover">
+              <!-- Table Head-->
+              <thead>
+                <tr>
+                  <!--Table Head cells-->
+                  <th scope="col">Name</th>
+                  <th scope="col">Address 1</th>
+                  <th scope="col">Address 2</th>
+                  <th scope="col">City</th>
+                  <th scope="col">State</th>
+                  <th scope="col">Zipcode</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone #</th>
+                  <th scope="col">Reseller</th>
+                  <th scope="col">Action</th>
 
-        <div>
-          <!-- @submit.prevent stops the submit event from reloading the page-->
-          <form @submit.prevent="submitForm">
-              <!-- form field -->
-              <div>
-                <label class="block">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text-gray-700">ISO Company: </span>
-                  <input
-                    
-                    type="text"
-                    v-model="iso.iso_company"
-                    placeholder="Name"
-                  />
-                </label>
-              <!-- submit button -->
-              <div>
-                <button class="add" type='submit'>Add</button>
-              </div>
-            </div>
-          </form>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item, merchant_id in merchantData" :key="item.merchant_id">
+                  <!-- <tr v-for="item, ISO_ID in isoData" :key="item.ISO_ID"></tr> -->
+                  <td>{{ item.merchant_name }}</td>
+                  <td>{{ item.merchant_address1 }}</td>
+                  <td>{{ item.merchant_address2 }}</td>
+                  <td>{{ item.merchant_city }}</td>
+                  <td>{{ item.merchant_state }}</td>
+                  <td>{{ item.merchant_zip }}</td>
+                  <td>{{ item.merchant_email }}</td>
+                  <td>{{ item.merchant_phone }}</td>
+                  <td>{{ item.reseller_name }}</td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-info btn-sm">Update</button>
+                      <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-
-
-
-
-
-
-
-        <!-- <label class="block">
-            <p>Enter Company ID: {{ message }}
-                <input
-                    v-model="message"
-                type="text"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                placeholder="Enter Company name here"
-                
-                />
-            </p>
-            <button class="add" type='submit'>Add</button>
-            <button class="edit" type='submit'>Edit</button>
-            <button class="delete" type='submit'>Delete</button>
-          </label> -->
-
-
-        <hr class="mt-10 mb-10" />
- 
-     Display Found Data
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-
-      <div class="flex flex-col col-span-2">
-        <table class="min-w-full shadow-md rounded">
-          <thead class="bg-gray-50 text-xl">
-            <tr>
-                <th class="p-4 text-left">ISO ID</th>
-                <th class="p-4 text-left">ISO Company Name</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-300">
-            <tr v-for="item in isoData" :key="item.ISO_ID">
-              <td class="p-2 text-left" > {{ item.ISO_ID }}</td>
-              <td class="p-2 text-left" > {{ item.ISO_COMPANY }}</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
+  </main>
 
-    
+  <!-- <b-modal ref="addISOModal" id="iso-modal" title="Add an ISO" >
+        <b-form @submit ="onSubmit" @reset="onReset" class="w-100">
+            <b-form-group id="form-title-group" label="Title:" label-for="form-title-input">
+                <b-form-input id="form-title-input"
+                type="text"
+                v-model="addISOForm.isoName"
+                required
+                placeholder = "Enter ISO Name">
 
+                </b-form-input>
+            </b-form-group>
 
-    </main>
+       
+            <button type="submit" varient="primary">Submit</button>
+            <button type="reset" varient="primary">Reset</button>
+        </b-form>
+
+    </b-modal> -->
 </template>
