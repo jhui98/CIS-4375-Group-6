@@ -21,6 +21,16 @@ const router = createRouter({
             path: '/merchants',
             component: () => import('../views/Merchants.vue')
         },
+        //route to addMerchant vue
+        {
+            path: '/addMerchant',
+            // name: 'addMerchant',
+            // props: (route) => ({
+            //   selectedService: route.params.index ? JSON.parse(localStorage.getItem('Merchants'))[route.params.index] : null
+            // }),
+            component: () => import('../views/addMerchant.vue')
+        },
+
         {
             path: '/resellers',
             component: () => import('../views/Resellers.vue')
