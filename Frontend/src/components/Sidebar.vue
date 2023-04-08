@@ -36,10 +36,6 @@
                 <span class="material-icons">business_center</span>
                 <span class="text">ISOs</span>
             </router-link>
-            <router-link class="button" to="/updateiso/:id">
-                <span class="material-icons">business_center</span>
-                <span class="text">ISOs Update</span>
-            </router-link>
             <router-link class="button" to="/orders">
                 <span class="material-icons">shopping_bag</span>
                 <span class="text">Orders</span>
