@@ -1,9 +1,10 @@
 <script>
 import axios from "axios";
-let apiURL =`http://localhost:5000/api/iso?id=`;
+let getURL =`http://localhost:5000/api/iso?id=`;
 let updateURL = 'http://localhost:5000/api/iso';
 
 export default {
+    /*prop contains id from ISO page, used for route params  */
     props:["id"],
     data() {
         return{
@@ -14,11 +15,13 @@ export default {
         }
             
     },
+    /* Before mount we collect data from GET api based on id*/
     beforeMount() {
         axios
-            .get(apiURL+this.$route.params.id
+        /* Adds our route param, the ID of the ISO selected, to GET API */
+            .get(getURL+this.$route.params.id
             )
-            
+            /* Takes API data and stores Table variables into Data variables */
             .then((resp) => {
                 let data = resp.data[0];
                 this.iso.iso_company = data.ISO_COMPANY;
@@ -26,11 +29,18 @@ export default {
                 console.log(data)
             });
     },
+    /* Method to update ISO*/
     methods: {
         updateISO(){
             axios
+            /* Uses full property, this.X, and not sub properties, this.X.X to run call */
+            /* Runs call with all data collected in GET call */
+            /*Needed to run this way due to ID being used in JSON for updates */
             .put(updateURL,this.iso)
-            .then(() => alert("ISO has been updated"))
+            .then(() => {alert("ISO has been updated");
+                    /* After Alert goes back to the main page for ISO */
+                    window.history.go(-1);
+        })
         }
     }
     }
@@ -93,6 +103,7 @@ export default {
                     <!-- asterisk to denote required field-->
                     <span style="color:#ff0000">* </span>
                     <span class="text-gray-700">ISO Company: </span>
+                    <!-- Autofills input field based on data from beforeMount GET Call-->
                     <input
                         type="text"
                         placeholder
@@ -103,6 +114,8 @@ export default {
                 <!-- submit button -->
                 <div>
                     <button class="edit" type='submit'>Update</button>
+                    <!--Go Back button-->
+                    <!-- Router function goes to previous page-->
                     <button
                     type="reset"
                     class="delete"
