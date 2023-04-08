@@ -30,6 +30,11 @@ const router = createRouter({
             component: () => import('../views/iso.vue')
         },
         {
+            path: '/updateiso/:id',
+            name: 'updateiso',
+            component: () => import('../views/updateiso.vue')
+        },
+        {
             path: '/orders',
             component: () => import('../views/Orders.vue')
         },
