@@ -103,6 +103,11 @@ export default {
                 <!-- submit button -->
                 <div>
                     <button class="edit" type='submit'>Update</button>
+                    <button
+                    type="reset"
+                    class="delete"
+                    @click="$router.go(-1)"
+                    >Go back</button>
                 </div>
                 </div>
             </form>
