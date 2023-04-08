@@ -18,6 +18,11 @@ const router = createRouter({
             component: () => import('../views/HardwareType.vue')
         },
         {
+            path: '/updatehardwaretype/:id',
+            name: 'updatehtype',
+            component: () => import('../views/updatehtype.vue')
+        },
+        {
             path: '/merchants',
             component: () => import('../views/Merchants.vue')
         },
@@ -34,6 +39,11 @@ const router = createRouter({
         {
             path: '/iso',
             component: () => import('../views/iso.vue')
+        },
+        {
+            path: '/updateiso/:id',
+            name: 'updateiso',
+            component: () => import('../views/updateiso.vue')
         },
         {
             path: '/orders',
