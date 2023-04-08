@@ -1,12 +1,14 @@
 <script>
 import axios from "axios";
 let apiURL =`http://localhost:5000/api/iso?id=`;
+let updateURL = 'http://localhost:5000/api/iso';
 
 export default {
     props:["id"],
     data() {
         return{
             iso: {
+                iso_id:"",
                 iso_company: ""
             }
         }
@@ -26,7 +28,7 @@ export default {
     methods: {
         updateISO(){
             axios
-            .put(apiURL+this.$route.params.id)
+            .put(updateURL,this.iso)
             .then(() => alert("ISO has been updated"))
         }
     }
@@ -80,7 +82,7 @@ export default {
 <template>
     <main>
         <h1> this is the update page for ISOs</h1>
-
+            
             <div>
             <!-- @submit.prevent stops the submit event from reloading the page-->
             <form @submit.prevent="updateISO">
