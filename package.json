@@ -2,6 +2,7 @@
   "dependencies": {
     "express": "^4.18.2",
     "flask": "^0.2.10",
+    "flask-cors": "^0.0.1",
     "nodejs": "^0.0.0"
   }
 }
