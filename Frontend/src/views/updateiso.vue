@@ -22,6 +22,7 @@ export default {
             .then((resp) => {
                 let data = resp.data[0];
                 this.iso.iso_company = data.ISO_COMPANY;
+                this.iso.iso_id = data.ISO_ID;
                 console.log(data)
             });
     },
