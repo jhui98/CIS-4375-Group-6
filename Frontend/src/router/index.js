@@ -18,6 +18,11 @@ const router = createRouter({
             component: () => import('../views/HardwareType.vue')
         },
         {
+            path: '/updatehardwaretype/:id',
+            name: 'updatehtype',
+            component: () => import('../views/updatehtype.vue')
+        },
+        {
             path: '/merchants',
             component: () => import('../views/Merchants.vue')
         },

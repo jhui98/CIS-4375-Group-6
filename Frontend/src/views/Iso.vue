@@ -46,7 +46,9 @@ export default {
         });
       }
     },
+    /* method for routing to edit page */
     editISO(ISO_ID) {
+      /* Activates on click of table property, routes to update page bases on name in index.js, params are the id of the item which is stored in id:  */
       this.$router.push({ name: "updateiso", params: {id: ISO_ID}})
     },
   },
@@ -143,9 +145,11 @@ export default {
                             </thead>
                             <tbody>
                                 <!-- Takes every entry stored in beginning pull request and loads into table rows -->
-                                <tr @click="editISO(item.ISO_ID)" v-for="item in isoData" :key="item.ISO_ID">
+                                <tr v-for="item in isoData" :key="item.ISO_ID">
                                     <td> {{item.ISO_ID}} </td>
-                                    <td> {{ item.ISO_COMPANY }} </td>
+                                    <!-- Adds click functionality to table rows, runs Edit function based on ID of -->
+                                    <!-- Placed in TD due to runnig both edit and delete when in TD-->
+                                    <td @click="editISO(item.ISO_ID)"> {{ item.ISO_COMPANY }} </td>
                                     <td> 
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-danger
