@@ -285,7 +285,7 @@ def api_reseller_all():
     # select all reseller_types from DB
     # Add Reseller_ID and use for Update/Delete but never show it on the frontend to user
     select_resellers = """
-        SELECT reseller_id, reseller_name,reseller_email,reseller_phone, iso_id
+        SELECT reseller_id, reseller_name,reseller_email,nullif(reseller_phone,0) AS reseller_phone, iso_id
         FROM reseller
         ORDER BY reseller_name ASC; """ 
 
@@ -1060,9 +1060,9 @@ app.run()
 #   api/orders?id=x (GET merchant with id in params)=> OK
 
 ##### 7. REPORTS  ####################
-# 7.1 - 
-# 7.2 - 
-# 7.3 - 
+# 7.1 - Viewing an ISO you should be able to view the resellers within them and their contact information => OK
+# 7.2 - Viewing a Reseller you should get all their information as well as what ISO they are under => OK
+# 7.3 - Should have another view that shows all merchants attached to a reseller with contact info => OK
 # 7.4 - Viewing Hardware Type you should be able to see all Hardware items under that Hardware type => OK
 # 7.5 - Viewing Hardware you should see Hardware name as well as Hardware Type => OK
 # 7.6 - Viewing Merchant you should be able to see all their information and reseller with contact info => OK

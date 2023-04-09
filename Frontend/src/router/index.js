@@ -23,18 +23,25 @@ const router = createRouter({
             component: () => import('../views/updatehtype.vue')
         },
         {
-            path: '/merchants',
+            path: '/Merchants',
             component: () => import('../views/Merchants.vue')
         },
-        //route to addMerchant vue
+        
+        //route to updateMerchant vue
         {
-            path: '/addMerchant',
-            component: () => import('../views/addMerchant.vue')
+            path: '/updateMerchant/:id',
+             name: 'updateMerchant',
+             component: () => import('../views/updateMerchant.vue')
         },
 
         {
             path: '/resellers',
             component: () => import('../views/Resellers.vue')
+        },
+        {
+            path: '/updatereseller/:id',
+            name: 'updatereseller',
+            component: () => import('../views/updatereseller.vue')
         },
         {
             path: '/iso',
