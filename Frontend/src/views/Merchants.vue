@@ -169,7 +169,7 @@ export default {
         </div>
         <div class="row">
           <!-- submit button -->
-          <div>
+          <div align="center">
             <button type="submit" class="add">Add Merchant</button>
           </div>
         </div>

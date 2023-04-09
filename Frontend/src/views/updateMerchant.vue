@@ -105,118 +105,116 @@ export default {
   <main>
     <h1>Merchants Operations</h1>
     <br />
-    <h4 text-align="center">Update Merchant</h4>
+    <br/>
+    <h4>Update Merchant</h4>
     <div class="px-20 py-20">
       <!-- @submit.prevent stops the submit event from reloading the page-->
-      <form @submit.prevent="updateMerchant">
-        <!-- form field -->
-        <div>
+        <form @submit.prevent="updateMerchant">
           <!-- grid container -->
-          <div class="row">
-            <!--column 1 starts here-->
-            <div class="column">
-              <!-- form field -->
-              <label class="block">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Name: </span>
-                <input 
-                    type="text" 
-                    v-model="merchant.merchant_name" />
-              </label>
-              <!-- form field -->
-              <label class="block">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Email: </span>
-                <input
-                  type="email"
-                  v-model="merchant.merchant_email"
-                />
-              </label>
-              <!-- form field -->
-              <label class="block">
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Phone: </span>
-                <input
-                  type="text"
-                  pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-                  v-model="merchant.merchant_phone"
-                />
-              </label>
-            </div>
+            <div class="row">
+                <!--column 1 starts here-->
+                <div class="column">
+                    <!-- form field -->
+                    <label class="block">
+                    <!-- asterisk to denote required field-->
+                    <span style="color: #ff0000">* </span>
+                    <span class="text-gray-700">Name: </span>
+                    <input 
+                        type="text" 
+                        v-model="merchant.merchant_name" />
+                    </label>
+                    <!-- form field -->
+                    <label class="block">
+                    <!-- asterisk to denote required field-->
+                    <span style="color: #ff0000">* </span>
+                    <span class="text-gray-700">Email: </span>
+                    <input
+                        type="email"
+                        v-model="merchant.merchant_email"
+                    />
+                    </label>
+                    <!-- form field -->
+                    <label class="block">
+                    <span style="color: #ff0000">* </span>
+                    <span class="text-gray-700">Phone: </span>
+                    <input
+                        type="text"
+                        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                        v-model="merchant.merchant_phone"
+                    />
+                    </label>
+                </div>
 
-            <!--column 2 starts here-->
-            <div class="column">
-              <!-- form field -->
-              <label class="block">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Address 1: </span>
-                <input
-                  type="text"
-                  v-model="merchant.merchant_address1"
-                />
-              </label>
-              <label class="block">
-                <span class="text-gray-700">Address 2: </span>
-                <input
-                    type="text"
-                    v-model="merchant.merchant_address2"
-                />
-              </label>
-              <label class="block">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">City: </span>
-                <input
-                  type="text"
-                  v-model="merchant.merchant_city"
-                />
-              </label>
-            </div>
+                <!--column 2 starts here-->
+                <div class="column">
+                    <!-- form field -->
+                    <label class="block">
+                    <!-- asterisk to denote required field-->
+                    <span style="color: #ff0000">* </span>
+                    <span class="text-gray-700">Address 1: </span>
+                    <input
+                        type="text"
+                        v-model="merchant.merchant_address1"
+                    />
+                    </label>
+                    <label class="block">
+                    <span class="text-gray-700">Address 2: </span>
+                    <input
+                        type="text"
+                        v-model="merchant.merchant_address2"
+                    />
+                    </label>
+                    <label class="block">
+                    <!-- asterisk to denote required field-->
+                    <span style="color: #ff0000">* </span>
+                    <span class="text-gray-700">City: </span>
+                    <input
+                        type="text"
+                        v-model="merchant.merchant_city"
+                    />
+                    </label>
+                </div>
 
-            <!--column 3 starts here-->
-            <div class="column">
-              <!-- form field -->
-              <label class="block">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">State: </span>
-                <input 
-                    type="text" 
-                    v-model="merchant.merchant_state" 
-                />
-              </label>
-              <label class="block">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Zip code: </span>
-                <input 
-                    type="text" 
-                    v-model="merchant.merchant_zip" 
-                />
-              </label>
-              <label class="block">
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Reseller: </span>
-                <input
-                  type="text"
-                  v-model="merchant.reseller_id"
-                  
-                />
-              </label>
+                <!--column 3 starts here-->
+                <div class="column">
+                    <!-- form field -->
+                    <label class="block">
+                    <!-- asterisk to denote required field-->
+                    <span style="color: #ff0000">* </span>
+                    <span class="text-gray-700">State: </span>
+                    <input 
+                        type="text" 
+                        v-model="merchant.merchant_state" 
+                    />
+                    </label>
+                    <label class="block">
+                    <!-- asterisk to denote required field-->
+                    <span style="color: #ff0000">* </span>
+                    <span class="text-gray-700">Zip code: </span>
+                    <input 
+                        type="text" 
+                        v-model="merchant.merchant_zip" 
+                    />
+                    </label>
+                    <label class="block">
+                    <span style="color: #ff0000">* </span>
+                    <span class="text-gray-700">Reseller: </span>
+                    <input
+                        type="text"
+                        v-model="merchant.reseller_id"
+                        
+                    />
+                    </label>
+                </div>
+                <div align="center" border-style="solid">
+                    <!-- submit button -->
+                    <button class="edit" type="submit">Update</button>
+                    <!--Go Back button-->
+                    <!-- Router function goes to previous page-->
+                    <button type="reset" class="delete" @click="$router.go(-1)">Cancel</button>
+                </div>
             </div>
-          </div>
-          <div class="row">
-            <!-- submit button -->
-            <button class="edit" type="submit">Save Changes</button>
-            <!--Go Back button-->
-            <!-- Router function goes to previous page-->
-            <button type="reset" class="delete" @click="$router.go(-1)">Cancel</button>
-          </div>
-        </div>
-      </form>
+        </form>
     </div>
   </main>
 </template>
