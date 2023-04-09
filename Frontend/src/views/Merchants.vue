@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import addMerchant from "./addMerchant.vue";
 // backend endpoint for list of all merchants
 let apiURL = `http://127.0.0.1:5000/api/merchant`;
 export default {
@@ -74,11 +75,12 @@ export default {
           <div class="col-sm-12">
             <hr />
             <br />
-            <button type="button" class="btn btn-success btn-sm" v-b-modal.iso-modal>
+            <button type="button" class="btn btn-success btn-sm" @click="AddMerchant">
               Add Merchant
 
-              <router-link to="/addMerchant"> </router-link>
+              <router-link to="addMerchant"> </router-link>
             </button>
+
             <br /><br />
             <table class="table table-hover">
               <!-- Table Head-->
