@@ -2,6 +2,7 @@
 import axios from "axios";
 // backend endpoint for list of all merchants
 let apiURL = `http://127.0.0.1:5000/api/merchant`;
+//let apiResellerURL = `http://127.0.0.1:5000/api/reseller/all`;
 export default {
   data() {
     return {
