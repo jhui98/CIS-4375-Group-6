@@ -37,6 +37,11 @@ const router = createRouter({
             component: () => import('../views/Resellers.vue')
         },
         {
+            path: '/updatereseller/:id',
+            name: 'updatereseller',
+            component: () => import('../views/updatereseller.vue')
+        },
+        {
             path: '/iso',
             component: () => import('../views/iso.vue')
         },
