@@ -60,6 +60,11 @@ export default {
         });
       }
     },
+    /* method for routing to edit page */
+    editMerchant(merchant_id) {
+      /* Activates on click of table property, routes to update page bases on name in index.js, params are the id of the item which is stored in id:  */
+      this.$router.push({ name: "updateMerchant", params: { id: merchant_id } });
+    },
   },
 };
 </script>
@@ -157,7 +162,7 @@ export default {
               <input
                 type="text"
                 v-model="merchant.reseller_id"
-                placeholder="reseller ID"
+                placeholder="reseller ID - try dropdown later"
               />
             </label>
           </div>
@@ -197,8 +202,10 @@ export default {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, merchant_id) in merchantData" :key="item.merchant_id">
-                  <!-- <tr v-for="item, ISO_ID in isoData" :key="item.ISO_ID"></tr> -->
+                <tr v-for="item in merchantData" :key="item.merchant_id">
+                  <!--Do no show this to user-->
+                  <!-- <td>{{ item.merchant_id }}</td> -->
+
                   <td>{{ item.merchant_name }}</td>
                   <td>{{ item.merchant_address1 }}</td>
                   <td>{{ item.merchant_address2 }}</td>
@@ -210,7 +217,15 @@ export default {
                   <td>{{ item.reseller_name }}</td>
                   <td>
                     <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-info btn-sm">Update</button>
+                      <!--Update Button-->
+                      <button
+                        type="button"
+                        class="btn btn-info btn-sm"
+                        @click="editMerchant(item.merchant_id)"
+                      >
+                        Update
+                      </button>
+                      <!--Delete Button-->
                       <button
                         type="button"
                         class="btn btn-danger btn-sm"
