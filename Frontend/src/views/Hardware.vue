@@ -4,7 +4,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      hardwaretype: {
+      hardware: {
         hardware_id: "",
         hardware_name: "",
         model_number: "",
