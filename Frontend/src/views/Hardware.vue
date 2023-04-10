@@ -57,21 +57,27 @@ export default {
 }
 </script>
 
+<!--Styling of the Hardware webpage-->
 <style>
-.edit {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  height: 100px;
+  border-style: double;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: border-box;
+  clear: both;
 }
 .add {
-  background-color: #008CBA; /* Blue */
+  background-color: #008cba; /* Blue */
   border: none;
   color: white;
   padding: 15px 25px;
@@ -94,9 +100,9 @@ export default {
   margin: 4px 2px;
   cursor: pointer;
 }
-
 </style>
 
+<!--Structure of Hardware page-->
 <template>
   <main class="home-page">
     <h1>Hardware Operations</h1>
