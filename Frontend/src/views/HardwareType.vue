@@ -134,7 +134,6 @@ export default {
                     <thead>
                       <tr>
                         <!--Table Head cells-->
-                        <th scope="col">ID</th>
                         <th scope="col">Hardware Type</th>
                         <th scope="col">Action</th>
                       </tr>
@@ -142,7 +141,6 @@ export default {
                     <tbody>
                        <!-- Takes every entry stored in beginning pull request and loads into table rows -->
                       <tr v-for="item in htData" :key="item.htype_id">
-                        <td>{{ item.htype_id }}</td>
                         <!-- Adds click functionality to table rows, runs Edit function based on ID of row -->
                         <!-- Placed in TD due to runnig both edit and delete when in TD-->
                         <td @click="editHTYPE(item.htype_id)">{{ item.htype_name }}</td>

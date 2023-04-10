@@ -137,7 +137,6 @@ export default {
                             <thead>
                                 <tr>
                                     <!--Table Head cells-->
-                                    <th scope="col">ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Action</th>
 
@@ -146,7 +145,6 @@ export default {
                             <tbody>
                                 <!-- Takes every entry stored in beginning pull request and loads into table rows -->
                                 <tr v-for="item in isoData" :key="item.ISO_ID">
-                                    <td> {{item.ISO_ID}} </td>
                                     <!-- Adds click functionality to table rows, runs Edit function based on ID of -->
                                     <!-- Placed in TD due to runnig both edit and delete when in TD-->
                                     <td @click="editISO(item.ISO_ID)"> {{ item.ISO_COMPANY }} </td>
