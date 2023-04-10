@@ -15,6 +15,7 @@
     "bootswatch": "^5.2.3",
     "sass": "^1.59.3",
     "vue": "^3.2.47",
+    "vue-json-csv": "^2.1.0",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

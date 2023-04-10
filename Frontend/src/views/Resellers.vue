@@ -121,32 +121,32 @@ export default {
                 </label>
                 <label class="block">
                   <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
+                  <span style="color:#ff0000"></span>
                   <span class="text-gray-700">Reseller Phone: </span>
                   <input
                     type="text"
                     v-model="reseller.reseller_phone"
-                    placeholder="Name"
+                    placeholder="1234567890"
                   />
                 </label>
                 <label class="block">
                   <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
+                  <span style="color:#ff0000"></span>
                   <span class="text-gray-700">Reseller Email: </span>
                   <input
                     type="text"
                     v-model="reseller.reseller_email"
-                    placeholder="Name"
+                    placeholder="reseller@email.com"
                   />
                 </label>
                 <label class="block">
                   <!-- This particular field may need to become a dropdown of existing ISO Companies, but I am not sure how to implement. Please advise.-->
                   <span style="color:#ff0000">* </span>
-                  <span class="text-gray-700">ISO Company (Required): </span>
+                  <span class="text-gray-700">ISO Company: </span>
                   <input
                     type="text"
                     v-model="reseller.iso_id"
-                    placeholder="Name"
+                    placeholder="1"
                   />
                 </label>
               <!-- submit button -->
