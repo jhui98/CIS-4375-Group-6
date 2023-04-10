@@ -141,7 +141,7 @@ export default {
               <span class="text-gray-700">Hardware ID: </span>
               <input
                 type="text"
-                v-model="hardawre.hardware_id"
+                v-model="hardware.hardware_id"
                 placeholder="hardware ID - try dropdown later"
               />
             </label>
@@ -149,7 +149,7 @@ export default {
         </div>
         <div class="row">
           <!-- submit button -->
-          <div align="center">
+          <div >
             <button type="submit" class="add">Add Hardware</button>
           </div>
         </div>
