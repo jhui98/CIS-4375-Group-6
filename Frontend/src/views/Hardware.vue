@@ -13,7 +13,7 @@ export default {
       hardwareData:[]
     }
   },
-  /* once axios is mounted, automatically sends get request to pull all hardware */
+  /* once axios is mounted, automatically sends get request to pull all hardwares */
   mounted(){
     this.hardwareData = [];
     axios.get(apiURL + '/all')
@@ -38,17 +38,17 @@ export default {
           });
     },
     /* method for deleting hardware type */
-    deleteHtype(hardwareid) {
+    deleteHardware(hardware_id) {
       if(confirm("Are you sure you want to permanently delete this Hardware Type? This cannot be undone.")){
       /* axios delete request, uses api URL and attaches id at end of it to specify what id to delete */ 
-        axios.delete(apiURL+"?id=" + hardwareid).then(() => {
+        axios.delete(apiURL+"?id=" + hardware_id).then(() => {
           /* reloads window to show changes */
           window.location.reload();
         });
       }
     },
     /* method for routing to edit page */
-    editHTYPE(hardware_id) {
+    editHardware(hardware_id) {
       /* Activates on click of table property, routes to update page bases on name in index.js, params are the id of the item which is stored in id:  */
       this.$router.push({ name: "updatehardware", params: {id: hardware_id}})
     },
@@ -98,16 +98,111 @@ export default {
 </style>
 
 <template>
-    <main class="Hardware-page">
-        <h1>Hardware</h1>
-        <br>
-        <p>This is the Hardware page</p>
-        <br>
-        <p>Enter a Hardware ID: {{ message }}
-        <input v-model="message" placeholder="Hardware ID" /></p>
-        <br>
-        <button class="add" type='submit'>Add</button>
-        <button class="edit" type='submit'>Edit</button>
-        <button class="delete" type='submit'>Delete</button>
-    </main>
+  <main class="home-page">
+    <h1>Hardware Operations</h1>
+    <br />
+    <h4 text-align="center">Register a New Hardware</h4>
+    <div class="px-20 py-20">
+      <!-- @submit.prevent stops the submit event from reloading the page-->
+      <form @submit.prevent="submitForm">
+        <!-- grid container -->
+        <div class="row">
+          <!--column 1 starts here-->
+          <div class="column">
+            <!-- form field -->
+            <label class="block">
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text-gray-700">Harware name: </span>
+              <input type="text" 
+              v-model="hardware.hardware_name" 
+              placeholder="Name" />
+            </label>
+            <!-- form field -->
+            <label class="block">
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text-gray-700">Model number: </span>
+              <input
+                type="text"
+                v-model="hardware.model_number"
+                placeholder=""
+              />
+            </label>
+            <!-- form field -->
+            <label class="block">
+              <span style="color: #ff0000">* </span>
+              <span class="text-gray-700">Hardware ID: </span>
+              <input
+                type="text"
+                v-model="hardawre.hardware_id"
+                placeholder="hardware ID - try dropdown later"
+              />
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <!-- submit button -->
+          <div align="center">
+            <button type="submit" class="add">Add Hardware</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <br />
+    <br />
+    <h4>All Hardware with their details are listed below</h4>
+    <div class="jumbotron vertical center">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <hr />
+            <br />
+            <table class="table table-hover">
+              <!-- Table Head-->
+              <thead>
+                <tr>
+                  <!--Table Head cells-->
+                  <th scope="col">Hardware Name</th>
+                  <th scope="col">Model Number</th>
+                  <th scope="col">Hardware ID</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in hardwareData" :key="item.hardware_id">
+                  <!--Do no show this to user-->
+                  <!-- <td>{{ item.hardware_id }}</td> -->
+
+                  <td>{{ item.hardware_name }}</td>
+                  <td>{{ item.model_number }}</td>
+                  <td>{{ item.htype_id }}</td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <!--Update Button-->
+                      <button
+                        type="button"
+                        class="btn btn-info btn-sm"
+                        @click="editHardware(item.hardware_id)"
+                      >
+                        Update
+                      </button>
+                      <!--Delete Button-->
+                      <button
+                        type="button"
+                        class="btn btn-danger btn-sm"
+                        @click="deleteHardware(item.hardware_id)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 </template>
