@@ -2,6 +2,7 @@
 import axios from "axios";
 let getURL =`http://localhost:5000/api/iso?id=`;
 let updateURL = 'http://localhost:5000/api/iso';
+let reportURL =`http://localhost:5000/api/SevenOne?id=`;
 
 export default {
     /*prop contains id from ISO page, used for route params  */
@@ -11,13 +12,23 @@ export default {
             iso: {
                 iso_id:"",
                 iso_company: ""
-            }
+            },
+            sevenOne: {
+                iso_id: "",
+                reseller_id: "",
+                reseller_name: "",
+                reseller_email: "",
+                reseller_phone: ""
+            },
+            data:[],
+            reportData:[],
+            dataReady:false,
         }
             
     },
     /* Before mount we collect data from GET api based on id*/
-    beforeMount() {
-        axios
+    async mounted() {
+        await axios
         /* Adds our route param, the ID of the ISO selected, to GET API */
             .get(getURL+this.$route.params.id
             )
@@ -26,8 +37,15 @@ export default {
                 let data = resp.data[0];
                 this.iso.iso_company = data.ISO_COMPANY;
                 this.iso.iso_id = data.ISO_ID;
-                console.log(data)
             });
+        this.reportData = [];
+        axios
+            .get(reportURL+this.$route.params.id)
+            .then((resp) => {
+                this.reportData = resp.data;
+                console.log(this.reportData)
+            });
+        this.dataReady = true;
     },
     /* Method to update ISO*/
     methods: {
@@ -92,7 +110,8 @@ export default {
 
 <template>
     <main>
-        <h1> this is the update page for ISOs</h1>
+      <div v-if="dataReady">
+        <h1>Update {{ iso.iso_company }}</h1>
             
             <div>
             <!-- @submit.prevent stops the submit event from reloading the page-->
@@ -125,5 +144,28 @@ export default {
                 </div>
             </form>
             </div>
+        <h3>Resellers Associated With {{ iso.iso_company }}</h3>
+        <table class="table table-hover">
+                    <!-- Table Head-->
+                    <thead>
+                      <tr>
+                        <!--Table Head cells-->
+                        <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
+                        <th scope="col">Reseller Name</th>
+                        <th scope="col">Reseller Email</th>
+                        <th scope="col">Reseller Phone Number</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                       <!-- Takes every entry stored in beginning pull request and loads into table rows -->
+                      <tr v-for="item in reportData" :value="item.iso_company">
+                        <td>{{ item.reseller_name }}</td>
+                        <td>{{ item.reseller_email }}</td>
+                        <td>{{ item.reseller_phone }}</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+      </div>
     </main>
 </template>

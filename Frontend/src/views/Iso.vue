@@ -95,13 +95,16 @@ export default {
   cursor: pointer;
 }
 
+.floated {
+  right: 15px;
+}
 </style>
 
 <template>
     <main class="iso-page">
         <h1>ISO</h1>
         <br>
-        <p>This is the ISO input form</p><br>
+        <h4>Add New ISO Company</h4><br>
         <div>
           <!-- @submit.prevent stops the submit event from reloading the page-->
           <form @submit.prevent="submitForm">
@@ -118,9 +121,7 @@ export default {
                   />
                 </label>
               <!-- submit button -->
-              <div>
-                <button class="add" type='submit'>Add</button>
-              </div>
+                <button class="btn btn-info btn-sm floated" type='submit'>Add</button>
             </div>
           </form>
         </div>
@@ -130,14 +131,11 @@ export default {
                 
                 <div class="row">
                     <div class="col-sm-12">
-                        <p> Header</p>
-
                         <table class="table table-hover">
                             <!-- Table Head-->
                             <thead>
                                 <tr>
                                     <!--Table Head cells-->
-                                    <th scope="col">ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Action</th>
 
@@ -146,12 +144,15 @@ export default {
                             <tbody>
                                 <!-- Takes every entry stored in beginning pull request and loads into table rows -->
                                 <tr v-for="item in isoData" :key="item.ISO_ID">
-                                    <td> {{item.ISO_ID}} </td>
                                     <!-- Adds click functionality to table rows, runs Edit function based on ID of -->
                                     <!-- Placed in TD due to runnig both edit and delete when in TD-->
                                     <td @click="editISO(item.ISO_ID)"> {{ item.ISO_COMPANY }} </td>
                                     <td> 
                                         <div class="btn-group" role="group">
+                                          <button type="button" class="btn btn-info btn-sm"
+                                          @click="editISO(item.ISO_ID)">
+                                            Update
+                                          </button>
                                             <button type="button" class="btn btn-danger
                                             btn-sm" @click ="deleteISO(item.ISO_ID)">Delete</button>
                                         </div>

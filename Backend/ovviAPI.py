@@ -748,8 +748,8 @@ def api_seven_one():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) 
         seven_one_query = """
-        SELECT iso.ISO_COMPANY as "ISO Company", reseller.RESELLER_ID as "Reseller ID",
-        reseller.RESELLER_NAME as "Reseller Name", reseller.RESELLER_EMAIL as "Reseller Email", reseller.RESELLER_PHONE as "Reseller Phone Number"
+        SELECT iso.ISO_COMPANY as iso_company, reseller.RESELLER_ID as reseller_id,
+        reseller.RESELLER_NAME as reseller_name, reseller.RESELLER_EMAIL as reseller_email, reseller.RESELLER_PHONE as reseller_phone
         FROM iso
         JOIN reseller
         ON iso.ISO_ID = reseller.ISO_ID
