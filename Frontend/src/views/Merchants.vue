@@ -87,7 +87,11 @@ export default {
               <!-- asterisk to denote required field-->
               <span style="color: #ff0000">* </span>
               <span class="text-gray-700">Name: </span>
-              <input type="text" v-model="merchant.merchant_name" placeholder="Name" />
+              <input
+                type="text"
+                v-model="merchant.merchant_name"
+                placeholder="merchant name"
+              />
             </label>
             <!-- form field -->
             <label class="block">
