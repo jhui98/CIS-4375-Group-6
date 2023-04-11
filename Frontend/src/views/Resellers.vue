@@ -168,7 +168,6 @@ export default {
                       <tr>
                         <!--Table Head cells-->
                         <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
-                        <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone Number</th>
@@ -178,7 +177,6 @@ export default {
                     <tbody>
                        <!-- Takes every entry stored in beginning pull request and loads into table rows -->
                       <tr v-for="item in resellerData" :key="item.reseller_id">
-                        <td>{{ item.reseller_id }}</td>
                         <td>{{ item.reseller_name }}</td>
                         <td>{{ item.reseller_email }}</td>
                         <td>{{ item.reseller_phone }}</td>
@@ -187,10 +185,8 @@ export default {
                         <!-- Placed in TD due to runnig both edit and delete when in TD-->
                         <td>
                           <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-danger 
-                            btn-sm" @click="editreseller(item.reseller_id)">Update</button>
-                          </div>
-                          <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-info btn-sm" 
+                            @click="editreseller(item.reseller_id)">Update</button>
                             <button type="button" class="btn btn-danger
                             btn-sm" @click="deletereseller(item.reseller_id)">Delete</button>
                           </div>
