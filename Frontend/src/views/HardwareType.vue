@@ -146,6 +146,8 @@ export default {
                         <td @click="editHTYPE(item.htype_id)">{{ item.htype_name }}</td>
                         <td>
                           <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-info btn-sm" 
+                            @click="editHTYPE(item.htype_id)">Update</button>
                             <button type="button" class="btn btn-danger
                             btn-sm" @click="deleteHtype(item.htype_id)">Delete</button>
                           </div>

@@ -185,10 +185,8 @@ export default {
                         <!-- Placed in TD due to runnig both edit and delete when in TD-->
                         <td>
                           <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-danger 
-                            btn-sm" @click="editreseller(item.reseller_id)">Update</button>
-                          </div>
-                          <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-info btn-sm" 
+                            @click="editreseller(item.reseller_id)">Update</button>
                             <button type="button" class="btn btn-danger
                             btn-sm" @click="deletereseller(item.reseller_id)">Delete</button>
                           </div>
