@@ -1,9 +1,11 @@
 <script>
 import axios from "axios";
-// backend endpoint for list of all orders
-let apiURL = `http://127.0.0.1:5000/api/orders`;
-//let apiHardwareURL = `http://127.0.0.1:5000/api/hardware`;
-//let apiMerchantURL = `http://127.0.0.1:5000/api/hardware`;
+// base endpoint for orders
+let ordersURL = `http://127.0.0.1:5000/api/orders`;
+// base endpoint for  merchant
+let merchantURL = `http://127.0.0.1:5000/api/merchant`;
+// base endpoint for hardware
+let hardwareURL = `http://127.0.0.1:5000/api/hardware`;
 
 export default {
   data() {
@@ -18,20 +20,49 @@ export default {
         tracking_num: "",
         merchant_id: "",
       },
-      orderData: [],
-      hardwareData: [], // will hold all added items to order
+      orderData: [], // array for order data
+      hardware: {
+        hardware_id: "",
+        hardware_name: "",
+        model_number: "",
+        htype_id: "",
+      },
+      hardwareData: [], // array  for hardware data
+      merchant: {
+        merchant_id: "",
+        merchant_name: "",
+        merchant_address1: "",
+        merchant_address2: "",
+        merchant_city: "",
+        merchant_state: "",
+        merchant_zip: "",
+        merchant_email: "",
+        merchant_phone: "",
+        reseller_name: "",
+      },
+      merchantData: [], // array  for merchant data
     };
   },
   /* once axios is mounted, automatically sends get request to pull all orders */
-  mounted() {
+  async mounted() {
     /* array to store response data */
     this.orderData = [];
-    axios
-      .get(apiURL + "/all")
-      /* takes response from get request and compiles it into array */
+    await axios
+      .get(ordersURL + "/all")
+      /* takes response from get request and compiles it into array of orders */
       .then((resp) => {
         this.orderData = resp.data;
-      });
+      }),
+      /* takes response from get request and compiles it into array of hardwares */
+      (this.hardwareData = []);
+    await axios.get(hardwareURL + "/all").then((resp) => {
+      this.hardwareData = resp.data;
+    }),
+      /* takes response from get request and compiles it into array of hardwares */
+      (this.merchantData = []);
+    await axios.get(merchantURL + "/all").then((resp) => {
+      this.merchantData = resp.data;
+    });
   },
   methods: {
     /* method to handle form submission*/
@@ -77,90 +108,129 @@ export default {
     <br />
     <h4 text-align="center">Register a New order</h4>
     <div class="px-20 py-20">
-      <!-- @submit.prevent stops the submit event from reloading the page-->
-      <form @submit.prevent="submitForm">
-        <!-- grid container -->
-        <div class="row">
-          <!--column 1 starts here-->
-          <div class="column">
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Order #: </span>
-              <input
-                type="text"
-                v-model="order.order_num"
-                placeholder="12345"
-                pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-              />
-            </label>
-            <br />
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Merchant: </span>
-              <input
-                type="text"
-                v-model="order.merchant_id"
-                placeholder="dropdown menu later"
-              />
-            </label>
-            <br />
+      <div class="jumbotron vertical center">
+        <!-- @submit.prevent stops the submit event from reloading the page-->
+        <form @submit.prevent="submitForm">
+          <!-- grid container -->
+          <div class="row">
+            <!--column 1 starts here-->
+            <div class="column">
+              <!-- form field -->
+              <label class="block">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text-gray-700">Order #: </span>
+                <input
+                  type="text"
+                  v-model="order.order_num"
+                  placeholder="12345"
+                  pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                />
+              </label>
+              <br />
+              <!-- form field - Merchant Dropdown-->
+              <label class="block">
+                <span style="color: #ff0000">* </span>
+                <!-- asterisk to denote required field-->
+                <span class="text-gray-700">Merchant: </span>
+                <select v-model="merchant.merchant_id">
+                  <option
+                    v-for="item in merchantData"
+                    :key="item.merchant_id"
+                    :value="item.merchant_id"
+                  >
+                    {{ item.merchant_name }}
+                  </option>
+                </select>
+              </label>
+
+              <!-- form field - Merchant Dropdown-->
+              <label class="block">
+                <span style="color: #ff0000">* </span>
+                <!-- asterisk to denote required field-->
+                <span class="text-gray-700">Hardware: </span>
+                <select v-model="hardware.hardware_id">
+                  <option
+                    v-for="item in hardwareData"
+                    :key="item.hardware_id"
+                    :value="item.hardware_id"
+                  >
+                    <!-- dropdown will show hardware name only -->
+                    {{ item.hardware_name }}
+                  </option>
+                </select>
+              </label>
+            </div>
+
+            <!--column 2 starts here-->
+            <div class="column">
+              <!-- form field -->
+              <label class="block">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text-gray-700">Order Date: </span>
+                <input
+                  type="date"
+                  v-model="order.order_date"
+                  placeholder="example@xyz.com"
+                />
+              </label>
+              <br />
+              <!-- form field -->
+              <label class="block">
+                <span class="text-gray-700">Merchant ID: (Hide later) </span>
+                <input
+                  type="text"
+                  v-model="this.merchant.merchant_id"
+                  placeholder="12250"
+                />
+              </label>
+              <!-- form field
+              <label class="block">
+                <span class="text-gray-700">Merchant Phone # </span>
+                <input
+                  type="text"
+                  v-model="this.merchant.merchant_phone"
+                  placeholder="12250"
+                />
+              </label> -->
+              <br />
+              <label class="block">
+                <span class="text-gray-700">Hardware ID: (Hide later) </span>
+                <input
+                  type="text"
+                  v-model="this.hardware.hardware_id"
+                  placeholder="123"
+                />
+              </label>
+              <label class="block">
+                <span class="text-gray-700">Hardware Model # </span>
+                <input
+                  type="text"
+                  v-model="this.hardware.hardware_model"
+                  placeholder="123"
+                />
+              </label>
+            </div>
           </div>
 
-          <!--column 2 starts here-->
-          <div class="column">
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Order Date: </span>
-              <input
-                type="date"
-                v-model="order.order_date"
-                placeholder="example@xyz.com"
-              />
-            </label>
-            <br />
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Phone # </span>
-              <input
-                type="text"
-                v-model="merchant.merchant_phone"
-                placeholder="1234567890"
-              />
-            </label>
+          <div class="jumbotron vertical center">
+            <div class="container"></div>
           </div>
-        </div>
 
-        <div class="jumbotron vertical center">
-          <div class="container"></div>
-        </div>
-
-        <div class="row">
-          <!-- submit button -->
-          <div align="center">
-            <label class="block">
-              <span class="text-gray-700">Hardware: </span>
-              <input
-                type="text"
-                v-model="order.hardware_id"
-                placeholder="Dropdown menu"
-              />
-            </label>
-            <button type="submit" class="add">Add order</button>
+          <div class="row">
+            <!-- submit button -->
+            <div align="center">
+              <button type="submit" class="add">Add order</button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
     <br />
     <br />
-    <h4>All orders with their details are listed below</h4>
+
+    <h4>All Orders are listed below</h4>
     <div class="jumbotron vertical center">
       <div class="container">
         <div class="row">
@@ -180,13 +250,13 @@ export default {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in orderData" :key="item.order_id">
+                <tr v-for="item in orderData" :key="item.ORDER_ID">
                   <!--Do no show this to user-->
                   <!-- <td>{{ item.order_id }}</td> -->
-                  <td>{{ item.order_num }}</td>
-                  <td>{{ item.order_date }}</td>
-                  <td>{{ item.ship_date }}</td>
-                  <td>{{ item.merchant_id }}</td>
+                  <td>{{ item.ORDER_NUM }}</td>
+                  <td>{{ item.ORDER_DATE }}</td>
+                  <td>{{ item.SHIP_DATE }}</td>
+                  <td>{{ item.MERCHANT_ID }}</td>
                   <td>
                     <div class="btn-group" role="group">
                       <!--Update Button-->
