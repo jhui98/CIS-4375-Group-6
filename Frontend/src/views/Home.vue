@@ -32,7 +32,16 @@ export default{
         <h1>Home</h1>
         <p>This is the home page</p>
 
-        <div class="jumbotron vertical center">
+
+        <div>Selected: {{ selected }}</div>
+
+        <select v-model="selected">
+            <option v-for="item in isoData" :value="isoData.ISO_ID"> 
+            {{ item.ISO_COMPANY}}
+            </option>
+        </select>
+
+        <!-- <div class="jumbotron vertical center">
             <div class="container">
                 
                 <div class="row">
@@ -44,10 +53,10 @@ export default{
                         btn-sm" v-b-modal.iso-modal>Add ISO</button>
                         <br><br>
                         <table class="table table-hover">
-                            <!-- Table Head-->
+                          
                             <thead>
                                 <tr>
-                                    <!--Table Head cells-->
+                                    
                                     <th scope="col">ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Action</th>
@@ -75,7 +84,7 @@ export default{
                 </div>
             </div>
 
-        </div>
+        </div> -->
     </main>
 
     <!-- <b-modal ref="addISOModal" id="iso-modal" title="Add an ISO" >

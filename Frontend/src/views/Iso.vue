@@ -136,6 +136,7 @@ export default {
                             <thead>
                                 <tr>
                                     <!--Table Head cells-->
+
                                     <th scope="col">Name</th>
                                     <th scope="col">Action</th>
 
@@ -149,10 +150,6 @@ export default {
                                     <td @click="editISO(item.ISO_ID)"> {{ item.ISO_COMPANY }} </td>
                                     <td> 
                                         <div class="btn-group" role="group">
-                                          <button type="button" class="btn btn-info btn-sm"
-                                          @click="editISO(item.ISO_ID)">
-                                            Update
-                                          </button>
                                             <button type="button" class="btn btn-danger
                                             btn-sm" @click ="deleteISO(item.ISO_ID)">Delete</button>
                                         </div>

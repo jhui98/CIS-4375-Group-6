@@ -1,5 +1,6 @@
 <script>
 let apiURL = `http://localhost:5000/api/hardware`;
+let dropURL = `http://localhost:5000/api/hardware_type/all`;
 import axios from "axios";
 export default {
   data() {
@@ -10,32 +11,44 @@ export default {
         model_number: "",
         htype_id: ""
       },
-      hardwareData:[]
+      hardware_type: {
+        htype_id: "",
+        htype_name: ""
+      },
+      hardwareData:[],
+      htype_data: []
     }
   },
   /* once axios is mounted, automatically sends get request to pull all hardwares */
-  mounted(){
+  async mounted(){
     this.hardwareData = [];
-    axios.get(apiURL + '/all')
+    await axios.get(apiURL + '/all')
     /* array to store response data */
     .then((resp) => {
       /* takes response from get request and compiles it into array */
       this.hardwareData = resp.data;
+    }),
+    this.htype_data = [];
+    
+    await axios.get(dropURL)
+    .then((resp) => {
+      this.htype_data = resp.data;
     });
   },
   methods: {
     /* method to handle form submission*/
-    async submitForm() {       
-        axios
-          /* sends POST request through axios to backend, alerts user of success, then reloads page through router */
-          .post(apiURL, this.hardware)
-          .then(() => {
-            alert("Hardware has been succesfully added.");
-            window.location.reload();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+    async submitForm() {     
+      console.log(this.hardware)
+      axios
+        /* sends POST request through axios to backend, alerts user of success, then reloads page through router */
+        .post(apiURL, this.hardware)
+        .then(() => {
+          alert("Hardware has been succesfully added.");
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     /* method for deleting hardware type */
     deleteHardware(hardware_id) {
@@ -119,7 +132,7 @@ export default {
             <label class="block">
               <!-- asterisk to denote required field-->
               <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Harware name: </span>
+              <span class="text-gray-700">Hardware name: </span>
               <input type="text" 
               v-model="hardware.hardware_name" 
               placeholder="Name" />
@@ -128,7 +141,7 @@ export default {
             <label class="block">
               <!-- asterisk to denote required field-->
               <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Model number: </span>
+              <span class="text-gray-700">Model Number: </span>
               <input
                 type="text"
                 v-model="hardware.model_number"
@@ -138,12 +151,12 @@ export default {
             <!-- form field -->
             <label class="block">
               <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Hardware ID: </span>
-              <input
-                type="text"
-                v-model="hardware.hardware_id"
-                placeholder="hardware ID - try dropdown later"
-              />
+              <span class="text-gray-700">Hardware Type: </span>
+              <select v-model="hardware.htype_id">
+                <option v-for="item in htype_data" :key="item.htype_id" :value="item.htype_id">
+                  {{ item.htype_name }}
+                </option>
+              </select>
             </label>
           </div>
         </div>
@@ -171,7 +184,7 @@ export default {
                   <!--Table Head cells-->
                   <th scope="col">Hardware Name</th>
                   <th scope="col">Model Number</th>
-                  <th scope="col">Hardware ID</th>
+                  <th scope="col">Hardware Type</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -182,7 +195,7 @@ export default {
 
                   <td>{{ item.hardware_name }}</td>
                   <td>{{ item.model_number }}</td>
-                  <td>{{ item.htype_id }}</td>
+                  <td>{{ htype_data[item.htype_id] }}</td>
                   <td>
                     <div class="btn-group" role="group">
                       <!--Update Button-->
