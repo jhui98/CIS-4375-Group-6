@@ -195,7 +195,8 @@ export default {
 
                   <td>{{ item.hardware_name }}</td>
                   <td>{{ item.model_number }}</td>
-                  <td>{{ htype_data[item.htype_id] }}</td>
+                  <!-- Searches through all pulled hardware types and finds record that matches the item's hardware type id, then returns its name -->
+                  <td>{{ htype_data.find(i => i.htype_id === item.htype_id).htype_name }}</td>
                   <td>
                     <div class="btn-group" role="group">
                       <!--Update Button-->
