@@ -1,5 +1,6 @@
 <script>
 let apiURL = `http://localhost:5000/api/hardware`;
+let dropURL = `http://localhost:5000/api/hardware_type/all`;
 import axios from "axios";
 export default {
   data() {
@@ -10,7 +11,8 @@ export default {
         model_number: "",
         htype_id: ""
       },
-      hardwareData:[]
+      hardwareData:[],
+      htype_data: []
     }
   },
   /* once axios is mounted, automatically sends get request to pull all hardwares */
@@ -21,6 +23,12 @@ export default {
     .then((resp) => {
       /* takes response from get request and compiles it into array */
       this.hardwareData = resp.data;
+    }),
+
+    this.htype_data = [];
+    axios.get(dropURL)
+    .then((x) => {
+      this.htype_data = x.data;
     });
   },
   methods: {
@@ -139,11 +147,16 @@ export default {
             <label class="block">
               <span style="color: #ff0000">* </span>
               <span class="text-gray-700">Hardware ID: </span>
-              <input
+              <select v-model="selected">
+                <option v-for="item in htype_data" :value="htype_data.htype_id">
+                  {{ item.htype_name }}
+                </option>
+              </select>
+              <!-- <input
                 type="text"
                 v-model="hardware.hardware_id"
                 placeholder="hardware ID - try dropdown later"
-              />
+              /> -->
             </label>
           </div>
         </div>
