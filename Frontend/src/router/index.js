@@ -22,6 +22,7 @@ const router = createRouter({
             name: 'updatehtype',
             component: () => import('../views/updatehtype.vue')
         },
+        //route to updateMerchant vue
         {
             path: '/Merchants',
             component: () => import('../views/Merchants.vue')
@@ -52,9 +53,16 @@ const router = createRouter({
             name: 'updateiso',
             component: () => import('../views/updateiso.vue')
         },
+         //route to Orders vue
         {
-            path: '/orders',
+            path: '/Orders',
             component: () => import('../views/Orders.vue')
+        },
+        //route to updateOrder vue
+        {
+            path: '/updateOrder/:id',
+             name: 'updateOrder',
+             component: () => import('../views/updateOrder.vue')
         },
         {
             path: '/reports',
