@@ -197,7 +197,7 @@ def add_hardware():
     add_hardware_query = """
     INSERT INTO hardware(hardware_name, model_number, htype_id) 
     VALUES('%s', '%s', '%s')""" % (new_hardware_name, new_model_number,new_htype_id)
-    # print("Insert query is: ", add_hardware_query) // just checking query syntax
+    # print("Insert query is: ", add_hardware_query) // for testing input commands
     execute_query(conn, add_hardware_query) 
     
     return 'Add request was successful'

@@ -11,39 +11,44 @@ export default {
         model_number: "",
         htype_id: ""
       },
+      hardware_type: {
+        htype_id: "",
+        htype_name: ""
+      },
       hardwareData:[],
       htype_data: []
     }
   },
   /* once axios is mounted, automatically sends get request to pull all hardwares */
-  mounted(){
+  async mounted(){
     this.hardwareData = [];
-    axios.get(apiURL + '/all')
+    await axios.get(apiURL + '/all')
     /* array to store response data */
     .then((resp) => {
       /* takes response from get request and compiles it into array */
       this.hardwareData = resp.data;
     }),
-
     this.htype_data = [];
-    axios.get(dropURL)
-    .then((x) => {
-      this.htype_data = x.data;
+    
+    await axios.get(dropURL)
+    .then((resp) => {
+      this.htype_data = resp.data;
     });
   },
   methods: {
     /* method to handle form submission*/
-    async submitForm() {       
-        axios
-          /* sends POST request through axios to backend, alerts user of success, then reloads page through router */
-          .post(apiURL, this.hardware)
-          .then(() => {
-            alert("Hardware has been succesfully added.");
-            window.location.reload();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+    async submitForm() {     
+      console.log(this.hardware)
+      axios
+        /* sends POST request through axios to backend, alerts user of success, then reloads page through router */
+        .post(apiURL, this.hardware)
+        .then(() => {
+          alert("Hardware has been succesfully added.");
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     /* method for deleting hardware type */
     deleteHardware(hardware_id) {
@@ -147,8 +152,8 @@ export default {
             <label class="block">
               <span style="color: #ff0000">* </span>
               <span class="text-gray-700">Hardware ID: </span>
-              <select v-model="selected">
-                <option v-for="item in htype_data" :value="htype_data.htype_id">
+              <select v-model="hardware.htype_id">
+                <option v-for="item in htype_data" :key="item.htype_id" :value="item.htype_id">
                   {{ item.htype_name }}
                 </option>
               </select>
