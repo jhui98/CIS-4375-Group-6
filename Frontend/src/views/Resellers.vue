@@ -168,7 +168,6 @@ export default {
                       <tr>
                         <!--Table Head cells-->
                         <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
-                        <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone Number</th>
@@ -178,7 +177,6 @@ export default {
                     <tbody>
                        <!-- Takes every entry stored in beginning pull request and loads into table rows -->
                       <tr v-for="item in resellerData" :key="item.reseller_id">
-                        <td>{{ item.reseller_id }}</td>
                         <td>{{ item.reseller_name }}</td>
                         <td>{{ item.reseller_email }}</td>
                         <td>{{ item.reseller_phone }}</td>
