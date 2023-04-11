@@ -499,7 +499,8 @@ def api_merchant_all():
     SELECT merchant_id, merchant_name,merchant_address1,merchant_address2,merchant_city,merchant_state,merchant_zip,merchant_email,merchant_phone,M.reseller_id, reseller_name
     FROM merchant M
     JOIN reseller R
-    ON M.reseller_id = R.reseller_id;  """
+    ON M.reseller_id = R.reseller_id
+    ORDER BY merchant_name;  """
 
     merchants = execute_read_query(conn, select_merchant_query)
     results = [] # List of resulting merchant(s) to return
