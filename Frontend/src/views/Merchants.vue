@@ -2,7 +2,7 @@
 import axios from "axios";
 // backend endpoint for list of all merchants
 let apiURL = `http://127.0.0.1:5000/api/merchant`;
-//let apiResellerURL = `http://127.0.0.1:5000/api/reseller/all`;
+//let resellerURL = `http://127.0.0.1:5000/api/reseller/all`;
 export default {
   data() {
     return {
@@ -90,9 +90,31 @@ export default {
               <input
                 type="text"
                 v-model="merchant.merchant_name"
-                placeholder="merchant name"
+                placeholder="Merchant name"
               />
             </label>
+            <!-- form field -->
+            <label class="block">
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text-gray-700">Address 1: </span>
+              <input
+                type="text"
+                v-model="merchant.merchant_address1"
+                placeholder="Address"
+              />
+            </label>
+            <!-- form field -->
+            <label class="block">
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text-gray-700">State: </span>
+              <input type="text" v-model="merchant.merchant_state" placeholder="TX" />
+            </label>
+          </div>
+
+          <!--column 2 starts here-->
+          <div class="column">
             <!-- form field -->
             <label class="block">
               <!-- asterisk to denote required field-->
@@ -106,6 +128,26 @@ export default {
             </label>
             <!-- form field -->
             <label class="block">
+              <span class="text-gray-700">Address 2: </span>
+              <input
+                type="text"
+                v-model="merchant.merchant_address2"
+                placeholder="Address"
+              />
+            </label>
+            <!-- form field -->
+            <label class="block">
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text-gray-700">Zip code: </span>
+              <input type="text" v-model="merchant.merchant_zip" placeholder="XXXXX" />
+            </label>
+          </div>
+
+          <!--column 3 starts here-->
+          <div class="column">
+            <!-- form field -->
+            <label class="block">
               <span style="color: #ff0000">* </span>
               <span class="text-gray-700">Phone: </span>
               <input
@@ -115,52 +157,14 @@ export default {
                 placeholder="(xxx)-xxx-xxxx"
               />
             </label>
-          </div>
-
-          <!--column 2 starts here-->
-          <div class="column">
             <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Address 1: </span>
-              <input
-                type="text"
-                v-model="merchant.merchant_address1"
-                placeholder="Address"
-              />
-            </label>
-            <label class="block">
-              <span class="text-gray-700">Address 2: </span>
-              <input
-                type="text"
-                v-model="merchant.merchant_address2"
-                placeholder="Address"
-              />
-            </label>
             <label class="block">
               <!-- asterisk to denote required field-->
               <span style="color: #ff0000">* </span>
               <span class="text-gray-700">City: </span>
               <input type="text" v-model="merchant.merchant_city" placeholder="Houston" />
             </label>
-          </div>
 
-          <!--column 3 starts here-->
-          <div class="column">
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">State: </span>
-              <input type="text" v-model="merchant.merchant_state" placeholder="TX" />
-            </label>
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Zip code: </span>
-              <input type="text" v-model="merchant.merchant_zip" placeholder="XXXXX" />
-            </label>
             <label class="block">
               <span style="color: #ff0000">* </span>
               <span class="text-gray-700">Reseller: </span>
