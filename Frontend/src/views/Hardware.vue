@@ -119,7 +119,7 @@ export default {
             <label class="block">
               <!-- asterisk to denote required field-->
               <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Harware name: </span>
+              <span class="text-gray-700">Hardware name: </span>
               <input type="text" 
               v-model="hardware.hardware_name" 
               placeholder="Name" />
@@ -128,7 +128,7 @@ export default {
             <label class="block">
               <!-- asterisk to denote required field-->
               <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Model number: </span>
+              <span class="text-gray-700">Model Number: </span>
               <input
                 type="text"
                 v-model="hardware.model_number"
@@ -138,7 +138,7 @@ export default {
             <!-- form field -->
             <label class="block">
               <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Hardware ID: </span>
+              <span class="text-gray-700">Hardware Type ID: </span>
               <input
                 type="text"
                 v-model="hardware.hardware_id"
