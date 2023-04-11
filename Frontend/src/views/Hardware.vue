@@ -151,19 +151,12 @@ export default {
             <!-- form field -->
             <label class="block">
               <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Hardware ID: </span>
+              <span class="text-gray-700">Hardware Type: </span>
               <select v-model="hardware.htype_id">
                 <option v-for="item in htype_data" :key="item.htype_id" :value="item.htype_id">
                   {{ item.htype_name }}
                 </option>
               </select>
-              <!-- <input
-              <span class="text-gray-700">Hardware Type ID: </span>
-              <input
-                type="text"
-                v-model="hardware.hardware_id"
-                placeholder="hardware ID - try dropdown later"
-              /> -->
             </label>
           </div>
         </div>
@@ -191,7 +184,7 @@ export default {
                   <!--Table Head cells-->
                   <th scope="col">Hardware Name</th>
                   <th scope="col">Model Number</th>
-                  <th scope="col">Hardware ID</th>
+                  <th scope="col">Hardware Type</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -202,7 +195,7 @@ export default {
 
                   <td>{{ item.hardware_name }}</td>
                   <td>{{ item.model_number }}</td>
-                  <td>{{ item.htype_id }}</td>
+                  <td>{{ htype_data[item.htype_id] }}</td>
                   <td>
                     <div class="btn-group" role="group">
                       <!--Update Button-->
