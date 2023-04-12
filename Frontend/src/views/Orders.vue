@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import { DateTime } from "luxon";
 // base endpoint for orders
 let ordersURL = `http://127.0.0.1:5000/api/orders`;
 // base endpoint for  merchant
@@ -52,6 +53,7 @@ export default {
       /* takes response from get request and compiles it into array of orders */
       .then((resp) => {
         this.orderData = resp.data;
+        //this.order.order_date = this.formattedDate(this.order.order_date); // double check date formatting later
       }),
       /* takes response from get request and compiles it into array of hardwares */
       (this.hardwareData = []);
@@ -65,6 +67,14 @@ export default {
     });
   },
   methods: {
+    // better formatted date, converts UTC to local time
+    // from CIS 4339 Project SP23 - in "eventDetails.vue"
+    formattedDate(datetimeDB) {
+      const dt = DateTime.fromISO(datetimeDB, {
+        zone: "utc",
+      });
+      return dt.setZone(DateTime.now().zoneName, { keepLocalTime: true }).toISODate();
+    },
     /* method to handle form submission*/
     async submitForm() {
       axios
@@ -127,7 +137,19 @@ export default {
                   pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
                 />
               </label>
+              <!-- form field -->
+              <label class="block">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text-gray-700">Order Date: </span>
+                <input
+                  type="date"
+                  v-model="order.order_date"
+                  placeholder="example@xyz.com"
+                />
+              </label>
               <br />
+
               <!-- form field - Merchant Dropdown-->
               <label class="block">
                 <span style="color: #ff0000">* </span>
@@ -143,39 +165,6 @@ export default {
                   </option>
                 </select>
               </label>
-
-              <!-- form field - Merchant Dropdown-->
-              <label class="block">
-                <span style="color: #ff0000">* </span>
-                <!-- asterisk to denote required field-->
-                <span class="text-gray-700">Hardware: </span>
-                <select v-model="hardware.hardware_id">
-                  <option
-                    v-for="item in hardwareData"
-                    :key="item.hardware_id"
-                    :value="item.hardware_id"
-                  >
-                    <!-- dropdown will show hardware name only -->
-                    {{ item.hardware_name }}
-                  </option>
-                </select>
-              </label>
-            </div>
-
-            <!--column 2 starts here-->
-            <div class="column">
-              <!-- form field -->
-              <label class="block">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Order Date: </span>
-                <input
-                  type="date"
-                  v-model="order.order_date"
-                  placeholder="example@xyz.com"
-                />
-              </label>
-              <br />
               <!-- form field -->
               <label class="block">
                 <span class="text-gray-700">Merchant ID: (Hide later) </span>
@@ -185,37 +174,40 @@ export default {
                   placeholder="12250"
                 />
               </label>
-              <!-- form field
-              <label class="block">
-                <span class="text-gray-700">Merchant Phone # </span>
-                <input
-                  type="text"
-                  v-model="this.merchant.merchant_phone"
-                  placeholder="12250"
-                />
-              </label> -->
               <br />
-              <label class="block">
-                <span class="text-gray-700">Hardware ID: (Hide later) </span>
-                <input
-                  type="text"
-                  v-model="this.hardware.hardware_id"
-                  placeholder="123"
-                />
-              </label>
-              <label class="block">
-                <span class="text-gray-700">Hardware Model # </span>
-                <input
-                  type="text"
-                  v-model="this.hardware.hardware_model"
-                  placeholder="123"
-                />
-              </label>
             </div>
           </div>
-
-          <div class="jumbotron vertical center">
-            <div class="container"></div>
+          <br />
+          <div class="row">
+            <!-- form field - Hardware Dropdown-->
+            <label class="block">
+              <span style="color: #ff0000">* </span>
+              <!-- asterisk to denote required field-->
+              <span class="text-gray-700">Hardware: </span>
+              <select v-model="hardware.hardware_id">
+                <option
+                  v-for="item in hardwareData"
+                  :key="item.hardware_id"
+                  :value="item.hardware_id"
+                >
+                  <!-- dropdown will show hardware name only -->
+                  {{ item.hardware_name }}
+                </option>
+              </select>
+            </label>
+            <label class="block">
+              <span class="text-gray-700">Hardware ID: (Hide later) </span>
+              <input type="text" v-model="this.hardware.hardware_id" placeholder="123" />
+            </label>
+            <br />
+            <label class="block">
+              <span class="text-gray-700">Hardware Model # </span>
+              <input
+                type="text"
+                v-model="this.hardware.hardware_model"
+                placeholder="123"
+              />
+            </label>
           </div>
 
           <div class="row">
@@ -256,7 +248,13 @@ export default {
                   <td>{{ item.ORDER_NUM }}</td>
                   <td>{{ item.ORDER_DATE }}</td>
                   <td>{{ item.SHIP_DATE }}</td>
-                  <td>{{ item.MERCHANT_ID }}</td>
+                  <!-- Searches through all pulled merchants and finds record that matches the item's merchant_id, then returns its name - Thanks Zach :) -->
+                  <td>
+                    {{
+                      merchantData.find((i) => i.merchant_id === item.MERCHANT_ID)
+                        .merchant_name
+                    }}
+                  </td>
                   <td>
                     <div class="btn-group" role="group">
                       <!--Update Button-->
@@ -293,14 +291,16 @@ export default {
 
 .column {
   float: left;
-  width: 33.33%;
-  height: 100px;
+  width: auto;
+  height: auto;
+  border-style: double;
 }
 
 /* Clear floats after the columns */
 .row:after {
   content: "";
   display: border-box;
+  border-style: double;
   clear: both;
 }
 .add {
