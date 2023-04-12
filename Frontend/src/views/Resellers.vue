@@ -1,5 +1,6 @@
 <script>
 let apiURL = `http://localhost:5000/api/reseller`;
+let dropURL =`http://localhost:5000/api/iso/all`;
 import axios from "axios";
 export default {
   data() {
@@ -11,17 +12,24 @@ export default {
         reseller_name: "",
         reseller_phone: ""
       },
-      resellerData:[]
+      resellerData:[],
+      isoData:[]
     }
   },
 /* once axios is mounted, automatically sends get request to pull all resellers */
-  mounted(){
+  async mounted(){
     this.resellerData = [];
-    axios.get(apiURL + '/all')
+    await axios.get(apiURL + '/all')
     /* array to store response data */
     .then((resp) => {
       /* takes response from get request and compiles it into array */
       this.resellerData = resp.data;
+    }),
+    this.isoData=[];
+
+    await axios.get(dropURL)
+    .then((resp) =>{
+      this.isoData = resp.data;
     });
   },
   methods: {
@@ -59,30 +67,26 @@ export default {
 
 </script>
 
+<!--Styling of the Reseller webpage-->
 <style>
-.edit {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+@import "bootswatch/dist/flatly/bootstrap.min.css";
+
+* {
+  box-sizing: border-box;
 }
-.add {
-  background-color: #008CBA; /* Blue */
-  border: none;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+
+.column {
+  float: left;
+  width: 33.33%;
+  height: 100px;
+  border-style: double;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: border-box;
+  clear: both;
 }
 .delete {
   background-color: #f44336; /* Red */
@@ -96,62 +100,67 @@ export default {
   margin: 4px 2px;
   cursor: pointer;
 }
-
 </style>
 
 <template>
     <main class="Resellers-page">
         <h1>Resellers</h1>
         <br>
-        <p>This is the Reseller Input form</p><br>
         <div>
           <!-- @submit.prevent stops the submit event from reloading the page-->
           <form @submit.prevent="submitForm">
+            <legend>Register New Reseller</legend>
               <!-- form field -->
-              <div>
-                <label class="block">
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000">* </span>
-                  <span class="text-gray-700">Reseller Name (Required): </span>
+                  <span class="text">Reseller Name</span></label>
+                  <div class="col-sm-10">
                   <input
-                    type="text"
+                    type="text" class="form-control"
                     v-model="reseller.reseller_name"
                     placeholder="Name"
                   />
-                </label>
-                <label class="block">
+                </div>
+                <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000"></span>
-                  <span class="text-gray-700">Reseller Phone: </span>
+                  <span class="text">Reseller Phone: </span></label>
+                  <div class="col-sm-10">
                   <input
-                    type="text"
+                    type="text" class="form-control"
                     v-model="reseller.reseller_phone"
                     placeholder="1234567890"
                   />
-                </label>
-                <label class="block">
+                  </div>
+                <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000"></span>
-                  <span class="text-gray-700">Reseller Email: </span>
+                  <span class="text">Reseller Email:</span></label>
+                  <div class="col-sm-10">
                   <input
-                    type="text"
+                    type="text" class="form-control"
                     v-model="reseller.reseller_email"
                     placeholder="reseller@email.com"
                   />
-                </label>
-                <label class="block">
+                </div>
+                
+                <label class="form-label mt-4">
                   <!-- This particular field may need to become a dropdown of existing ISO Companies, but I am not sure how to implement. Please advise.-->
                   <span style="color:#ff0000">* </span>
-                  <span class="text-gray-700">ISO Company: </span>
-                  <input
-                    type="text"
-                    v-model="reseller.iso_id"
-                    placeholder="1"
-                  />
-                </label>
+                  <span class="text">ISO Company</span></label>
+                  <div class="col-sm-10">
+                    <select class="form-select" v-model="reseller.iso_id">
+                      <option v-for="item in isoData" :key="item.ISO_ID" :value="item.ISO_ID">
+                        {{ item.ISO_COMPANY }}
+                      </option>
+                    </select>
+                </div>
               <!-- submit button -->
               <div>
-                <button class="add" type='submit'>Add</button>
+                <br>
+                <button class="btn btn-info" type='submit'>Add Reseller</button>
               </div>
             </div>
           </form>
@@ -180,7 +189,7 @@ export default {
                         <td>{{ item.reseller_name }}</td>
                         <td>{{ item.reseller_email }}</td>
                         <td>{{ item.reseller_phone }}</td>
-                        <td>{{ item.iso_id }}</td>
+                        <td>{{ isoData.find(i => i.iso_id === item.ISO_ID).ISO_COMPANY }}</td>
                         <!-- Adds click functionality to table rows, runs Edit function based on ID of row -->
                         <!-- Placed in TD due to runnig both edit and delete when in TD-->
                         <td>
