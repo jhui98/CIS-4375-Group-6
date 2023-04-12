@@ -111,18 +111,21 @@ export default {
           <form @submit.prevent="submitForm">
             <legend>Register New Reseller</legend>
               <!-- form field -->
-              <div class="form-group col-sm-2">
+              <div class="form-group col-sm-4">
                 <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000">* </span>
                   <span class="text">Reseller Name</span></label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-6">
                   <input
                     type="text" class="form-control"
                     v-model="reseller.reseller_name"
                     placeholder="Name"
                   />
                 </div>
+
+              <div class="row">
+                <div class="col-6">
                 <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000"></span>
@@ -134,6 +137,9 @@ export default {
                     placeholder="1234567890"
                   />
                   </div>
+                </div>
+
+                <div class="col-6">
                 <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000"></span>
@@ -145,12 +151,13 @@ export default {
                     placeholder="reseller@email.com"
                   />
                 </div>
-                
+              </div>
+            </div>
                 <label class="form-label mt-4">
                   <!-- This particular field may need to become a dropdown of existing ISO Companies, but I am not sure how to implement. Please advise.-->
                   <span style="color:#ff0000">* </span>
                   <span class="text">ISO Company</span></label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-6">
                     <select class="form-select" v-model="reseller.iso_id">
                       <option v-for="item in isoData" :key="item.ISO_ID" :value="item.ISO_ID">
                         {{ item.ISO_COMPANY }}
