@@ -277,17 +277,17 @@ export default {
             <hr />
             <h4>All Current Merchants</h4>
             <br />
-            <table class="table table-hover">
+            <table class="table table-hover .w-auto">
               <!-- Table Head-->
               <thead>
                 <tr>
                   <!--Table Head cells-->
                   <th scope="col">Name</th>
-                  <th scope="col">Address 1</th>
-                  <th scope="col">Address 2</th>
+                  <th scope="col">Addr. 1</th>
+                  <th scope="col">Addr. 2</th>
                   <th scope="col">City</th>
                   <th scope="col">State</th>
-                  <th scope="col">Zip code</th>
+                  <th scope="col">Zip</th>
                   <th scope="col">Email</th>
                   <th scope="col">Phone #</th>
                   <th scope="col">Reseller</th>
