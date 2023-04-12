@@ -248,7 +248,13 @@ export default {
                   <td>{{ item.ORDER_NUM }}</td>
                   <td>{{ item.ORDER_DATE }}</td>
                   <td>{{ item.SHIP_DATE }}</td>
-                  <td>{{ item.MERCHANT_ID }}</td>
+                  <!-- Searches through all pulled merchants and finds record that matches the item's merchant_id, then returns its name - Thanks Zach :) -->
+                  <td>
+                    {{
+                      merchantData.find((i) => i.merchant_id === item.MERCHANT_ID)
+                        .merchant_name
+                    }}
+                  </td>
                   <td>
                     <div class="btn-group" role="group">
                       <!--Update Button-->
