@@ -89,7 +89,7 @@ export default {
 
 <template>
     <main>
-        <h1>Hardware Type</h1>
+        <h1>Hardware Type Operations</h1>
         <br>
             <div>
             <!-- @submit.prevent stops the submit event from reloading the page-->
