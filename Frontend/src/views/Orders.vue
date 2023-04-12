@@ -116,98 +116,125 @@ export default {
   <main class="home-page">
     <h1>Orders Operations</h1>
     <br />
-    <h4 text-align="center">Register a New order</h4>
     <div class="px-20 py-20">
       <div class="jumbotron vertical center">
         <!-- @submit.prevent stops the submit event from reloading the page-->
         <form @submit.prevent="submitForm">
           <!-- grid container -->
+          <legend text-align="center">Register a New order</legend>
           <div class="row">
             <!--column 1 starts here-->
             <div class="column">
               <!-- form field -->
-              <label class="block">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Order #: </span>
-                <input
-                  type="text"
-                  v-model="order.order_num"
-                  placeholder="12345"
-                  pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-                />
-              </label>
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
+                  <!-- asterisk to denote required field-->
+                  <span style="color: #ff0000">* </span>
+                  <span class="text-gray-700">Order #: </span>
+                  <input
+                    type="text"
+                    v-model="order.order_num"
+                    placeholder="12345"
+                    pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+                  />
+                </label>
+              </div>
               <!-- form field -->
-              <label class="block">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Order Date: </span>
-                <input
-                  type="date"
-                  v-model="order.order_date"
-                  placeholder="example@xyz.com"
-                />
-              </label>
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
+                  <!-- asterisk to denote required field-->
+                  <span style="color: #ff0000">* </span>
+                  <span class="text-gray-700">Order Date: </span>
+                  <input type="date" v-model="order.order_date" />
+                </label>
+              </div>
               <br />
 
+              <br />
+            </div>
+            <!--column 2 starts here-->
+            <div class="column">
               <!-- form field - Merchant Dropdown-->
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
+                  <span style="color: #ff0000">* </span>
+                  <!-- asterisk to denote required field-->
+                  <span class="text-gray-700">Merchant: </span>
+                  <select v-model="merchant.merchant_id">
+                    <option
+                      v-for="item in merchantData"
+                      :key="item.merchant_id"
+                      :value="item.merchant_id"
+                    >
+                      {{ item.merchant_name }}
+                    </option>
+                  </select>
+                </label>
+              </div>
+              <!-- form field - Merchant_ID from dropdown -->
               <label class="block">
-                <span style="color: #ff0000">* </span>
-                <!-- asterisk to denote required field-->
-                <span class="text-gray-700">Merchant: </span>
-                <select v-model="merchant.merchant_id">
-                  <option
-                    v-for="item in merchantData"
-                    :key="item.merchant_id"
-                    :value="item.merchant_id"
-                  >
-                    {{ item.merchant_name }}
-                  </option>
-                </select>
+                <input type="hidden" v-model="this.merchant.merchant_id" />
               </label>
-              <!-- form field -->
+              <!-- form field - Merchant Dropdown-->
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
+                  <span class="text-gray-700">Merchant Phone </span>
+                  <input type="text" v-model="this.merchant.merchant_phone" />
+                </label>
+              </div>
+              <!-- form field - Merchant Dropdown-->
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
+                  <span class="text-gray-700">Merchant Email </span>
+                  <input type="text" v-model="this.merchant.merchant_email" />
+                </label>
+              </div>
+            </div>
+            <!-- Column 3 starts here -->
+            <div class="column">
+              <!-- form field - Hardware Dropdown-->
+              <!-- form field - Merchant Dropdown-->
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
+                  <span style="color: #ff0000">* </span>
+                  <!-- asterisk to denote required field-->
+                  <span class="text-gray-700">Hardware: </span>
+                  <select v-model="hardware.hardware_id">
+                    <option
+                      v-for="item in hardwareData"
+                      :key="item.hardware_id"
+                      :value="item.hardware_id"
+                    >
+                      <!-- dropdown will show hardware name only -->
+                      {{ item.hardware_name }}
+                    </option>
+                  </select>
+                </label>
+              </div>
               <label class="block">
-                <span class="text-gray-700">Merchant ID: (Hide later) </span>
-                <input
-                  type="text"
-                  v-model="this.merchant.merchant_id"
-                  placeholder="12250"
-                />
+                <input type="hidden" v-model="this.hardware.hardware_id" />
               </label>
               <br />
+              <label class="block">
+                <span class="text-gray-700">Hardware Model # </span>
+                <input
+                  type="text"
+                  v-model="this.hardware.hardware_model"
+                  placeholder="123"
+                />
+              </label>
+              <!-- form field - Merchant Dropdown-->
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
+                  <span class="text-gray-700">Hardware Serial # </span>
+                  <input type="text" v-model="this.hardware.serial_num" />
+                </label>
+              </div>
             </div>
           </div>
           <br />
           <div class="row">
-            <!-- form field - Hardware Dropdown-->
-            <label class="block">
-              <span style="color: #ff0000">* </span>
-              <!-- asterisk to denote required field-->
-              <span class="text-gray-700">Hardware: </span>
-              <select v-model="hardware.hardware_id">
-                <option
-                  v-for="item in hardwareData"
-                  :key="item.hardware_id"
-                  :value="item.hardware_id"
-                >
-                  <!-- dropdown will show hardware name only -->
-                  {{ item.hardware_name }}
-                </option>
-              </select>
-            </label>
-            <label class="block">
-              <span class="text-gray-700">Hardware ID: (Hide later) </span>
-              <input type="text" v-model="this.hardware.hardware_id" placeholder="123" />
-            </label>
-            <br />
-            <label class="block">
-              <span class="text-gray-700">Hardware Model # </span>
-              <input
-                type="text"
-                v-model="this.hardware.hardware_model"
-                placeholder="123"
-              />
-            </label>
+            <legend>List added hardware here as they come</legend>
           </div>
 
           <div class="row">
@@ -293,14 +320,14 @@ export default {
   float: left;
   width: auto;
   height: auto;
-  border-style: double;
+  /* border-style: double; */
 }
 
 /* Clear floats after the columns */
 .row:after {
   content: "";
   display: border-box;
-  border-style: double;
+  /* border-style: double; */
   clear: both;
 }
 .add {
