@@ -68,7 +68,7 @@ export default {
 
 </script>
 
-<!--Styling of the Hardware webpage-->
+<!--Styling of the ISO Update webpage-->
 <style>
 @import "bootswatch/dist/flatly/bootstrap.min.css";
 

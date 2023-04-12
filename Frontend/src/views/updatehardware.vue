@@ -50,85 +50,26 @@ export default {
 };
 </script>
 
-<template>
-    <main>
-      <h1>Hardwares Operations</h1>
-      <br />
-      <br/>
-      <h4>Update Hardware</h4>
-      <div class="px-20 py-20">
-        <!-- @submit.prevent stops the submit event from reloading the page-->
-          <form @submit.prevent="updatehardware">
-            <!-- grid container -->
-              <div class="row">
-                  <!--column starts here-->
-                  <div class="column">
-                      <!-- form field -->
-                      <label class="block">
-                      <!-- asterisk to denote required field-->
-                      <span style="color: #ff0000">* </span>
-                      <span class="text-gray-700">Harware name: </span>
-                      <input 
-                          type="text" 
-                          v-model="hardware.hardware_name" />
-                      </label>
-                      <!-- form field -->
-                      <label class="block">
-                      <!-- asterisk to denote required field-->
-                      <span style="color: #ff0000">* </span>
-                      <span class="text-gray-700">Model number: </span>
-                      <input
-                          type="text"
-                          v-model="hardware.model_number"
-                      />
-                      </label>
-                      <!-- form field -->
-                      <label class="block">
-                      <span style="color: #ff0000">* </span>
-                      <span class="text-gray-700">Hardware ID: </span>
-                      <input
-                          type="text"
-                          v-model="hardware.hardware_id"
-                      />
-                      </label>
-                  </div>
-                  <div align="center" border-style="solid">
-                      <!-- submit button -->
-                      <button class="edit" type="submit">Update</button>
-                      <!--Go Back button-->
-                      <!-- Router function goes to previous page-->
-                      <button type="reset" class="delete" @click="$router.go(-1)">Cancel</button>
-                  </div>
-              </div>
-          </form>
-      </div>
-    </main>
-  </template>
-
+<!--Styling of the Hardware Update webpage-->
 <style>
-.edit {
-  background-color: #4caf50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+@import "bootswatch/dist/flatly/bootstrap.min.css";
+
+* {
+  box-sizing: border-box;
 }
-.add {
-  background-color: #008cba; /* Blue */
-  border: none;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+
+.column {
+  float: left;
+  width: 33.33%;
+  height: 100px;
+  border-style: double;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: border-box;
+  clear: both;
 }
 .delete {
   background-color: #f44336; /* Red */
@@ -142,4 +83,63 @@ export default {
   margin: 4px 2px;
   cursor: pointer;
 }
+.ml-1 {
+  margin-left: 10px;
+}
 </style>
+
+<template>
+    <main>
+      <h1>Hardwares Operations</h1>
+      <br />
+      <div>
+        <!-- @submit.prevent stops the submit event from reloading the page-->
+          <form @submit.prevent="updatehardware">
+              <!-- form field -->
+              <div class="form-group col-sm-2">
+                      <label class="form-label mt-4">
+                      <!-- asterisk to denote required field-->
+                      <span style="color: #ff0000">* </span>
+                      <span class="text">Harware Name</span></label>
+                      <div class="col-sm-10">
+                        <input 
+                            type="text" class="form-control"
+                            placeholder
+                            v-model="hardware.hardware_name"
+                            />
+                          <br>
+                        <!-- asterisk to denote required field-->
+                        <span style="color: #ff0000">* </span>
+                        <span class="text">Model number</span>
+                        <input
+                            type="text" class="form-control"
+                            placeholder
+                            v-model="hardware.model_number"
+                        />
+                          <br>
+                        <span style="color: #ff0000">* </span>
+                        <span class="text">Hardware ID: </span>
+                        <input
+                            type="text" class="form-control"
+                            placeholder
+                            v-model="hardware.hardware_id"
+                        />
+                      </div>
+                  <div>
+                    <br>
+                      <!-- submit button -->
+                      <button class="btn btn-info" type="submit">Update</button>
+                      <!--Go Back button-->
+                      <!-- Router function goes to previous page-->
+                      <button 
+                      type="reset" 
+                      class="btn btn-danger ml-1" 
+                      @click="$router.go(-1)"
+                      >Go Back</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+    </main>
+  </template>
+
