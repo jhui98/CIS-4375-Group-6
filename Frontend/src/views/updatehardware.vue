@@ -2,6 +2,7 @@
 import axios from "axios";
 let getURL = "http://localhost:5000/api/hardware?id=";
 let updateURL = "http://localhost:5000/api/hardware";
+let dropURL = `http://localhost:5000/api/hardware_type/all`;
 
 export default {
   /*prop contains id from hardware page, used for route params  */
@@ -12,13 +13,15 @@ export default {
         hardware_id: "",
         hardware_name: "",
         model_number: "",
-        htype_id: ""
+        htype_id: "",
+        htype_name: ""
       },
+      hwData:[]
     };
   },
   /* Before mount we collect data from GET api based on id*/
-  beforeMount() {
-    axios
+  async beforeMount() {
+    await axios
       /* Adds our route param, the ID of the Hardware selected, to GET API */
       .get(getURL + this.$route.params.id)
       /* Takes API data and stores Table variables into Data variables */
@@ -30,7 +33,13 @@ export default {
         this.hardware.htype_id = data.htype_id;
 
         console.log(data);
-      });
+      }),
+      this.hwData = [];
+      await axios
+      .get(dropURL)
+
+      .then((resp) =>
+        this.hwData = resp.data)
   },
   /* Method to update Hardware*/
   methods: {
@@ -90,45 +99,57 @@ export default {
 
 <template>
     <main>
-      <h1>Hardwares Operations</h1>
+      <h1>Hardware Operations</h1>
       <br />
       <div>
         <!-- @submit.prevent stops the submit event from reloading the page-->
           <form @submit.prevent="updatehardware">
+            <legend>Update Hardware</legend>
               <!-- form field -->
-              <div class="form-group col-sm-2">
+                      <div class="form-group col-sm-2">
                       <label class="form-label mt-4">
                       <!-- asterisk to denote required field-->
                       <span style="color: #ff0000">* </span>
-                      <span class="text">Harware Name</span></label>
+                      <span class="text">Hardware Name</span></label>
                       <div class="col-sm-10">
                         <input 
                             type="text" class="form-control"
                             placeholder
                             v-model="hardware.hardware_name"
                             />
-                          <br>
+                        </div>
+                        </div>
+                        <!--Form Field-->
+                        <div class="form-group col-sm-2">
+                        <label class="form-label mt-4">
                         <!-- asterisk to denote required field-->
                         <span style="color: #ff0000">* </span>
-                        <span class="text">Model number</span>
+                        <span class="text">Model Number</span></label>
+                        <div>
                         <input
                             type="text" class="form-control"
                             placeholder
                             v-model="hardware.model_number"
                         />
-                          <br>
+                      </div>
+                      </div>
+                      <!--Form Field-->
+                      <div class="form-group col-sm-2">
+                      <label class="form-label mt-4">
                         <span style="color: #ff0000">* </span>
-                        <span class="text">Hardware ID: </span>
-                        <input
-                            type="text" class="form-control"
-                            placeholder
-                            v-model="hardware.hardware_id"
-                        />
+                        <span class="text">Hardware Type </span></label>
+                        <div class="col-sm-10">
+                          <select class="form-select" v-model="hardware.htype_id">
+                            <option v-for="item in hwData" :key="item.htype_id" :value="item.htype_id">
+                              {{ item.htype_name}}
+                            </option>
+                          </select>
+                        </div>
                       </div>
                   <div>
                     <br>
                       <!-- submit button -->
-                      <button class="btn btn-info" type="submit">Update</button>
+                      <button class="btn btn-info" type="submit">Update Hardware</button>
                       <!--Go Back button-->
                       <!-- Router function goes to previous page-->
                       <button 
@@ -137,7 +158,7 @@ export default {
                       @click="$router.go(-1)"
                       >Go Back</button>
                   </div>
-              </div>
+              
           </form>
       </div>
     </main>

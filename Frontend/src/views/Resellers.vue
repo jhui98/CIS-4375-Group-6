@@ -104,7 +104,7 @@ export default {
 
 <template>
     <main class="Resellers-page">
-        <h1>Resellers</h1>
+        <h1>Reseller Operations</h1>
         <br>
         <div>
           <!-- @submit.prevent stops the submit event from reloading the page-->
@@ -172,12 +172,15 @@ export default {
             </div>
           </form>
         </div>
-
+        <br />
+        <br />
         <div class="jumbotron vertical center">
           <div class="container">
-
               <div class="row">
                 <div class="col-sm-12">
+                  <hr />
+                  <h4>All Current Resellers</h4>
+                  <br />
                   <table class="table table-hover">
                     <!-- Table Head-->
                     <thead>

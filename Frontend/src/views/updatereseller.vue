@@ -2,7 +2,7 @@
 import axios from "axios";
 let getURL =`http://localhost:5000/api/reseller?id=`;
 let updateURL = 'http://localhost:5000/api/reseller';
-
+let dropURL =`http://localhost:5000/api/iso/all`;
 export default {
     /*prop contains id from the Reseller page, used for route params  */
     props:["id"],
@@ -14,12 +14,13 @@ export default {
                 reseller_id: "",
                 reseller_name: "",
                 reseller_phone: ""
-            }
+            },
+            isoData:[]
         }
     },
     /* Before mount we collect data from GET api based on id*/
-    beforeMount() {
-        axios
+    async beforeMount() {
+        await axios
         /* Adds our route param, the ID of the ISO selected, to GET API */
             .get(getURL+this.$route.params.id
             )
@@ -32,6 +33,12 @@ export default {
                 this.reseller.reseller_phone = data.reseller_phone;
                 this.reseller.iso_id = data.iso_id;
                 console.log(data)
+            }),
+            this.isoData=[];
+
+            await axios.get(dropURL)
+            .then((resp) =>{
+            this.isoData = resp.data;
             });
     },
     methods: {
@@ -53,116 +60,121 @@ export default {
 
 
 </script>
+
+<!--Styling of the Reseller Update webpage-->
 <style>
-.edit {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+@import "bootswatch/dist/flatly/bootstrap.min.css";
+
+* {
+  box-sizing: border-box;
 }
-.add {
-  background-color: #008CBA; /* Blue */
-  border: none;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+
+.column {
+  float: left;
+  width: 33.33%;
+  height: 100px;
+  border-style: double;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: border-box;
+  clear: both;
 }
 .delete {
   background-color: #f44336; /* Red */
   border: none;
   color: white;
   padding: 15px 25px;
-  text-align: 
-  center;
+  text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 12px;
   margin: 4px 2px;
   cursor: pointer;
 }
+.ml-1 {
+  margin-left: 10px;
+}
 </style>
 
 <template>
     <main>
-        <h1>Update Reseller</h1>
-            
-            <div>
-            <!-- @submit.prevent stops the submit event from reloading the page-->
-            <form @submit.prevent="updatereseller">
-                <!-- form field -->
-                <div>
-                    <label class="block">
-                    <!-- asterisk to denote required field-->
-                    <span style="color:#ff0000">* </span>
-                    <span class="text-gray-700">Name: </span>
-                    <!-- Autofills input field based on data from beforeMount GET Call-->
-                    <input
-                        type="text"
-                        placeholder
-                        v-model="reseller.reseller_name"
-                   
-                    />
-                    </label>
-                    <label class="block">
-                    <!-- asterisk to denote required field-->
-                    <span style="color:#ff0000">* </span>
-                    <span class="text-gray-700">Email: </span>
-                    <!-- Autofills input field based on data from beforeMount GET Call-->
-                    <input
-                        type="text"
-                        placeholder
-                        v-model="reseller.reseller_email"
-                   
-                    />
-                    </label>
-                    <label class="block">
-                    <!-- asterisk to denote required field-->
-                    <span style="color:#ff0000">* </span>
-                    <span class="text-gray-700">Phone Number: </span>
-                    <!-- Autofills input field based on data from beforeMount GET Call-->
-                    <input
-                        type="text"
-                        placeholder
-                        v-model="reseller.reseller_phone"
-                   
-                    />
-                    </label>
-                    <label class="block">
-                    <!-- asterisk to denote required field-->
-                    <span style="color:#ff0000">* </span>
-                    <span class="text-gray-700">ISO Company ID: </span>
-                    <!-- Autofills input field based on data from beforeMount GET Call-->
-                    <input
-                        type="text"
-                        placeholder
-                        v-model="reseller.iso_id"
-                   
-                    />
-                    </label>
-                <!-- submit button -->
-                <div>
-                    <button class="edit" type='submit'>Update</button>
-                    <!--Go Back button-->
-                    <!-- Router function goes to previous page-->
-                    <button
-                    type="reset"
-                    class="delete"
-                    @click="$router.go(-1)"
-                    >Go back</button>
+        <h1>Reseller Operations</h1>
+           <br /> 
+        <div>
+          <!-- @submit.prevent stops the submit event from reloading the page-->
+          <form @submit.prevent="updatereseller">
+            <legend>Update Reseller</legend>
+              <!-- form field -->
+              <div class="form-group col-sm-4">
+                <label class="form-label mt-4">
+                  <!-- asterisk to denote required field-->
+                  <span style="color:#ff0000">* </span>
+                  <span class="text">Reseller Name</span></label>
+                  <div class="col-sm-6">
+                  <input
+                    type="text" class="form-control"
+                    v-model="reseller.reseller_name"
+                    placeholder="Name"
+                  />
                 </div>
+
+              <div class="row">
+                <div class="col-6">
+                <label class="form-label mt-4">
+                  <!-- asterisk to denote required field-->
+                  <span style="color:#ff0000"></span>
+                  <span class="text">Reseller Phone: </span></label>
+                  <div class="col-sm-10">
+                  <input
+                    type="text" class="form-control"
+                    v-model="reseller.reseller_phone"
+                    placeholder="1234567890"
+                  />
+                  </div>
                 </div>
-            </form>
+
+                <div class="col-6">
+                <label class="form-label mt-4">
+                  <!-- asterisk to denote required field-->
+                  <span style="color:#ff0000"></span>
+                  <span class="text">Reseller Email:</span></label>
+                  <div class="col-sm-10">
+                  <input
+                    type="text" class="form-control"
+                    v-model="reseller.reseller_email"
+                    placeholder="reseller@email.com"
+                  />
+                </div>
+              </div>
             </div>
+                <label class="form-label mt-4">
+                  <!-- This particular field may need to become a dropdown of existing ISO Companies, but I am not sure how to implement. Please advise.-->
+                  <span style="color:#ff0000">* </span>
+                  <span class="text">ISO Company</span></label>
+                  <div class="col-sm-6">
+                    <select class="form-select" v-model="reseller.iso_id">
+                      <option v-for="item in isoData" :key="item.ISO_ID" :value="item.ISO_ID">
+                        {{ item.ISO_COMPANY }}
+                      </option>
+                    </select>
+                </div>
+              <!-- submit button -->
+              <div>
+            <br>
+            <button type="submit" class="btn btn-info">Update Reseller</button>
+            <!--Go Back button-->
+            <!-- Router function goes to previous page-->
+            <button 
+            type="reset" 
+            class="btn btn-danger ml-1" 
+            @click="$router.go(-1)"
+            >Go Back</button>
+          </div>
+            </div>
+          </form>
+        </div>
     </main>
 </template>

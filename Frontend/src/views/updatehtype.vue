@@ -89,11 +89,12 @@ export default {
 
 <template>
     <main>
-        <h1> this is the update page for Hardware Types</h1>
+        <h1>Hardware Type</h1>
         <br>
             <div>
             <!-- @submit.prevent stops the submit event from reloading the page-->
             <form @submit.prevent="updateHTYPE">
+                <legend>Update Hardware Type</legend>
                 <!-- form field -->
                 <div class="form-group col-sm-2">
                     <label class="form-label mt-4">
@@ -112,7 +113,7 @@ export default {
                 <!-- submit button -->
                 <div>
                     <br>
-                    <button class="btn btn-info" type='submit'>Update</button>
+                    <button class="btn btn-info" type='submit'>Update Hardware Type</button>
                     <!--Go Back button-->
                     <!-- Router function goes to previous page-->
                     <button

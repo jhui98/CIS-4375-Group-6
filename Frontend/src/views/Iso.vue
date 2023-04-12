@@ -93,7 +93,7 @@ export default {
 
 <template>
     <main class="iso-page">
-        <h1>ISO</h1>
+        <h1>ISO Operations</h1>
         <br>
         <div>
           <!-- @submit.prevent stops the submit event from reloading the page-->

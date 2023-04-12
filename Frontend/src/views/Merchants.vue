@@ -170,13 +170,13 @@ export default {
           </div>
 
         </div>
-        <br>
+ 
         <div class="row">
           <div class="col-6">
             <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000">* </span>
-                  <span class="text">Adress Line 1</span></label>
+                  <span class="text">Address Line 1</span></label>
                 <div class="col-sm-10">
                   <input
                 type="text" class="form-control"
@@ -189,7 +189,7 @@ export default {
             <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000"> </span>
-                  <span class="text">Adress Line 2</span></label>
+                  <span class="text">Address Line 2</span></label>
                 <div class="col-sm-10">
                   <input
                 type="text" class="form-control"
@@ -203,7 +203,7 @@ export default {
           <div class="col-4">
             <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000"> </span>
+                  <span style="color:#ff0000">*  </span>
                   <span class="text">City</span></label>
                 <div class="col-sm-10">
                   <input
@@ -216,7 +216,7 @@ export default {
           <div class="col-4">
             <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000"> </span>
+                  <span style="color:#ff0000">*  </span>
                   <span class="text">State</span></label>
                 <div class="col-sm-10">
                   <input
@@ -229,7 +229,7 @@ export default {
           <div class="col-4">
             <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000"> </span>
+                  <span style="color:#ff0000">*  </span>
                   <span class="text">Zip Code</span></label>
                 <div class="col-sm-10">
                   <input
@@ -240,11 +240,11 @@ export default {
             </div>  
           </div>
         </div>
-          <br>
+
           <div class="col-4">
             <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000"> </span>
+                  <span style="color:#ff0000">*  </span>
                   <span class="text">Reseller</span></label>
                 <div class="col-sm-10">
                   <select class="form-select" v-model="merchant.reseller_id">
@@ -266,122 +266,16 @@ export default {
       </form>
 
 
-      <!-- @submit.prevent stops the submit event from reloading the page-->
-      <form @submit.prevent="submitForm">
-        <!-- grid container -->
-        <div class="row">
-          <!--column 1 starts here-->
-          <div class="column">
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Name: </span>
-              <input
-                type="text"
-                v-model="merchant.merchant_name"
-                placeholder="Merchant name"
-              />
-            </label>
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Address 1: </span>
-              <input
-                type="text"
-                v-model="merchant.merchant_address1"
-                placeholder="Address"
-              />
-            </label>
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">State: </span>
-              <input type="text" v-model="merchant.merchant_state" placeholder="TX" />
-            </label>
-          </div>
 
-          <!--column 2 starts here-->
-          <div class="column">
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Email: </span>
-              <input
-                type="email"
-                v-model="merchant.merchant_email"
-                placeholder="example@xyz.com"
-              />
-            </label>
-            <!-- form field -->
-            <label class="block">
-              <span class="text-gray-700">Address 2: </span>
-              <input
-                type="text"
-                v-model="merchant.merchant_address2"
-                placeholder="Address"
-              />
-            </label>
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Zip code: </span>
-              <input type="text" v-model="merchant.merchant_zip" placeholder="XXXXX" />
-            </label>
-          </div>
-
-          <!--column 3 starts here-->
-          <div class="column">
-            <!-- form field -->
-            <label class="block">
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Phone: </span>
-              <input
-                type="text"
-                pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-                v-model="merchant.merchant_phone"
-                placeholder="(xxx)-xxx-xxxx"
-              />
-            </label>
-            <!-- form field -->
-            <label class="block">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">City: </span>
-              <input type="text" v-model="merchant.merchant_city" placeholder="Houston" />
-            </label>
-
-            <label class="block">
-              <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Reseller: </span>
-              <input
-                type="text"
-                v-model="merchant.reseller_id"
-                placeholder="reseller ID - try dropdown later"
-              />
-            </label>
-          </div>
-        </div>
-        <div class="row">
-          <!-- submit button -->
-          <div align="center">
-            <button type="submit" class="add">Add Merchant</button>
-          </div>
-        </div>
-      </form>
     </div>
     <br />
     <br />
-    <h4>All Merchants with their details are listed below</h4>
     <div class="jumbotron vertical center">
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
             <hr />
+            <h4>All Current Merchants</h4>
             <br />
             <table class="table table-hover">
               <!-- Table Head-->

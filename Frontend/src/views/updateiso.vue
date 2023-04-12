@@ -109,11 +109,13 @@ export default {
 <template>
     <main>
       <div v-if="dataReady">
-        <h1>Update {{ iso.iso_company }}</h1>
+            <h1>ISO Operations</h1>
+        <!-- <h1>Update {{ iso.iso_company }}</h1> -->
             <br>
             <div>
             <!-- @submit.prevent stops the submit event from reloading the page-->
             <form @submit.prevent="updateISO">
+                <legend>Update ISO Company</legend>
                 <!-- form field -->
                 <div class="form-group col-sm-2">
                     <label class="form-label mt-4">
@@ -132,7 +134,7 @@ export default {
                 <!-- submit button -->
                 <div>
                     <br>
-                    <button class="btn btn-info" type='submit'>Update</button>
+                    <button class="btn btn-info" type='submit'>Update ISO Company</button>
                     <!--Go Back button-->
                     <!-- Router function goes to previous page-->
                     <button
