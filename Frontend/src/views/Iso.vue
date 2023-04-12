@@ -56,47 +56,38 @@ export default {
 
 </script>
 
+<!--Styling of the ISO webpage-->
 <style>
-.edit {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+@import "bootswatch/dist/flatly/bootstrap.min.css";
+
+* {
+  box-sizing: border-box;
 }
-.add {
-  background-color: #008CBA; /* Blue */
-  border: none;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+
+.column {
+  float: left;
+  width: 33.33%;
+  height: 100px;
+  border-style: double;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: border-box;
+  clear: both;
 }
 .delete {
   background-color: #f44336; /* Red */
   border: none;
   color: white;
   padding: 15px 25px;
-  text-align: 
-  center;
+  text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 12px;
   margin: 4px 2px;
   cursor: pointer;
-}
-
-.floated {
-  right: 15px;
 }
 </style>
 
@@ -104,54 +95,71 @@ export default {
     <main class="iso-page">
         <h1>ISO</h1>
         <br>
-        <h4>Add New ISO Company</h4><br>
         <div>
           <!-- @submit.prevent stops the submit event from reloading the page-->
           <form @submit.prevent="submitForm">
+            <legend>Register New ISO Company</legend>
               <!-- form field -->
-              <div>
-                <label class="block">
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000">* </span>
-                  <span class="text-gray-700">ISO Company: </span>
-                  <input
-                    type="text"
-                    v-model="iso.iso_company"
-                    placeholder="Name"
-                  />
-                </label>
+                  <span class="text">ISO Company Name</span></label>
+                    <div class="col-sm-10">
+                      <input
+                      type="text" class="form-control"
+                      v-model="iso.iso_company"
+                      placeholder="Name"/>
+                    </div>
+                  </div>
               <!-- submit button -->
-                <button class="btn btn-info btn-sm floated" type='submit'>Add</button>
-            </div>
+              <div>
+                <br>
+                <button class="btn btn-info" type='submit'>Add ISO Company</button>
+              </div>
           </form>
         </div>
-
+        <br />
+        <br />
         <div class="jumbotron vertical center">
             <div class="container">
-                
                 <div class="row">
                     <div class="col-sm-12">
+                      <hr />
+                      <h4>All Current ISOs</h4>
+                      <br />
                         <table class="table table-hover">
                             <!-- Table Head-->
                             <thead>
                                 <tr>
                                     <!--Table Head cells-->
-
                                     <th scope="col">Name</th>
                                     <th scope="col">Action</th>
-
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- Takes every entry stored in beginning pull request and loads into table rows -->
                                 <tr v-for="item in isoData" :key="item.ISO_ID">
-                                    <!-- Adds click functionality to table rows, runs Edit function based on ID of -->
-                                    <!-- Placed in TD due to runnig both edit and delete when in TD-->
-                                    <td @click="editISO(item.ISO_ID)"> {{ item.ISO_COMPANY }} </td>
+                                    <td> {{ item.ISO_COMPANY }} </td>
                                     <td> 
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-danger
-                                            btn-sm" @click ="deleteISO(item.ISO_ID)">Delete</button>
+                                            <!--Update Button-->
+                                            <button
+                                              type="button"
+                                              class="btn btn-info btn-sm"
+                                              @click="editISO(item.ISO_ID)"
+                                            >
+                                              Update
+                                            </button>
+
+                                            <!--Delete Button-->
+                                            <button
+                                              type="button"
+                                              class="btn btn-danger btn-sm" 
+                                              @click ="deleteISO(item.ISO_ID)"
+                                            >
+                                            Delete
+                                          </button>
                                         </div>
                                     </td>
                                 </tr>

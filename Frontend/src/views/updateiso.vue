@@ -68,43 +68,41 @@ export default {
 
 </script>
 
+<!--Styling of the Hardware webpage-->
 <style>
-.edit {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+@import "bootswatch/dist/flatly/bootstrap.min.css";
+
+* {
+  box-sizing: border-box;
 }
-.add {
-  background-color: #008CBA; /* Blue */
-  border: none;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+
+.column {
+  float: left;
+  width: 33.33%;
+  height: 100px;
+  border-style: double;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: border-box;
+  clear: both;
 }
 .delete {
   background-color: #f44336; /* Red */
   border: none;
   color: white;
   padding: 15px 25px;
-  text-align: 
-  center;
+  text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 12px;
   margin: 4px 2px;
   cursor: pointer;
+}
+.ml-1 {
+  margin-left: 10px;
 }
 </style>
 
@@ -112,60 +110,70 @@ export default {
     <main>
       <div v-if="dataReady">
         <h1>Update {{ iso.iso_company }}</h1>
-            
+            <br>
             <div>
             <!-- @submit.prevent stops the submit event from reloading the page-->
             <form @submit.prevent="updateISO">
                 <!-- form field -->
-                <div>
-                    <label class="block">
+                <div class="form-group col-sm-2">
+                    <label class="form-label mt-4">
                     <!-- asterisk to denote required field-->
                     <span style="color:#ff0000">* </span>
-                    <span class="text-gray-700">ISO Company: </span>
+                    <span class="text">ISO Company Name</span></label>
+                    <div class="col-sm-10">
                     <!-- Autofills input field based on data from beforeMount GET Call-->
                     <input
-                        type="text"
+                        type="text" class="form-control"
                         placeholder
                         v-model="iso.iso_company"
-                   
                     />
-                    </label>
+                    </div>
+                </div>
                 <!-- submit button -->
                 <div>
-                    <button class="edit" type='submit'>Update</button>
+                    <br>
+                    <button class="btn btn-info" type='submit'>Update</button>
                     <!--Go Back button-->
                     <!-- Router function goes to previous page-->
                     <button
                     type="reset"
-                    class="delete"
+                    class="btn btn-danger ml-1"
                     @click="$router.go(-1)"
                     >Go back</button>
-                </div>
-                </div>
+                </div>  
             </form>
             </div>
-        <h3>Resellers Associated With {{ iso.iso_company }}</h3>
-        <table class="table table-hover">
-                    <!-- Table Head-->
-                    <thead>
-                      <tr>
-                        <!--Table Head cells-->
-                        <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
-                        <th scope="col">Reseller Name</th>
-                        <th scope="col">Reseller Email</th>
-                        <th scope="col">Reseller Phone Number</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                       <!-- Takes every entry stored in beginning pull request and loads into table rows -->
-                      <tr v-for="item in reportData" :value="item.iso_company">
-                        <td>{{ item.reseller_name }}</td>
-                        <td>{{ item.reseller_email }}</td>
-                        <td>{{ item.reseller_phone }}</td>
-                      </tr>
-
-                    </tbody>
-                  </table>
+            <br />
+            <br />
+            <div class="jumbotron vertical center">
+                <div class="container">
+                    <div class="col-sm-12">
+                        <hr/>
+                        <h4>Resellers Associated With {{ iso.iso_company }}</h4>
+                        <br>
+                        <table class="table table-hover">
+                            <!-- Table Head-->
+                            <thead>
+                                <tr>
+                                    <!--Table Head cells-->
+                                    <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
+                                    <th scope="col">Reseller Name</th>
+                                    <th scope="col">Reseller Email</th>
+                                    <th scope="col">Reseller Phone Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Takes every entry stored in beginning pull request and loads into table rows -->
+                                <tr v-for="item in reportData" :value="item.iso_company">
+                                    <td>{{ item.reseller_name }}</td>
+                                    <td>{{ item.reseller_email }}</td>
+                                    <td>{{ item.reseller_phone }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
       </div>
     </main>
 </template>

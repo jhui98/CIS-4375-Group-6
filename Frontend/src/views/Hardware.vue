@@ -72,6 +72,8 @@ export default {
 
 <!--Styling of the Hardware webpage-->
 <style>
+@import "bootswatch/dist/flatly/bootstrap.min.css";
+
 * {
   box-sizing: border-box;
 }
@@ -88,18 +90,6 @@ export default {
   content: "";
   display: border-box;
   clear: both;
-}
-.add {
-  background-color: #008cba; /* Blue */
-  border: none;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
 }
 .delete {
   background-color: #f44336; /* Red */
@@ -119,63 +109,64 @@ export default {
 <template>
   <main class="home-page">
     <h1>Hardware Operations</h1>
-    <br />
-    <h4 text-align="center">Register a New Hardware</h4>
-    <div class="px-20 py-20">
+    <br>
+    <div>
       <!-- @submit.prevent stops the submit event from reloading the page-->
       <form @submit.prevent="submitForm">
-        <!-- grid container -->
-        <div class="row">
-          <!--column 1 starts here-->
-          <div class="column">
+        <legend>Register New Hardware</legend>
             <!-- form field -->
-            <label class="block">
+            <div class="form-group col-sm-2">
+            <label class="form-label mt-4">
               <!-- asterisk to denote required field-->
               <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Hardware name: </span>
-              <input type="text" 
-              v-model="hardware.hardware_name" 
-              placeholder="Name" />
-            </label>
+              <span class="text">Hardware Name</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control"
+                v-model="hardware.hardware_name" 
+                placeholder="Name" />
+              </div>
+            </div>
             <!-- form field -->
-            <label class="block">
+            <div class="form-group col-sm-2">
+            <label class="form-label mt-4">
               <!-- asterisk to denote required field-->
               <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Model Number: </span>
-              <input
-                type="text"
-                v-model="hardware.model_number"
-                placeholder=""
-              />
-            </label>
+              <span class="text">Model Number</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control"
+                v-model="hardware.model_number" 
+                placeholder="Model Number" />
+              </div>
+            </div>
             <!-- form field -->
-            <label class="block">
+            <div class="form-group col-sm-2">
+            <label class="form-label mt-4">
+              <!-- asterisk to denote required field-->
               <span style="color: #ff0000">* </span>
-              <span class="text-gray-700">Hardware Type: </span>
-              <select v-model="hardware.htype_id">
+              <span class="text">Hardware Type</span></label>
+              <div class="col-sm-10">
+                <select class="form-select" v-model="hardware.htype_id">
                 <option v-for="item in htype_data" :key="item.htype_id" :value="item.htype_id">
                   {{ item.htype_name }}
                 </option>
               </select>
-            </label>
-          </div>
-        </div>
-        <div class="row">
+              </div>
+            </div>
           <!-- submit button -->
           <div >
-            <button type="submit" class="add">Add Hardware</button>
+            <br>
+            <button type="submit" class="btn btn-info">Add Hardware</button>
           </div>
-        </div>
       </form>
     </div>
     <br />
     <br />
-    <h4>All Hardware with their details are listed below</h4>
     <div class="jumbotron vertical center">
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
             <hr />
+            <h4>All Current Hardware</h4>
             <br />
             <table class="table table-hover">
               <!-- Table Head-->
@@ -195,7 +186,8 @@ export default {
 
                   <td>{{ item.hardware_name }}</td>
                   <td>{{ item.model_number }}</td>
-                  <td>{{ htype_data[item.htype_id] }}</td>
+                  <!-- Searches through all pulled hardware types and finds record that matches the item's hardware type id, then returns its name -->
+                  <td>{{ htype_data.find(i => i.htype_id === item.htype_id).htype_name }}</td>
                   <td>
                     <div class="btn-group" role="group">
                       <!--Update Button-->

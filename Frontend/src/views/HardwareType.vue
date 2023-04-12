@@ -56,30 +56,26 @@ export default {
 
 </script>
 
+<!--Styling of the Hardware Type webpage-->
 <style>
-.edit {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+@import "bootswatch/dist/flatly/bootstrap.min.css";
+
+* {
+  box-sizing: border-box;
 }
-.add {
-  background-color: #008CBA; /* Blue */
-  border: none;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
+
+.column {
+  float: left;
+  width: 33.33%;
+  height: 100px;
+  border-style: double;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: border-box;
+  clear: both;
 }
 .delete {
   background-color: #f44336; /* Red */
@@ -93,42 +89,45 @@ export default {
   margin: 4px 2px;
   cursor: pointer;
 }
-
 </style>
 
 <template>
     <main class="HardwareType-page">
-        <h1>HardwareType</h1>
+        <h1>Hardware Type</h1>
         <br>
-        <p>This is the Hardware Type input form</p><br>
         <div>
           <!-- @submit.prevent stops the submit event from reloading the page-->
           <form @submit.prevent="submitForm">
+            <legend>Register New Hardware Type </legend>
               <!-- form field -->
-              <div>
-                <label class="block">
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000">* </span>
-                  <span class="text-gray-700">Hardware Type Name: </span>
-                  <input
-                    type="text"
-                    v-model="hardwaretype.htype_name"
-                    placeholder="Name"
-                  />
-                </label>
+                  <span class="text">Hardware Type Name</span></label>
+                    <div class="col-sm-10">
+                    <input
+                      type="text" class="form-control"
+                      v-model="hardwaretype.htype_name"
+                      placeholder="Name"/>
+                    </div>
+                    </div>
               <!-- submit button -->
               <div>
-                <button class="add" type='submit'>Add</button>
+                <br>
+                <button class="btn btn-info" type='submit'>Add Hardware Type</button>
               </div>
-            </div>
           </form>
         </div>
-
+        <br />
+        <br />
         <div class="jumbotron vertical center">
           <div class="container">
-
               <div class="row">
                 <div class="col-sm-12">
+                  <hr />
+                  <h4>All Current Hardware Types</h4>
+                  <br />
                   <table class="table table-hover">
                     <!-- Table Head-->
                     <thead>
