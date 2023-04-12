@@ -98,19 +98,19 @@ export default {
         <div>
           <!-- @submit.prevent stops the submit event from reloading the page-->
           <form @submit.prevent="submitForm">
-            <legend>Add New ISO Company</legend>
+            <legend>Register New ISO Company</legend>
               <!-- form field -->
               <div class="form-group col-sm-2">
                 <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
                   <span style="color:#ff0000">* </span>
-                  <span class="text">ISO Company</span></label>
-                  <div class="col-sm-10">
-                    <input
-                    type="text" class="form-control"
-                    v-model="iso.iso_company"
-                    placeholder="Name"/>
-                  </div>
+                  <span class="text">ISO Company Name</span></label>
+                    <div class="col-sm-10">
+                      <input
+                      type="text" class="form-control"
+                      v-model="iso.iso_company"
+                      placeholder="Name"/>
+                    </div>
                   </div>
               <!-- submit button -->
               <div>
