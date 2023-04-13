@@ -199,7 +199,7 @@ export default {
                         <td>{{ item.reseller_name }}</td>
                         <td>{{ item.reseller_email }}</td>
                         <td>{{ item.reseller_phone }}</td>
-                        <td>{{ isoData.find(i => i.iso_id === item.ISO_ID).ISO_COMPANY }}</td>
+                        <td>{{ isoData.find(i => i.ISO_ID === item.iso_id).ISO_COMPANY }}</td>
                         <!-- Adds click functionality to table rows, runs Edit function based on ID of row -->
                         <!-- Placed in TD due to runnig both edit and delete when in TD-->
                         <td>
