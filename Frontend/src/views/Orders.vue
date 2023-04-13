@@ -16,7 +16,7 @@ export default {
         order_num: "",
         order_date: "",
         hardware_id: "",
-        serial_num: "",
+        serial_number: "",
         ship_date: "",
         tracking_num: "",
         merchant_id: "",
@@ -41,7 +41,18 @@ export default {
         merchant_phone: "",
         reseller_name: "",
       },
-      merchantData: [], // array  for merchant data
+      merchantData: [],
+      groupby: {
+        order_id: "",
+        order_num: "",
+        order_date: "",
+        hardware_id: "",
+        serial_number: "",
+        ship_date: "",
+        tracking_num: "",
+        merchant_id: "",
+      },
+      groupbyData: [], // array  for merchant data
     };
   },
   /* once axios is mounted, automatically sends get request to pull all orders */
@@ -53,6 +64,7 @@ export default {
       /* takes response from get request and compiles it into array of orders */
       .then((resp) => {
         this.orderData = resp.data;
+
         //this.order.order_date = this.formattedDate(this.order.order_date); // double check date formatting later
       }),
       /* takes response from get request and compiles it into array of hardwares */
@@ -64,6 +76,11 @@ export default {
       (this.merchantData = []);
     await axios.get(merchantURL + "/all").then((resp) => {
       this.merchantData = resp.data;
+    });
+
+    this.groupbyData = [];
+    await axios.get(ordersURL + "/groupby").then((resp) => {
+      this.groupbyData = resp.data;
     });
   },
   methods: {
@@ -79,14 +96,14 @@ export default {
     async submitForm() {
       axios
         /* sends POST request through axios to backend, alerts user of success, then reloads page through router */
-        .post(apiURL, this.order)
+        .post(ordersURL, this.order)
         .then(() => {
           alert("order has been successfully added.");
           /* reloads window to show changes */
           window.location.reload();
         })
         .catch((error) => {
-          console.log(error);
+          alert("An error occured:", error);
         });
     },
     /* method for deleting iso */
@@ -97,16 +114,16 @@ export default {
         )
       ) {
         /* axios delete request, uses api URL and attaches id at end of it to specify what id to delete */
-        axios.delete(apiURL + "?id=" + order_id).then(() => {
+        axios.delete(ordersURL + "?num=" + order_id).then(() => {
           /* reloads window to show changes */
           window.location.reload();
         });
       }
     },
     /* method for routing to edit page */
-    editOrder(order_id) {
+    editOrder(order_num) {
       /* Activates on click of table property, routes to update page bases on name in index.js, params are the id of the item which is stored in id:  */
-      this.$router.push({ name: "updateOrder", params: { id: order_id } });
+      this.$router.push({ name: 'updateOrder', params: { num: order_num } });
     },
   },
 };
@@ -263,18 +280,16 @@ export default {
                   <!--Table Head cells-->
                   <th scope="col">Order #</th>
                   <th scope="col">Order Date</th>
-                  <th scope="col">Ship Date</th>
                   <th scope="col">Merchant</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in orderData" :key="item.ORDER_ID">
+                <tr v-for="item in groupbyData" :key="item.ORDER_ID">
                   <!--Do no show this to user-->
                   <!-- <td>{{ item.order_id }}</td> -->
                   <td>{{ item.ORDER_NUM }}</td>
                   <td>{{ item.ORDER_DATE }}</td>
-                  <td>{{ item.SHIP_DATE }}</td>
                   <!-- Searches through all pulled merchants and finds record that matches the item's merchant_id, then returns its name - Thanks Zach :) -->
                   <td>
                     {{
@@ -288,7 +303,7 @@ export default {
                       <button
                         type="button"
                         class="btn btn-info btn-sm"
-                        @click="editOrder(item.order_id)"
+                        @click="editOrder(item.ORDER_NUM)"
                       >
                         Update
                       </button>
@@ -296,7 +311,7 @@ export default {
                       <button
                         type="button"
                         class="btn btn-danger btn-sm"
-                        @click="deleteOrder(item.order_id)"
+                        @click="deleteOrder(item.ORDER_NUM)"
                       >
                         Delete
                       </button>

@@ -2,10 +2,11 @@
 import axios from "axios";
 let getURL = "http://localhost:5000/api/orders?id=";
 let updateURL = "http://localhost:5000/api/orders";
+let orderURL = "http://localhost:5000/api/detailsOrder?ORDER_NUMBER="
 
 export default {
-  /*prop contains id from merchant page, used for route params  */
-  props: ["id"],
+  /*prop contains order_num from orders page, used for route params  */
+  props: ["num"],
   data() {
     return {
       order: {
@@ -13,46 +14,62 @@ export default {
         order_num: "",
         order_date: "",
         hardware_id: "",
-        serial_num: "",
+        serial_number: "",
         ship_date: "",
         tracking_num: "",
         merchant_id: "",
       },
       orderData: [],
+      detailsOrder: {
+        address: "",
+        hardware_name: "",
+        merchant_email: "",
+        order_date: "",
+        order_id: "",
+        order_num: "",
+        ship_date: "",
+        tracking_num: "",
+        serial_number: "",
+      },
+      detailsOrderData:[],
     };
   },
   /* Before mount we collect data from GET api based on id*/
   beforeMount() {
+    this.orderData = [];
     axios
       /* Adds our route param, the ID of the Merchant selected, to GET API */
-      .get(getURL + this.$route.params.id)
+      .get(orderURL + this.$route.params.num)
       /* Takes API data and stores Table variables into Data variables */
       .then((resp) => {
+        this.orderData = resp.data;
+        console.log(data);
         let data = resp.data[0];
         this.order.order_id = data.order_id;
         this.order.order_num = data.order_num;
-        this.order.hardware_id = data.hardware_id;
-        this.order.serial_num = data.serial_num;
-        this.order.ship_date = data.ship_date;
-        this.order.tracking_num = data.tracking_num;
-        this.order.merchant_id = data.merchant_id;
-
-        console.log(data);
       });
+
+    
   },
   /* Method to update Order*/
   methods: {
-    updateMerchant() {
-      axios
-        /* Uses full property, this.X, and not sub properties, this.X.X to run call */
-        /* Runs call with all data collected in GET call */
-        /*Needed to run this way due to ID being used in JSON for updates */
-        .put(updateURL, this.order)
-        .then(() => {
-          alert("Order has been updated!");
-          /* After Alert goes back to the main page for Orders */
-          window.history.go(-1);
+    deleteOrder(order_id) {
+      if (
+        confirm(
+          "Are you sure you want to permanently delete this hardware? This cannot be undone."
+        )
+      ) {
+        /* axios delete request, uses api URL and attaches id at end of it to specify what id to delete */
+        axios.delete(getURL + order_id).then(() => {
+          /* reloads window to show changes */
+          window.location.reload();
         });
+      }
+    },
+    /* method for routing to edit page */
+    editOrder(order_id) {
+      /* Activates on click of table property, routes to update page bases on name in index.js, params are the id of the item which is stored in id:  */
+      this.$router.push({ name: 'updatepart', params: { id: order_id } });
     },
   },
 };
@@ -99,10 +116,68 @@ export default {
 
 <template>
   <main>
-    <h1>Orders Operations</h1>
-    <br />
-    <br />
-    <h4>Update Order</h4>
     <div class="px-20 py-20"></div>
+    <div class="jumbotron vertical center">
+                <div class="container">
+                    <div class="col-sm-12">
+                        <hr/>
+                        <h4>Hardware Associated With Order {{ $route.params.num }}</h4>
+                        <br>
+                        <table class="table table-hover">
+                            <!-- Table Head-->
+                            <thead>
+                                <tr>
+                                    <!--Table Head cells-->
+                                    <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
+                                    <th scope="col">Hardware Name</th>
+                                    <th scope="col">Serial Number</th>
+                                    <th scope="col">Ship Date</th>
+                                    <th scope="col">Tracking Number</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Takes every entry stored in beginning pull request and loads into table rows -->
+                                <tr v-for="item in orderData" :value="item.order_num">
+                                    <td>{{ item.hardware_name }}</td>
+                                    <td>{{ item.serial_number }}</td>
+                                    <td>{{ item.ship_date }}</td>
+                                    <td>{{ item.tracking_num }}</td>
+                                    <td>
+                                      <div class="btn-group" role="group">
+                                            <!--Update Button-->
+                                            <button
+                                              type="button"
+                                              class="btn btn-info btn-sm"
+                                              @click="editOrder(item.order_id)"
+                                            >
+                                              Update
+                                            </button>
+
+                                            <!--Delete Button-->
+                                            <button
+                                              type="button"
+                                              class="btn btn-danger btn-sm" 
+                                              @click ="deleteOrder(item.order_id)"
+                                            >
+                                            Delete
+                                          </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                    <!--Go Back button-->
+                    <!-- Router function goes to previous page-->
+                    <button
+                    type="reset"
+                    class="btn btn-danger ml-1"
+                    @click="$router.go(-1)"
+                    >Go back</button>
+                </div>  
   </main>
 </template>

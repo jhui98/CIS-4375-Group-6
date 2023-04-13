@@ -709,6 +709,13 @@ def delete_order():
         WHERE order_id = %s """ % (idToDelete)
         execute_query(conn, delete_order_query)
         return "Delete request was successful"
+    elif 'num' in request.args:
+        idToDelete = int(request.args['num'])
+        delete_order_query = """
+        DELETE FROM orders
+        WHERE order_num = %s """ % (idToDelete)
+        execute_query(conn, delete_order_query)
+        return "Delete request was successful"
     else:
         return "No ORDER_ID provided"
 
@@ -734,6 +741,26 @@ def api_order_id():
         return jsonify(results)
     else:
         return "No ORDER_ID provided"
+
+#=========================================================#
+# 6.6. - Implement GET method for Just GROUP_NUM Here         #
+#=========================================================#
+# Endpoint to GET all orders http://127.0.0.1:5000/api/orders/all
+@app.route('/api/orders/groupby', methods=['GET'])
+@cross_origin(origin='*')
+def api_orders_groupby():
+    select_orders = """
+        SELECT *
+        FROM orders
+        GROUP BY order_num;  """ 
+
+    order_results = execute_read_query(conn, select_orders)
+    results = [] 
+    for order in order_results:
+        results.append(order)
+    return jsonify(results)
+
+
 
 ######################################################
 # 7 - Reports JSON Operations                   #
@@ -948,16 +975,17 @@ def api_orderDetails_num():
         # print("ID to retrieve is: ", idToRetrieve) // just checking
         results = [] # List of resulting order(s) to return
         retrieve_order_query = """
-        SELECT  order_id,  
-            order_num AS "ORDER_NUMBER",
-            merchant_name AS "MERCHANT",
+        SELECT order_id,  
+            order_num,
+            merchant_name,
             CONCAT_WS(', ', M.merchant_address1, M.merchant_address2, M.merchant_city, M.merchant_state, M.merchant_zip)
-            AS "ADDRESS",
-            merchant_email AS "EMAIL",
-            order_date AS "ORDER DATE",
-            hardware_name AS "HARDWARE",
-            ship_date AS "SHIP DATE",
-            tracking_num AS "TRACKING NUMBER"
+            AS address,
+            merchant_email,
+            order_date,
+            hardware_name,
+            ship_date,
+            tracking_num,
+            serial_number
         FROM orders O
         JOIN merchant M
         ON O.merchant_id = M.merchant_id
@@ -966,7 +994,7 @@ def api_orderDetails_num():
         WHERE order_num = %s; """ % (idToRetrieve)
         orders = execute_read_query(conn, retrieve_order_query)
         for order in orders:
-            if order['ORDER_NUMBER'] == idToRetrieve:
+            if order['order_num'] == idToRetrieve:
                 results.append(order)
         return jsonify(results)
     else:
