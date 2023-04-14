@@ -157,7 +157,7 @@ export default {
             </div>
             <br />
             <!-- submit button -->
-            <button class="btn btn-info" type="submit">Update Hardware Order</button>
+            <button class="btn btn-info" type="submit">Update Order</button>
             <!--Go Back button-->
             <!-- Router function goes to previous page-->
             <button type="reset" class="btn btn-danger ml-1" @click="$router.go(-1)">
