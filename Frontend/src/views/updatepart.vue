@@ -39,20 +39,20 @@ export default {
     this.orderData = [];
     axios
       /* Adds our route param, the ID of the Merchant selected, to GET API */
-      .get(orderURL + this.$route.params.num)
+      .get(getURL + this.$route.params.id)
       /* Takes API data and stores Table variables into Data variables */
       .then((resp) => {
         this.orderData = resp.data;
-        let data = resp.data[0];
-        this.order.order_id = data.order_id;
-        this.order.hardware_id = data.order_id;
-        this.order.order_num = data.order_num;
+        // let data = resp.data[0];
+        // this.order.order_id = data.order_id;
+        // this.order.hardware_id = data.order_id;
+        // this.order.order_num = data.order_num;
 
         //wakindo updates start here
-        this.order.order_date = data.order_date;
-        this.order.serial_number = data.serial_number;
-        this.order.tracking_num = data.tracking_num;
-        this.order.ship_date = data.ship_date;
+        // this.order.order_date = data.order_date;
+        // this.order.serial_number = data.serial_number;
+        // this.order.tracking_num = data.tracking_num;
+        // this.order.ship_date = data.ship_date;
       });
   },
   /* Methods to update Order*/
@@ -105,7 +105,7 @@ export default {
       <form @submit.prevent="updatePart">
         <!-- grid container -->
 
-        <legend text-align="center">Order Hardware Update</legend>
+        <legend text-align="center">Updating {{ $route.params.id }}</legend>
         <div class="row">
           <!--column 1 starts here-->
           <div class="column">
@@ -115,7 +115,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Serial Number: </span>
-                <input type="text" v-model="this.order.serial_number" />
+                <input type="text" v-model="order.serial_number" />
               </label>
             </div>
             <!-- form field -->
@@ -124,7 +124,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Tracking Number: </span>
-                <input type="text" v-model="this.order.tracking_num" />
+                <input type="text" v-model="order.tracking_num" />
               </label>
             </div>
 
