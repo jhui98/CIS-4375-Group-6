@@ -53,7 +53,6 @@ export default {
         merchant_id: "",
       },
       groupbyData: [], // array  for merchant data
-      hardwareTable: [], // temporary array for added hardware
     };
   },
   /* once axios is mounted, automatically sends get request to pull all orders */
@@ -101,7 +100,6 @@ export default {
         .then(() => {
           alert("order has been successfully added.");
           /* reloads window to show changes */
-          hardwareTable.append(this.order);
           window.location.reload();
         })
         .catch((error) => {
@@ -173,7 +171,7 @@ export default {
               </div>
               <!-- form field - Merchant_ID from dropdown -->
               <label class="block">
-                <input type="text" v-model="this.order.merchant_id" />
+                <input type="hidden" v-model="this.order.merchant_id" />
               </label>
               <br />
             </div>
@@ -208,75 +206,24 @@ export default {
                 </label>
                 <!-- form field - Hidden textbox to get dropdown selected hardware ID-->
                 <label class="block">
-                  <input type="text" v-model="this.order.hardware_id" />
+                  <input type="hidden" v-model="this.order.hardware_id" />
                 </label>
               </div>
-              <!-- form field - serial number - Note sure we need this field when entering an order-->
-              <!-- during the shipping process, sure but when adding order items - discuss with team -->
-              <div class="form-group col-sm-2">
-                <label class="form-label mt-4">
-                  <span class="text-gray-700">Hardware Serial # </span>
-                  <input type="text" v-model="this.hardware.serial_num" />
-                </label>
-              </div>
+              <br />
               <!-- submit button -->
               <div>
                 <button type="submit" class="add">Add Order</button>
               </div>
+
+              <!-- form field - serial number - Note sure we need this field when entering an order-->
+              <!-- during the shipping process, sure!!! but when adding order items - discuss with team -->
+              <!-- <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
+                  <span class="text-gray-700">Hardware Serial # </span>
+                  <input type="text" v-model="this.hardware.serial_num" />
+                </label>
+              </div> -->
             </div>
-          </div>
-          <br />
-          <!-- make a take here to list hardware as they are added to an order -->
-          <div class="col-sm-12">
-            <hr />
-            <br />
-            <legend>List added hardware here as they come</legend>
-            <table class="table table-hover">
-              <!-- Table Head-->
-              <thead>
-                <tr>
-                  <!--Table Head cells-->
-                  <th scope="col">Hardware</th>
-                  <th scope="col">Serial Number</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in hardwareTable" :key="item.order_num">
-                  <!--Do no show this to user-->
-                  <!-- <td>{{ item.order_id }}</td> -->
-                  <td>{{ item.hardware_name }}</td>
-                  <td>{{ item.serial_num }}</td>
-                  <!-- Searches through all pulled merchants and finds record that matches the item's merchant_id, then returns its name - Thanks Zach :) -->
-                  <td>
-                    {{
-                      merchantData.find((i) => i.merchant_id === item.MERCHANT_ID)
-                        .merchant_name
-                    }}
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <!--Update Button-->
-                      <button
-                        type="button"
-                        class="btn btn-info btn-sm"
-                        @click="editOrder(item.ORDER_NUM)"
-                      >
-                        Update
-                      </button>
-                      <!--Delete Button-->
-                      <button
-                        type="button"
-                        class="btn btn-danger btn-sm"
-                        @click="deleteOrder(item.ORDER_NUM)"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </form>
       </div>
@@ -354,14 +301,12 @@ export default {
   float: left;
   width: auto;
   height: auto;
-  /* border-style: double; */
 }
 
 /* Clear floats after the columns */
 .row:after {
   content: "";
   display: border-box;
-  /* border-style: double; */
   clear: both;
 }
 .add {

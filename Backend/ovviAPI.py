@@ -752,7 +752,8 @@ def api_orders_groupby():
     select_orders = """
         SELECT *
         FROM orders
-        GROUP BY order_num;  """ 
+        GROUP BY order_num
+        ORDER BY order_id DESC;  """ 
 
     order_results = execute_read_query(conn, select_orders)
     results = [] 
