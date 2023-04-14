@@ -2,7 +2,7 @@
 import axios from "axios";
 let getURL = "http://localhost:5000/api/orders?id=";
 let updateURL = "http://localhost:5000/api/orders";
-let orderURL = "http://localhost:5000/api/detailsOrder?ORDER_NUMBER=";
+let orderDetailsURL = "http://localhost:5000/api/detailsOrder?id=";
 
 export default {
   /*prop contains order_num from orders page, used for route params  */
@@ -35,46 +35,39 @@ export default {
     };
   },
   /* Before mount we collect data from GET api based on id*/
-  beforeMount() {
+  async beforeMount() {
     this.orderData = [];
-    axios
+    await axios
       /* Adds our route param, the ID of the Merchant selected, to GET API */
-      .get(getURL + this.$route.params.id)
+      .get(orderDetailsURL + this.$route.params.id)
       /* Takes API data and stores Table variables into Data variables */
       .then((resp) => {
-        this.orderData = resp.data;
-        // let data = resp.data[0];
-        // this.order.order_id = data.order_id;
-        // this.order.hardware_id = data.order_id;
-        // this.order.order_num = data.order_num;
+        let data = resp.data[0]
+        this.detailsOrder.order_id = data.order_id;
+        this.detailsOrder.hardware_name = data.hardware_name;
+        this.detailsOrder.order_num = data.order_num;
+        this.detailsOrder.order_date = data.order_date;
+        this.detailsOrder.serial_number = data.serial_number;
+        this.detailsOrder.tracking_num = data.tracking_num;
+        this.detailsOrder.ship_date = data.ship_date;
+      });
+    await axios
+      .get(getURL + this.$route.params.id)
 
-        //wakindo updates start here
-        // this.order.order_date = data.order_date;
-        // this.order.serial_number = data.serial_number;
-        // this.order.tracking_num = data.tracking_num;
-        // this.order.ship_date = data.ship_date;
+      .then((resp) => {
+        let datam = resp.data[0];
+        this.order.order_id = datam.order_id;
+        this.order.order_num = datam.order_num;
+        this.order.order_date = datam.order_date;
+        this.order.hardware_id = datam.hardware_id;
+        this.order.serial_number = datam.serial_number;
+        this.order.ship_date = datam.ship_date;
+        this.order.tracking_num = datam.tracking_num;
+        this.order.merchant_id = datam.merchant_id;
       });
   },
   /* Methods to update Order*/
   methods: {
-    deleteOrder(order_id) {
-      if (
-        confirm(
-          "Are you sure you want to permanently delete this hardware? This cannot be undone."
-        )
-      ) {
-        /* axios delete request, uses api URL and attaches id at end of it to specify what id to delete */
-        axios.delete(getURL + order_id).then(() => {
-          /* reloads window to show changes */
-          window.location.reload();
-        });
-      }
-    },
-    /* method for routing to edit page */
-    editOrder(order_id) {
-      /* Activates on click of table property, routes to update page bases on name in index.js, params are the id of the item which is stored in id:  */
-      this.$router.push({ name: "updatepart", params: { id: order_id } });
-    },
     updatePart() {
       console.log(updateURL);
       axios
@@ -105,7 +98,7 @@ export default {
       <form @submit.prevent="updatePart">
         <!-- grid container -->
 
-        <legend text-align="center">Updating {{ $route.params.id }}</legend>
+        <legend text-align="center">Updating {{ detailsOrder.hardware_name }}</legend>
         <div class="row">
           <!--column 1 starts here-->
           <div class="column">
