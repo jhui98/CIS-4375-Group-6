@@ -63,7 +63,7 @@ export default {
         this.orders.ship_date = datam.ship_date;
         this.orders.tracking_num = datam.tracking_num;
         this.orders.merchant_id = datam.merchant_id;
-        console.log(this.order)
+        console.log(this.orders)
         console.log(datam)
       });
   },
@@ -74,7 +74,7 @@ export default {
         /* Uses full property, this.X, and not sub properties, this.X.X to run call */
         /* Runs call with all data collected in GET call */
         /*Needed to run this way due to ID being used in JSON for updates */
-        .put(updateURL, this.order)
+        .put(updateURL, this.orders)
         .then(() => {
           alert("Order has been updated!");
           /* After Alert goes back to the main page for Order */
