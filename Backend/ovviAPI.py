@@ -797,8 +797,8 @@ def api_seven_two():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) 
         seven_two_query = """
-        SELECT iso.ISO_COMPANY as "ISO Company", iso.ISO_ID as "ISO ID", reseller.RESELLER_ID as "Reseller ID",
-        reseller.RESELLER_NAME as "Name", reseller.RESELLER_EMAIL as "Email", reseller.RESELLER_PHONE as "Phone Number"
+        SELECT iso.ISO_COMPANY as "ISOCompany", iso.ISO_ID as "ISOID", reseller.RESELLER_ID as "Reseller ID",
+        reseller.RESELLER_NAME as "Name", reseller.RESELLER_EMAIL as "Email", reseller.RESELLER_PHONE as "PhoneNumber"
         FROM reseller
         JOIN iso
         ON reseller.ISO_ID = iso.ISO_ID
@@ -818,10 +818,10 @@ def api_seven_three():
     if 'id' in request.args: # only if an ID is provided as an argument, proceed
         idToRetrieve = int(request.args['id']) 
         seven_three_query = """
-        SELECT reseller.RESELLER_ID as "Reseller ID", reseller.RESELLER_NAME as "Reseller Name", reseller.RESELLER_EMAIL as "Reseller Email",
-        reseller.RESELLER_PHONE as "Reseller Phone", merchant.MERCHANT_ID as "Merchant ID", merchant.MERCHANT_NAME as "Merchant Name",
+        SELECT reseller.RESELLER_ID as "ResellerID", reseller.RESELLER_NAME as "ResellerName", reseller.RESELLER_EMAIL as "ResellerEmail",
+        reseller.RESELLER_PHONE as "ResellerPhone", merchant.MERCHANT_ID as "MerchantID", merchant.MERCHANT_NAME as "MerchantName",
         CONCAT_WS(', ',merchant.MERCHANT_ADDRESS1, merchant.MERCHANT_ADDRESS2, merchant.MERCHANT_CITY, merchant.MERCHANT_STATE, merchant.MERCHANT_ZIP)
-        as "Merchant Address", merchant.MERCHANT_EMAIL as "Merchant Email", merchant.MERCHANT_PHONE as "Merchant Phone"
+        as "MerchantAddress", merchant.MERCHANT_EMAIL as "MerchantEmail", merchant.MERCHANT_PHONE as "MerchantPhone"
         FROM reseller
         JOIN merchant
         ON reseller.RESELLER_ID = merchant.RESELLER_ID
@@ -844,7 +844,7 @@ def api_hardwareByTypeID():
         HardwareByTypeQuery = """
         SELECT 
                 H.hardware_name AS "HARDWARE", 
-                H.model_number as "MODEL NUMBER"
+                H.model_number as "MODELNUMBER"
         FROM hardware_type HT 
         JOIN hardware H
         ON HT.htype_id = H.htype_id
@@ -864,7 +864,7 @@ def api_HardwareWithTypeName():
     # select all hardware and match with their hardware_type using FK/PK htype_id
     select_hardwaresJoinType = """
         SELECT hardware_name AS "HARDWARE", 
-		       model_number AS "MODEL NUMBER",
+		       model_number AS "MODELNUMBER",
                htype_name AS "TYPE"
         FROM hardware H
         JOIN hardware_type HT
@@ -917,12 +917,12 @@ def api_orders_merchant_id():
         idToRetrieve = int(request.args['id']) 
         MerchantsOrders_query = """
         SELECT  merchant_name AS "MERCHANT",
-                order_num AS "ORDER NUMBER",
+                order_num AS "ORDERNUMBER",
                 hardware_name AS "HARDWARE",
-                serial_number AS "SERIAL NUMBER",
-                tracking_num AS "TRACKING NUMBER",
-                order_date AS "ORDER DATE",
-                ship_date AS "SHIP DATE"        
+                serial_number AS "SERIALNUMBER",
+                tracking_num AS "TRACKINGNUMBER",
+                order_date AS "ORDERDATE",
+                ship_date AS "SHIPDATE"        
         FROM merchant M
         JOIN orders O
         ON M.merchant_id = O.merchant_id
