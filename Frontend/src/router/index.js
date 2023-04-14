@@ -79,7 +79,7 @@ const router = createRouter({
             component: () => import('../views/Reports.vue')
         },
         {
-            path: '/sevenOneReport',
+            path: '/sevenOneReport/:id',
             name: 'sevenOneReport',
             component: () => import('../views/sevenOneReport.vue')
         }
