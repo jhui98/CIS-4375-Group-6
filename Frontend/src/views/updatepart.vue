@@ -3,7 +3,6 @@ import axios from "axios";
 let getURL = "http://localhost:5000/api/orders?id=";
 let updateURL = "http://localhost:5000/api/orders";
 let orderDetailsURL = "http://localhost:5000/api/detailsOrder?id=";
-let orderDetailsURL = "http://localhost:5000/api/detailsOrder?id=";
 
 export default {
   /*prop contains order_num from orders page, used for route params  */
