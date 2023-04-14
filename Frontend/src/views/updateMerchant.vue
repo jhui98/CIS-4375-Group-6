@@ -3,6 +3,7 @@ import axios from "axios";
 let getURL = "http://localhost:5000/api/merchant?id=";
 let updateURL = "http://localhost:5000/api/merchant";
 let resellerURL = `http://127.0.0.1:5000/api/reseller/all`;
+let reportURL = `http://127.0.0.1:5000/api/MerchantOrders?id=`;
 export default {
   /*prop contains id from merchant page, used for route params  */
   props: ["id"],
@@ -21,7 +22,8 @@ export default {
         reseller_name: "",
         reseller_id: ""
       },
-      resellerData: []
+      resellerData: [],
+      reportData: []
     };
   },
   /* Before mount we collect data from GET api based on id*/
@@ -54,6 +56,12 @@ export default {
         this.resellerData = resp.data;
         console.log(this.resellerData);
       });
+      this.reportData = [];
+      axios
+        .get(reportURL+this.$route.params.id)
+        .then((resp) =>{
+          this.reportData = resp.data;
+        });
   },
   /* Method to update Merchant*/
   methods: {
@@ -265,6 +273,43 @@ export default {
         
         </div>
       </form>
+      <br>
+      <br>
+      <div class="jumbotron vertical center">
+                <div class="container">
+                    <div class="col-sm-12">
+                        <hr/>
+                        <h4>Orders under {{ merchant.merchant_name }}</h4>
+                        <br>
+                        <table class="table table-hover">
+                            <!-- Table Head-->
+                            <thead>
+                                <tr>
+                                    <!--Table Head cells-->
+                                    <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
+                                    <th scope="col">Hardware</th>
+                                    <th scope="col">Order Date</th>
+                                    <th scope="col">Order Number</th>
+                                    <th scope="col">Serial Number</th>
+                                    <th scope="col">Shipping Date</th>
+                                    <th scope="col">Tracking Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Takes every entry stored in beginning pull request and loads into table rows -->
+                                <tr v-for="item in reportData" :value="item.MERCHANT">
+                                    <td>{{ item.HARDWARE }}</td>
+                                    <td>{{ item.ORDERDATE }}</td>
+                                    <td>{{ item.ORDERNUMBER }}</td>
+                                    <td>{{ item.SERIALNUMBER }}</td>
+                                    <td>{{ item.SHIPDATE }}</td>
+                                    <td>{{ item.TRACKINGNUMBER }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
 
 
