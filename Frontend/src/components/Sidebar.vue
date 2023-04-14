@@ -1,29 +1,27 @@
 <template>
     <aside :class="`${is_expanded ? 'is-expanded' : ''}`">
         <div class="logo">
-            <img src="../assets/logo.svg" alt="Vue">
+            <img src="../assets/ovvi final.png" alt="Vue">
         </div>
-
-         <div class="menu-toggle-wrap">
+        
+         <!-- <div class="menu-toggle-wrap">
             <button class="menu-toggle" @click="ToggleMenu">
                 <span class="material-icons">keyboard_double_arrow_right </span>
             </button>
-         </div>
-        
+         </div> -->
+        <br>
          <h3>Menu</h3>
          <div class="menu">
             <router-link class="button" to="/">
                 <span class="material-icons">home</span>
                 <span class="text">Home</span>
             </router-link>
-            <router-link class="button" to="/hardware">
-                <span class="material-icons">memory</span>
-                <span class="text">Hardware</span>
+            <router-link class="button" to="/orders">
+                <span class="material-icons">shopping_bag</span>
+                <span class="text">Orders</span>
             </router-link>
-            <router-link class="button" to="/hardwaretype">
-                <span class="material-icons">category</span>
-                <span class="text">Hardware Type</span>
-            </router-link>
+            <br>
+            <br>
             <router-link class="button" to="/merchants">
                 <span class="material-icons">store</span>
                 <span class="text">Merchants</span>
@@ -36,10 +34,18 @@
                 <span class="material-icons">business_center</span>
                 <span class="text">ISOs</span>
             </router-link>
-            <router-link class="button" to="/orders">
-                <span class="material-icons">shopping_bag</span>
-                <span class="text">Orders</span>
+            <br>
+            <br>
+            <router-link class="button" to="/hardware">
+                <span class="material-icons">memory</span>
+                <span class="text">Hardware</span>
             </router-link>
+            <router-link class="button" to="/hardwaretype">
+                <span class="material-icons">category</span>
+                <span class="text">Hardware Type</span>
+            </router-link>
+            <br>
+            <br>
             <router-link class="button" to="/reports">
                 <span class="material-icons">description</span>
                 <span class="text">Reports</span>
@@ -84,10 +90,10 @@ aside {
     transition: 0.2s ease-out;
 
     .logo {
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
 
         img {
-            width: 2rem;
+            width: 5rem;
         }
     }
 
