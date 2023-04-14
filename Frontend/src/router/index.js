@@ -6,8 +6,8 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/',
-            component: Home
+            path: '/home',
+            component: () => import('../views/Home.vue')
         },
         {
             path: '/hardware',
