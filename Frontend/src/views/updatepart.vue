@@ -9,7 +9,7 @@ export default {
   props: ["id"],
   data() {
     return {
-      order: {
+      orders: {
         order_id: "",
         order_num: "",
         order_date: "",
@@ -55,14 +55,14 @@ export default {
       .get(getURL + this.$route.params.id)
       .then((resp) => {
         let datam = resp.data[0];
-        this.order.order_id = datam.order_id;
-        this.order.order_num = datam.order_num;
-        this.order.order_date = datam.order_date;
-        this.order.hardware_id = datam.hardware_id;
-        this.order.serial_number = datam.serial_number;
-        this.order.ship_date = datam.ship_date;
-        this.order.tracking_num = datam.tracking_num;
-        this.order.merchant_id = datam.merchant_id;
+        this.orders.order_id = datam.order_id;
+        this.orders.order_num = datam.order_num;
+        this.orders.order_date = datam.order_date;
+        this.orders.hardware_id = datam.hardware_id;
+        this.orders.serial_number = datam.serial_number;
+        this.orders.ship_date = datam.ship_date;
+        this.orders.tracking_num = datam.tracking_num;
+        this.orders.merchant_id = datam.merchant_id;
         console.log(this.order)
         console.log(datam)
       });
@@ -108,7 +108,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Serial Number: </span>
-                <input type="text" v-model="order.serial_number" />
+                <input type="text" v-model="orders.serial_number" />
               </label>
             </div>
             <!-- form field -->
@@ -117,7 +117,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Tracking Number: </span>
-                <input type="text" v-model="order.tracking_num" />
+                <input type="text" v-model="orders.tracking_num" />
               </label>
             </div>
 
@@ -131,7 +131,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Ship Date: </span>
-                <input type="date" v-model="order.ship_date" placeholder="order.ship_date"/>
+                <input type="date" v-model="orders.ship_date" placeholder="orders.ship_date"/>
               </label>
             </div>
 
