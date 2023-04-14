@@ -39,7 +39,7 @@ export default {
     this.orderData = [];
     axios
       /* Adds our route param, the ID of the Merchant selected, to GET API */
-      .get(orderURL + this.$route.params.num)
+      .get(getURL + this.$route.params.id)
       /* Takes API data and stores Table variables into Data variables */
       .then((resp) => {
         this.orderData = resp.data;
