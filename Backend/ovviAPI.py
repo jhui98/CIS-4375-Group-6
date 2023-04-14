@@ -998,6 +998,32 @@ def api_orderDetails_num():
             if order['order_num'] == idToRetrieve:
                 results.append(order)
         return jsonify(results)
+    elif 'id' in request.args:
+        idToRetrieve = int(request.args['id'])
+        results = []
+        retrieve_order_query = """
+        SELECT order_id,  
+            order_num,
+            merchant_name,
+            CONCAT_WS(', ', M.merchant_address1, M.merchant_address2, M.merchant_city, M.merchant_state, M.merchant_zip)
+            AS address,
+            merchant_email,
+            order_date,
+            hardware_name,
+            ship_date,
+            tracking_num,
+            serial_number
+        FROM orders O
+        JOIN merchant M
+        ON O.merchant_id = M.merchant_id
+        JOIN hardware H 
+        ON O.hardware_id = H.hardware_id
+        WHERE order_id = %s; """ % (idToRetrieve)
+        orders = execute_read_query(conn, retrieve_order_query)
+        for order in orders:
+            if order['order_id'] == idToRetrieve:
+                results.append(order)
+        return jsonify(results)
     else:
         return "No ORDER_NUMBER provided"  
 
