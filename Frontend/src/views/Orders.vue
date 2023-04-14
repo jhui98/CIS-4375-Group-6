@@ -53,6 +53,7 @@ export default {
         merchant_id: "",
       },
       groupbyData: [], // array  for merchant data
+      hardwareTable: [], // temporary array for added hardware
     };
   },
   /* once axios is mounted, automatically sends get request to pull all orders */
@@ -100,9 +101,11 @@ export default {
         .then(() => {
           alert("order has been successfully added.");
           /* reloads window to show changes */
+          hardwareTable.append(this.order);
           window.location.reload();
         })
         .catch((error) => {
+          print(orderRecord);
           alert("An error occured:", error);
         });
     },
@@ -123,7 +126,7 @@ export default {
     /* method for routing to edit page */
     editOrder(order_num) {
       /* Activates on click of table property, routes to update page bases on name in index.js, params are the id of the item which is stored in id:  */
-      this.$router.push({ name: 'updateOrder', params: { num: order_num } });
+      this.$router.push({ name: "updateOrder", params: { num: order_num } });
     },
   },
 };
@@ -148,36 +151,16 @@ export default {
                   <!-- asterisk to denote required field-->
                   <span style="color: #ff0000">* </span>
                   <span class="text-gray-700">Order #: </span>
-                  <input
-                    type="text"
-                    v-model="order.order_num"
-                    placeholder="12345"
-                    pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-                  />
+                  <input type="text" v-model="order.order_num" placeholder="12345" />
                 </label>
               </div>
-              <!-- form field -->
-              <div class="form-group col-sm-2">
-                <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color: #ff0000">* </span>
-                  <span class="text-gray-700">Order Date: </span>
-                  <input type="date" v-model="order.order_date" />
-                </label>
-              </div>
-              <br />
-
-              <br />
-            </div>
-            <!--column 2 starts here-->
-            <div class="column">
               <!-- form field - Merchant Dropdown-->
               <div class="form-group col-sm-2">
                 <label class="form-label mt-4">
                   <span style="color: #ff0000">* </span>
                   <!-- asterisk to denote required field-->
                   <span class="text-gray-700">Merchant: </span>
-                  <select v-model="merchant.merchant_id">
+                  <select v-model="order.merchant_id">
                     <option
                       v-for="item in merchantData"
                       :key="item.merchant_id"
@@ -190,33 +173,29 @@ export default {
               </div>
               <!-- form field - Merchant_ID from dropdown -->
               <label class="block">
-                <input type="hidden" v-model="this.merchant.merchant_id" />
+                <input type="text" v-model="this.order.merchant_id" />
               </label>
-              <!-- form field - Merchant Dropdown-->
-              <div class="form-group col-sm-2">
-                <label class="form-label mt-4">
-                  <span class="text-gray-700">Merchant Phone </span>
-                  <input type="text" v-model="this.merchant.merchant_phone" />
-                </label>
-              </div>
-              <!-- form field - Merchant Dropdown-->
-              <div class="form-group col-sm-2">
-                <label class="form-label mt-4">
-                  <span class="text-gray-700">Merchant Email </span>
-                  <input type="text" v-model="this.merchant.merchant_email" />
-                </label>
-              </div>
+              <br />
             </div>
-            <!-- Column 3 starts here -->
+            <!--column 2 starts here-->
             <div class="column">
+              <!-- form field -->
+              <div class="form-group col-sm-2">
+                <label class="form-label mt-4">
+                  <!-- asterisk to denote required field-->
+                  <span style="color: #ff0000">* </span>
+                  <span class="text-gray-700">Order Date: </span>
+                  <input type="date" v-model="order.order_date" />
+                </label>
+              </div>
+
               <!-- form field - Hardware Dropdown-->
-              <!-- form field - Merchant Dropdown-->
               <div class="form-group col-sm-2">
                 <label class="form-label mt-4">
                   <span style="color: #ff0000">* </span>
                   <!-- asterisk to denote required field-->
                   <span class="text-gray-700">Hardware: </span>
-                  <select v-model="hardware.hardware_id">
+                  <select v-model="this.order.hardware_id">
                     <option
                       v-for="item in hardwareData"
                       :key="item.hardware_id"
@@ -227,42 +206,82 @@ export default {
                     </option>
                   </select>
                 </label>
+                <!-- form field - Hidden textbox to get dropdown selected hardware ID-->
+                <label class="block">
+                  <input type="text" v-model="this.order.hardware_id" />
+                </label>
               </div>
-              <label class="block">
-                <input type="hidden" v-model="this.hardware.hardware_id" />
-              </label>
-              <br />
-              <label class="block">
-                <span class="text-gray-700">Hardware Model # </span>
-                <input
-                  type="text"
-                  v-model="this.hardware.hardware_model"
-                  placeholder="123"
-                />
-              </label>
-              <!-- form field - Merchant Dropdown-->
+              <!-- form field - serial number - Note sure we need this field when entering an order-->
+              <!-- during the shipping process, sure but when adding order items - discuss with team -->
               <div class="form-group col-sm-2">
                 <label class="form-label mt-4">
                   <span class="text-gray-700">Hardware Serial # </span>
                   <input type="text" v-model="this.hardware.serial_num" />
                 </label>
               </div>
+              <!-- submit button -->
+              <div>
+                <button type="submit" class="add">Add Order</button>
+              </div>
             </div>
           </div>
           <br />
-          <div class="row">
+          <!-- make a take here to list hardware as they are added to an order -->
+          <div class="col-sm-12">
+            <hr />
+            <br />
             <legend>List added hardware here as they come</legend>
-          </div>
-
-          <div class="row">
-            <!-- submit button -->
-            <div align="center">
-              <button type="submit" class="add">Add order</button>
-            </div>
+            <table class="table table-hover">
+              <!-- Table Head-->
+              <thead>
+                <tr>
+                  <!--Table Head cells-->
+                  <th scope="col">Hardware</th>
+                  <th scope="col">Serial Number</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in hardwareTable" :key="item.order_num">
+                  <!--Do no show this to user-->
+                  <!-- <td>{{ item.order_id }}</td> -->
+                  <td>{{ item.hardware_name }}</td>
+                  <td>{{ item.serial_num }}</td>
+                  <!-- Searches through all pulled merchants and finds record that matches the item's merchant_id, then returns its name - Thanks Zach :) -->
+                  <td>
+                    {{
+                      merchantData.find((i) => i.merchant_id === item.MERCHANT_ID)
+                        .merchant_name
+                    }}
+                  </td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <!--Update Button-->
+                      <button
+                        type="button"
+                        class="btn btn-info btn-sm"
+                        @click="editOrder(item.ORDER_NUM)"
+                      >
+                        Update
+                      </button>
+                      <!--Delete Button-->
+                      <button
+                        type="button"
+                        class="btn btn-danger btn-sm"
+                        @click="deleteOrder(item.ORDER_NUM)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </form>
       </div>
     </div>
+    <!--   DO NOT TOUCHE ANYTHING BELOW THIS LINE - JONATHAN IS WORKING ON IT -->
     <br />
     <br />
 
