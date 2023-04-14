@@ -134,8 +134,8 @@ export default {
   },
   methods: {
     /* method for routing to edit page */
-    sevenOneReport(iso_id) {
-      this.$router.push({ name: "sevenOneReport", params: {id: iso_id}});
+    sevenOneReport(ISO_ID) {
+      this.$router.push({ name: "sevenOneReport", params: {id: ISO_ID}});
     },
 
   },
@@ -198,7 +198,7 @@ export default {
                   <div>View Resellers of ISO Company: {{ selected }}</div>
                     <!-- Documentation for this v-model solution can be found here https://vuejs.org/guide/essentials/forms.html#select -->
                   <select class="btn btn-danger btn-sm" v-model="selected">
-                    <option v-for="iso in isoData" :key="iso.ISO_ID" v-on:click="sevenOneReport(ISO_ID)">
+                    <option v-for="iso in isoData" :key="iso.ISO_ID" v-on:click="sevenOneReport(iso.ISO_ID)">
                         {{ iso.ISO_COMPANY }}
                     </option>
                   </select>
