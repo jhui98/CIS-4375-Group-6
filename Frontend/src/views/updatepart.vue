@@ -40,10 +40,9 @@ export default {
     await axios
       /* Adds our route param, the ID of the Merchant selected, to GET API */
       .get(orderDetailsURL + this.$route.params.id)
-      .get(orderDetailsURL + this.$route.params.id)
       /* Takes API data and stores Table variables into Data variables */
       .then((resp) => {
-        let data = resp.data[0]
+        let data = resp.data[0];
         this.detailsOrder.order_id = data.order_id;
         this.detailsOrder.hardware_name = data.hardware_name;
         this.detailsOrder.order_num = data.order_num;
@@ -54,7 +53,6 @@ export default {
       });
     await axios
       .get(getURL + this.$route.params.id)
-
       .then((resp) => {
         let datam = resp.data[0];
         this.order.order_id = datam.order_id;
@@ -65,12 +63,13 @@ export default {
         this.order.ship_date = datam.ship_date;
         this.order.tracking_num = datam.tracking_num;
         this.order.merchant_id = datam.merchant_id;
+        console.log(this.order)
+        console.log(datam)
       });
   },
   /* Methods to update Order*/
   methods: {
     updatePart() {
-      console.log(updateURL);
       axios
         /* Uses full property, this.X, and not sub properties, this.X.X to run call */
         /* Runs call with all data collected in GET call */
@@ -109,7 +108,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Serial Number: </span>
-                <input type="text" v-model="orderData.serial_number" />
+                <input type="text" v-model="order.serial_number" />
               </label>
             </div>
             <!-- form field -->
@@ -118,7 +117,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Tracking Number: </span>
-                <input type="text" v-model="orderData.tracking_num" />
+                <input type="text" v-model="order.tracking_num" />
               </label>
             </div>
 
@@ -132,7 +131,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Ship Date: </span>
-                <input type="date" v-model="orderData.ship_date" />
+                <input type="date" v-model="order.ship_date" placeholder="order.ship_date"/>
               </label>
             </div>
 
