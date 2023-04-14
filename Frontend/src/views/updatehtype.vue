@@ -2,6 +2,7 @@
 import axios from "axios";
 let getURL =`http://localhost:5000/api/hardware_type?id=`;
 let updateURL = 'http://localhost:5000/api/hardware_type';
+let reportURL = 'http://localhost:5000/api/HardwareByType?id=';
 
 export default {
     /*prop contains id from Hardware Type page, used for route params  */
@@ -11,13 +12,19 @@ export default {
             hardwaretype: {
                 htype_id: "",
                 htype_name: ""
-            }
+            },
+            sevenFour: {
+                htype_id:"",
+                hardware_name:"",
+                model_number:""
+            },
+            reportData:[]
         }
             
     },
     /* Before mount we collect data from GET api based on id*/
-    beforeMount() {
-        axios
+    async beforeMount() {
+        await axios
         /* Adds our route param, the ID of the ISO selected, to GET API */
             .get(getURL+this.$route.params.id
             )
@@ -26,8 +33,14 @@ export default {
                 let data = resp.data[0];
                 this.hardwaretype.htype_name = data.htype_name;
                 this.hardwaretype.htype_id = data.htype_id;
-                console.log(data)
             });
+            this.reportData = [];
+            axios
+                .get(reportURL+this.$route.params.id)
+                .then((resp) => {
+                    this.reportData = resp.data;
+                });
+            this.dataReady = true;
     },
     methods: {
         updateHTYPE(){
@@ -121,8 +134,38 @@ export default {
                     class="btn btn-danger ml-1"
                     @click="$router.go(-1)"
                     >Go back</button>
-                </div>         
+                </div>
             </form>
+            </div>
+            <br>
+            <br>
+            <div class="jumbotron vertical center">
+                <div class="container">
+                    <div class="col-sm-12">
+                        <hr/>
+                        <h4>Hardware That Are {{ hardwaretype.htype_name }}s</h4>
+                        <br>
+                        <table class="table table-hover">
+                            <!-- Table Head-->
+                            <thead>
+                                <tr>
+                                    <!--Table Head cells-->
+                                    <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
+                                    <th scope="col">Hardware Name</th>
+                                    <th scope="col">Model Number</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Takes every entry stored in beginning pull request and loads into table rows -->
+                                <tr v-for="item in reportData" :value="item.HARDWARE">
+                                    <td>{{ item.HARDWARE }}</td>
+                                    <td>{{ item.MODELNUMBER }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
     </main>
 </template>
