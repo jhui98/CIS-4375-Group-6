@@ -51,21 +51,19 @@ export default {
         this.detailsOrder.tracking_num = data.tracking_num;
         this.detailsOrder.ship_date = data.ship_date;
       });
-    await axios
-      .get(getURL + this.$route.params.id)
-      .then((resp) => {
-        let datam = resp.data[0];
-        this.orders.order_id = datam.order_id;
-        this.orders.order_num = datam.order_num;
-        this.orders.order_date = datam.order_date;
-        this.orders.hardware_id = datam.hardware_id;
-        this.orders.serial_number = datam.serial_number;
-        this.orders.ship_date = datam.ship_date;
-        this.orders.tracking_num = datam.tracking_num;
-        this.orders.merchant_id = datam.merchant_id;
-        console.log(this.orders)
-        console.log(datam)
-      });
+    await axios.get(getURL + this.$route.params.id).then((resp) => {
+      let datam = resp.data[0];
+      this.orders.order_id = datam.order_id;
+      this.orders.order_num = datam.order_num;
+      this.orders.order_date = datam.order_date;
+      this.orders.hardware_id = datam.hardware_id;
+      this.orders.serial_number = datam.serial_number;
+      this.orders.ship_date = datam.ship_date;
+      this.orders.tracking_num = datam.tracking_num;
+      this.orders.merchant_id = datam.merchant_id;
+      console.log(this.orders);
+      console.log(datam);
+    });
   },
   /* Methods to update Order*/
   methods: {
@@ -125,13 +123,22 @@ export default {
           </div>
           <!--column 2 starts here-->
           <div class="column">
-            <!-- form field -->
+            <!-- form field Ship Date -->
+            <div class="form-group col-sm-2">
+              <label class="form-label mt-4">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text-gray-700">Order Date: </span>
+                <input type="date" v-model="orders.order_date" />
+              </label>
+            </div>
+            <!-- form field Ship Date -->
             <div class="form-group col-sm-2">
               <label class="form-label mt-4">
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Ship Date: </span>
-                <input type="date" v-model="orders.ship_date" placeholder="orders.ship_date"/>
+                <input type="date" v-model="orders.ship_date" />
               </label>
             </div>
 
