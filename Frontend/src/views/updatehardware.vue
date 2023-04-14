@@ -3,6 +3,7 @@ import axios from "axios";
 let getURL = "http://localhost:5000/api/hardware?id=";
 let updateURL = "http://localhost:5000/api/hardware";
 let dropURL = `http://localhost:5000/api/hardware_type/all`;
+let reportURL = `http://127.0.0.1:5000/api/HardwareWithTypeName`;
 
 export default {
   /*prop contains id from hardware page, used for route params  */
@@ -16,7 +17,8 @@ export default {
         htype_id: "",
         htype_name: ""
       },
-      hwData:[]
+      hwData:[],
+      reportData:[]
     };
   },
   /* Before mount we collect data from GET api based on id*/
@@ -39,7 +41,14 @@ export default {
       .get(dropURL)
 
       .then((resp) =>
-        this.hwData = resp.data)
+        this.hwData = resp.data);
+      this.reportData = [];
+      await axios
+      .get(reportURL)
+      .then((resp) =>{
+        this.reportData = resp.data;
+      });
+    this.dataReady = true;
   },
   /* Method to update Hardware*/
   methods: {
@@ -161,6 +170,37 @@ export default {
               
           </form>
       </div>
+      <br>
+      <br>
+      <div class="jumbotron vertical center">
+                <div class="container">
+                    <div class="col-sm-12">
+                        <hr/>
+                        <h4>All Current Hardware</h4>
+                        <br>
+                        <table class="table table-hover">
+                            <!-- Table Head-->
+                            <thead>
+                                <tr>
+                                    <!--Table Head cells-->
+                                    <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
+                                    <th scope="col">Hardware</th>
+                                    <th scope="col">Model Number</th>
+                                    <th scope="col">Hardware Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Takes every entry stored in beginning pull request and loads into table rows -->
+                                <tr v-for="item in reportData" :value="item.HARDWARE">
+                                    <td>{{ item.HARDWARE }}</td>
+                                    <td>{{ item.MODELNUMBER }}</td>
+                                    <td>{{ item.TYPE }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
     </main>
   </template>
 
