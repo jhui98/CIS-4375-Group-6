@@ -3,6 +3,7 @@ import axios from "axios";
 let getURL =`http://localhost:5000/api/reseller?id=`;
 let updateURL = 'http://localhost:5000/api/reseller';
 let dropURL =`http://localhost:5000/api/iso/all`;
+let reportURL = `http://127.0.0.1:5000/api/SevenThree?id=`;
 export default {
     /*prop contains id from the Reseller page, used for route params  */
     props:["id"],
@@ -15,7 +16,8 @@ export default {
                 reseller_name: "",
                 reseller_phone: ""
             },
-            isoData:[]
+            isoData:[],
+            reportData: []
         }
     },
     /* Before mount we collect data from GET api based on id*/
@@ -40,6 +42,12 @@ export default {
             .then((resp) =>{
             this.isoData = resp.data;
             });
+            this.reportData = [];
+            axios
+              .get(reportURL+this.$route.params.id)
+              .then((resp) => {
+                this.reportData = resp.data;
+              });
     },
     methods: {
         updatereseller(){
@@ -176,5 +184,38 @@ export default {
             </div>
           </form>
         </div>
+        <br>
+        <br>
+        <div class="jumbotron vertical center">
+                <div class="container">
+                    <div class="col-sm-12">
+                        <hr/>
+                        <h4>Merchants Associated With {{ reseller.reseller_name }}</h4>
+                        <br>
+                        <table class="table table-hover">
+                            <!-- Table Head-->
+                            <thead>
+                                <tr>
+                                    <!--Table Head cells-->
+                                    <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
+                                    <th scope="col">Merchant Name</th>
+                                    <th scope="col">Merchant Email</th>
+                                    <th scope="col">Merchant Phone</th>
+                                    <th scope="col">Merchant Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Takes every entry stored in beginning pull request and loads into table rows -->
+                                <tr v-for="item in reportData" :value="item.MerchantID">
+                                    <td>{{ item.MerchantName }}</td>
+                                    <td>{{ item.MerchantEmail }}</td>
+                                    <td>{{ item.MerchantPhone }}</td>
+                                    <td>{{ item.MerchantAddress }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
     </main>
 </template>
