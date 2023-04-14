@@ -1010,6 +1010,7 @@ def api_orderDetails_num():
             merchant_email,
             order_date,
             hardware_name,
+            hardware_id,
             ship_date,
             tracking_num,
             serial_number
