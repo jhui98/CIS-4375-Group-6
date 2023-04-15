@@ -81,6 +81,44 @@ export default {
 };
 </script>
 
+<!--Styling of the Hardware webpage-->
+<style>
+@import "bootswatch/dist/flatly/bootstrap.min.css";
+
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  height: 100px;
+  border-style: double;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: border-box;
+  clear: both;
+}
+.delete {
+  background-color: #f44336; /* Red */
+  border: none;
+  color: white;
+  padding: 15px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.ml-1 {
+  margin-left: 10px;
+}
+</style>
+
 <template>
   <main>
     <div>
@@ -88,50 +126,56 @@ export default {
     </div>
     <br />
 
-    <!-- wakindo updates start here -->
-    <div class="jumbotron vertical center">
-      <!-- @submit.prevent stops the submit event from reloading the page-->
-      <form @submit.prevent="updatePart">
-        <!-- grid container -->
 
-        <legend text-align="center">Updating {{ detailsOrder.hardware_name }}</legend>
+    <form @submit.prevent="updatePart">
+      <legend>Updating {{ detailsOrder.hardware_name }}</legend>
+      <div class="form-group col-sm-6">
         <div class="row">
-          <!--column 1 starts here-->
-          <div class="column">
-            <!-- form field -->
-            <div class="form-group col-sm-2">
-              <label class="form-label mt-4">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Serial Number: </span>
-                <input type="text" v-model="orders.serial_number" />
-              </label>
-            </div>
-            <!-- form field -->
-            <div class="form-group col-sm-2">
-              <label class="form-label mt-4">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Tracking Number: </span>
-                <input type="text" v-model="orders.tracking_num" />
-              </label>
-            </div>
-
-            <br />
+          <div class="col-6">
+            <label class="form-label mt-4">
+                  <!-- asterisk to denote required field-->
+                  <span style="color:#ff0000">* </span>
+                  <span class="text">Serial Number</span></label>
+                <div class="col-sm-6">
+                  <input
+                type="text" class="form-control"
+                placeholder
+                v-model="orders.serial_number"
+              /> 
+            </div>  
           </div>
-          <!--column 2 starts here-->
-          <div class="column">
-            <!-- form field Ship Date -->
-            <div class="form-group col-sm-2">
-              <label class="form-label mt-4">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Ship Date: </span>
-                <input type="date" v-model="orders.ship_date" />
-              </label>
-            </div>
 
-            <br />
+          <div class="col-6">
+            <label class="form-label mt-4">
+                  <!-- asterisk to denote required field-->
+                  <span style="color:#ff0000">* </span>
+                  <span class="text">Ship Date</span></label>
+                <div class="col-sm-10">
+                  <input
+                type="date" class="form-control"
+                placeholder
+                v-model="orders.ship_date"
+              /> 
+            </div>  
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label class="form-label mt-4">
+                  <!-- asterisk to denote required field-->
+                  <span style="color:#ff0000">* </span>
+                  <span class="text">Tracking Number</span></label>
+                <div class="col-sm-6">
+                  <input
+                type="text" class="form-control"
+                placeholder
+                v-model="orders.tracking_num"               
+              /> 
+            </div>  
+          </div>
+        </div>
+        <br />
             <!-- submit button -->
             <button class="btn btn-info" type="submit">Update Order</button>
             <!--Go Back button-->
@@ -139,10 +183,12 @@ export default {
             <button type="reset" class="btn btn-danger ml-1" @click="$router.go(-1)">
               Go Back
             </button>
-          </div>
-        </div>
+
+      </div>
       </form>
-    </div>
+
+    
+ 
   </main>
 </template>
 

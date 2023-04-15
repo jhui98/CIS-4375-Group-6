@@ -130,104 +130,123 @@ export default {
 };
 </script>
 
+<!--Styling of the Hardware webpage-->
+<style>
+@import "bootswatch/dist/flatly/bootstrap.min.css";
+
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  height: 100px;
+  border-style: double;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: border-box;
+  clear: both;
+}
+.delete {
+  background-color: #f44336; /* Red */
+  border: none;
+  color: white;
+  padding: 15px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+
 <template>
   <main class="home-page">
     <h1>Orders Operations</h1>
     <br />
-    <div class="px-20 py-20">
-      <div class="jumbotron vertical center">
-        <!-- @submit.prevent stops the submit event from reloading the page-->
-        <form @submit.prevent="submitForm">
-          <!-- grid container -->
-          <legend text-align="center">Register a New order</legend>
-          <div class="row">
-            <!--column 1 starts here-->
-            <div class="column">
-              <!-- form field -->
-              <div class="form-group col-sm-2">
-                <label class="form-label mt-4">
+
+    <form @submit.prevent="submitForm">
+      <legend>Register a New Order</legend>
+      <div class="form-group col-sm-6">
+
+        <div class="row">
+
+          <div class="col-6">
+            <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
-                  <span style="color: #ff0000">* </span>
-                  <span class="text-gray-700">Order #: </span>
-                  <input type="text" v-model="order.order_num" placeholder="12345" />
-                </label>
-              </div>
-              <!-- form field - Merchant Dropdown-->
-              <div class="form-group col-sm-2">
-                <label class="form-label mt-4">
-                  <span style="color: #ff0000">* </span>
+                  <span style="color:#ff0000">* </span>
+                  <span class="text">Order Number</span></label>
+                <div class="col-sm-6">
+                  <input
+                type="text" class="form-control"
+                v-model="order.order_num"
+                placeholder="12345"
+              /> 
+            </div>  
+          </div>
+
+          <div class="col-6">
+            <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
-                  <span class="text-gray-700">Merchant: </span>
-                  <select v-model="order.merchant_id">
-                    <option
-                      v-for="item in merchantData"
-                      :key="item.merchant_id"
-                      :value="item.merchant_id"
-                    >
+                  <span style="color:#ff0000">* </span>
+                  <span class="text">Order Date</span></label>
+                <div class="col-sm-10">
+                  <input
+                type="date" class="form-control"
+                v-model="order.order_date"
+              /> 
+            </div>  
+          </div>
+
+        </div>
+ 
+        <div class="row">
+          <div class="col-6">
+            <label class="form-label mt-4">
+                  <!-- asterisk to denote required field-->
+                  <span style="color:#ff0000">* </span>
+                  <span class="text">Merchant</span></label>
+                <div class="col-sm-10">
+                  <select class="form-select" v-model="order.merchant_id">
+                    <option v-for="item in merchantData" :key="item.merchant_id" :value="item.merchant_id">
                       {{ item.merchant_name }}
                     </option>
-                  </select>
-                </label>
-              </div>
-              <!-- form field - Merchant_ID from dropdown -->
-              <label class="block">
-                <input type="hidden" v-model="this.order.merchant_id" />
-              </label>
-              <br />
-            </div>
-            <!--column 2 starts here-->
-            <div class="column">
-              <!-- form field -->
-              <div class="form-group col-sm-2">
-                <label class="form-label mt-4">
+                  </select>  
+            </div>  
+          </div>
+          <div class="col-6">
+            <label class="form-label mt-4">
                   <!-- asterisk to denote required field-->
-                  <span style="color: #ff0000">* </span>
-                  <span class="text-gray-700">Order Date: </span>
-                  <input type="date" v-model="order.order_date" />
-                </label>
-              </div>
-
-              <!-- form field - Hardware Dropdown-->
-              <div class="form-group col-sm-2">
-                <label class="form-label mt-4">
-                  <span style="color: #ff0000">* </span>
-                  <!-- asterisk to denote required field-->
-                  <span class="text-gray-700">Hardware: </span>
-                  <select v-model="this.order.hardware_id">
-                    <option
-                      v-for="item in hardwareData"
-                      :key="item.hardware_id"
-                      :value="item.hardware_id"
-                    >
-                      <!-- dropdown will show hardware name only -->
+                  <span style="color:#ff0000"> </span>
+                  <span class="text">Hardware</span></label>
+                <div class="col-sm-10">
+                  <select class="form-select" v-model="this.order.hardware_id">
+                    <option v-for="item in hardwareData" :key="item.hardware_id" :value="item.hardware_id">
                       {{ item.hardware_name }}
                     </option>
-                  </select>
-                </label>
-                <!-- form field - Hidden textbox to get dropdown selected hardware ID-->
-                <label class="block">
-                  <input type="hidden" v-model="this.order.hardware_id" />
-                </label>
-              </div>
-              <br />
-              <!-- submit button -->
-              <div>
-                <button type="submit" class="add">Add Order</button>
-              </div>
-
-              <!-- form field - serial number - Note sure we need this field when entering an order-->
-              <!-- during the shipping process, sure!!! but when adding order items - discuss with team -->
-              <!-- <div class="form-group col-sm-2">
-                <label class="form-label mt-4">
-                  <span class="text-gray-700">Hardware Serial # </span>
-                  <input type="text" v-model="this.hardware.serial_num" />
-                </label>
-              </div> -->
-            </div>
+                  </select> 
+            </div>  
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+
+
+          <!--Submit Button-->
+          <div>
+            <br>
+            <button type="submit" class="btn btn-info">Add Order</button>
+          </div>
+          
+    
+        
+        </div>
+      </form>
+
+
     <!--   DO NOT TOUCHE ANYTHING BELOW THIS LINE - JONATHAN IS WORKING ON IT -->
     <br />
     <br />

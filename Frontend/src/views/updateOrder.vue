@@ -71,6 +71,42 @@ export default {
   },
 };
 </script>
+
+<!--Styling of the Hardware webpage-->
+<style>
+@import "bootswatch/dist/flatly/bootstrap.min.css";
+
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  height: 100px;
+  border-style: double;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: border-box;
+  clear: both;
+}
+.delete {
+  background-color: #f44336; /* Red */
+  border: none;
+  color: white;
+  padding: 15px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+
 <template>
   <main>
     <div class="px-20 py-20"></div>
