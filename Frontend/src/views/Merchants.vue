@@ -17,11 +17,10 @@ export default {
         merchant_email: "",
         merchant_phone: "",
         reseller_name: "",
-        reseller_id: ""
-
+        reseller_id: "",
       },
       merchantData: [],
-      resellerData: []
+      resellerData: [],
     };
   },
   /* once axios is mounted, automatically sends get request to pull all merchants */
@@ -34,12 +33,11 @@ export default {
       .then((resp) => {
         this.merchantData = resp.data;
       }),
-      this.resellerData = [];
+      (this.resellerData = []);
 
-      await axios.get(resellerURL)
-      .then((resp) => {
-        this.resellerData = resp.data;
-      });
+    await axios.get(resellerURL).then((resp) => {
+      this.resellerData = resp.data;
+    });
   },
   methods: {
     /* method to handle form submission*/
@@ -120,153 +118,171 @@ export default {
     <br />
     <div>
       <form @submit.prevent="submitForm">
-      <legend>Register New Merchant</legend>
-      <div class="form-group col-sm-6">
-        <div class="row">
+        <legend>Register New Merchant</legend>
+        <div class="form-group col-sm-6">
+          <div class="row">
+            <div class="col-12">
+              <label class="form-label mt-4">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text">Merchant Name</span></label
+              >
+              <div class="col-sm-9">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="merchant.merchant_name"
+                  placeholder="Merchant name"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <label class="form-label mt-4">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text">Phone Number</span></label
+              >
+              <div class="col-sm-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="merchant.merchant_phone"
+                  placeholder=""
+                  required
+                />
+              </div>
+            </div>
 
-          <div class="col-12">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Merchant Name</span></label>
-                <div class="col-sm-9">
-                  <input
-                type="text" class="form-control"
-                v-model="merchant.merchant_name"
-                placeholder="Merchant name"
-              /> 
-            </div>  
+            <div class="col-6">
+              <label class="form-label mt-4">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text">Email</span></label
+              >
+              <div class="col-sm-10">
+                <input
+                  type="email"
+                  class="form-control"
+                  v-model="merchant.merchant_email"
+                  placeholder="example@xyz.com"
+                  required
+                />
+              </div>
+            </div>
           </div>
 
-        </div>
-        <div class="row">
-
-          <div class="col-6">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Phone Number</span></label>
-                <div class="col-sm-6">
-                  <input
-                type="text" class="form-control"
-                v-model="merchant.merchant_phone"
-                placeholder="(xxx)-xxx-xxxx"
-              /> 
-            </div>  
+          <div class="row">
+            <div class="col-6">
+              <label class="form-label mt-4">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text">Address Line 1</span></label
+              >
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="merchant.merchant_address1"
+                  placeholder="Address 1"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-6">
+              <label class="form-label mt-4">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000"> </span>
+                <span class="text">Address Line 2</span></label
+              >
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="merchant.merchant_address2"
+                  placeholder="Address 2"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <label class="form-label mt-4">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text">City</span></label
+              >
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="merchant.merchant_city"
+                  placeholder="Houston"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-4">
+              <label class="form-label mt-4">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text">State</span></label
+              >
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="merchant.merchant_state"
+                  placeholder="TX"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-4">
+              <label class="form-label mt-4">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text">Zip Code</span></label
+              >
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="merchant.merchant_zip"
+                  placeholder="XXXXX"
+                  required
+                />
+              </div>
+            </div>
           </div>
 
-          <div class="col-6">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Email</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
-                v-model="merchant.merchant_email"
-                placeholder="example@xyz.com"
-              /> 
-            </div>  
-          </div>
-
-        </div>
- 
-        <div class="row">
-          <div class="col-6">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Address Line 1</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
-                v-model="merchant.merchant_address1"
-                placeholder="Address 1"
-              /> 
-            </div>  
-          </div>
-          <div class="col-6">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000"> </span>
-                  <span class="text">Address Line 2</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
-                v-model="merchant.merchant_address2"
-                placeholder="Address 2"
-              /> 
-            </div>  
-          </div>
-        </div>
-        <div class="row">
           <div class="col-4">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">*  </span>
-                  <span class="text">City</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
-                v-model="merchant.merchant_city"
-                placeholder="Houston"
-              /> 
-            </div>  
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Reseller</span></label
+            >
+            <div class="col-sm-10">
+              <select class="form-select" v-model="merchant.reseller_id" required>
+                <option
+                  v-for="item in resellerData"
+                  :key="item.reseller_id"
+                  :value="item.reseller_id"
+                >
+                  {{ item.reseller_name }}
+                </option>
+              </select>
+            </div>
           </div>
-          <div class="col-4">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">*  </span>
-                  <span class="text">State</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
-                v-model="merchant.merchant_state"
-                placeholder="Texas"
-              /> 
-            </div>  
-          </div>
-          <div class="col-4">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">*  </span>
-                  <span class="text">Zip Code</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
-                v-model="merchant.merchant_zip"
-                placeholder="XXXXX"
-              /> 
-            </div>  
-          </div>
-        </div>
-
-          <div class="col-4">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">*  </span>
-                  <span class="text">Reseller</span></label>
-                <div class="col-sm-10">
-                  <select class="form-select" v-model="merchant.reseller_id">
-                    <option v-for="item in resellerData" :key="item.reseller_id" :value="item.reseller_id">
-                      {{ item.reseller_name }}
-                    </option>
-                  </select> 
-            </div>  
-          </div> 
           <!--Submit Button-->
           <div>
-            <br>
+            <br />
             <button type="submit" class="btn btn-info">Add Merchant</button>
           </div>
-          
-    
-        
         </div>
       </form>
-
-
-
     </div>
     <br />
     <br />
@@ -337,5 +353,3 @@ export default {
     </div>
   </main>
 </template>
-
-
