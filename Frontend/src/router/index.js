@@ -74,15 +74,6 @@ const router = createRouter({
             name: 'updatepart',
             component: () => import('../views/updatepart.vue')
         },
-        {
-            path: '/reports',
-            component: () => import('../views/Reports.vue')
-        },
-        {
-            path: '/sevenOneReport/:id',
-            name: 'sevenOneReport',
-            component: () => import('../views/sevenOneReport.vue')
-        }
     ]
 })
 

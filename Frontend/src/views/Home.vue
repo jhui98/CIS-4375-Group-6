@@ -10,10 +10,11 @@ export default{
     methods:{
         //Get Function for ISO table, used to fill in table
         getISO() {
+            this.isoData = [];
             const path = `http://localhost:5000/api/iso/all`;
             axios.get(path)
-            .then((res) => {
-                this.isoData = res.data
+            .then((resp) => {
+                this.isoData = resp.data;
             })
             .catch((err) => {
                 console.error(err);
@@ -36,8 +37,8 @@ export default{
         <div>Selected: {{ selected }}</div>
 
         <select v-model="selected">
-            <option v-for="item in isoData" :value="isoData.ISO_ID"> 
-            {{ item.ISO_COMPANY}}
+            <option v-for="item in isoData" :value="item.ISO_ID"> 
+            {{ item.ISO_COMPANY }}
             </option>
         </select>
 

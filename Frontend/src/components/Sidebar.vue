@@ -44,13 +44,6 @@
                 <span class="material-icons">category</span>
                 <span class="text">Hardware Type</span>
             </router-link>
-            <br>
-            <br>
-            <router-link class="button" to="/reports">
-                <span class="material-icons">description</span>
-                <span class="text">Reports</span>
-            </router-link>
-
          </div>
 
     </aside>
