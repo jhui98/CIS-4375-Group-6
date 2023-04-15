@@ -136,7 +136,7 @@ export default {
       <div class="container">
         <div class="col-sm-12">
           <hr />
-          <h4>Hardware That Are {{ hardwaretype.htype_name }}s</h4>
+          <h4>Hardware List Of {{ hardwaretype.htype_name }}s</h4>
           <br />
           <table class="table table-hover">
             <!-- Table Head-->
