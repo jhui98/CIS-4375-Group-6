@@ -125,6 +125,7 @@ export default {
               class="form-control"
               v-model="reseller.reseller_name"
               placeholder="Name"
+              required
             />
           </div>
 
@@ -132,7 +133,7 @@ export default {
             <div class="col-6">
               <label class="form-label mt-4">
                 <!-- asterisk to denote required field-->
-                <span style="color: #ff0000"></span>
+                <span style="color: #ff0000">*</span>
                 <span class="text">Reseller Phone: </span></label
               >
               <div class="col-sm-10">
@@ -141,19 +142,18 @@ export default {
                   class="form-control"
                   v-model="reseller.reseller_phone"
                   placeholder="1234567890"
+                  required
                 />
               </div>
             </div>
 
             <div class="col-6">
               <label class="form-label mt-4">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000"></span>
                 <span class="text">Reseller Email:</span></label
               >
               <div class="col-sm-10">
                 <input
-                  type="text"
+                  type="email"
                   class="form-control"
                   v-model="reseller.reseller_email"
                   placeholder="reseller@email.com"
@@ -167,7 +167,7 @@ export default {
             <span class="text">ISO Company</span></label
           >
           <div class="col-sm-6">
-            <select class="form-select" v-model="reseller.iso_id">
+            <select class="form-select" v-model="reseller.iso_id" required>
               <option v-for="item in isoData" :key="item.ISO_ID" :value="item.ISO_ID">
                 {{ item.ISO_COMPANY }}
               </option>

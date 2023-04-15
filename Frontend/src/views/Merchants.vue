@@ -251,7 +251,7 @@ export default {
                   type="text"
                   class="form-control"
                   v-model="merchant.merchant_zip"
-                  placeholder="XXXXX"
+                  placeholder="12345"
                   required
                 />
               </div>

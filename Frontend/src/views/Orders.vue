@@ -173,79 +173,87 @@ export default {
     <form @submit.prevent="submitForm">
       <legend>Register a New Order</legend>
       <div class="form-group col-sm-6">
-
         <div class="row">
-
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Order Number</span></label>
-                <div class="col-sm-6">
-                  <input
-                type="text" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Order Number</span></label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                class="form-control"
                 v-model="order.order_num"
                 placeholder="12345"
-              /> 
-            </div>  
+                required
+              />
+            </div>
           </div>
 
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Order Date</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="date" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Order Date</span></label
+            >
+            <div class="col-sm-10">
+              <input
+                type="date"
+                class="form-control"
                 v-model="order.order_date"
-              /> 
-            </div>  
+                required
+              />
+            </div>
           </div>
-
         </div>
- 
+
         <div class="row">
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Merchant</span></label>
-                <div class="col-sm-10">
-                  <select class="form-select" v-model="order.merchant_id">
-                    <option v-for="item in merchantData" :key="item.merchant_id" :value="item.merchant_id">
-                      {{ item.merchant_name }}
-                    </option>
-                  </select>  
-            </div>  
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Merchant</span></label
+            >
+            <div class="col-sm-10">
+              <select class="form-select" v-model="order.merchant_id" required>
+                <option
+                  v-for="item in merchantData"
+                  :key="item.merchant_id"
+                  :value="item.merchant_id"
+                >
+                  {{ item.merchant_name }}
+                </option>
+              </select>
+            </div>
           </div>
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000"> </span>
-                  <span class="text">Hardware</span></label>
-                <div class="col-sm-10">
-                  <select class="form-select" v-model="this.order.hardware_id">
-                    <option v-for="item in hardwareData" :key="item.hardware_id" :value="item.hardware_id">
-                      {{ item.hardware_name }}
-                    </option>
-                  </select> 
-            </div>  
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">*</span>
+              <span class="text">Hardware</span></label
+            >
+            <div class="col-sm-10">
+              <select class="form-select" v-model="this.order.hardware_id" required>
+                <option
+                  v-for="item in hardwareData"
+                  :key="item.hardware_id"
+                  :value="item.hardware_id"
+                >
+                  {{ item.hardware_name }}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
 
-
-          <!--Submit Button-->
-          <div>
-            <br>
-            <button type="submit" class="btn btn-info">Add Order</button>
-          </div>
-          
-    
-        
+        <!--Submit Button-->
+        <div>
+          <br />
+          <button type="submit" class="btn btn-info">Add Order</button>
         </div>
-      </form>
-
+      </div>
+    </form>
 
     <!--   DO NOT TOUCHE ANYTHING BELOW THIS LINE - JONATHAN IS WORKING ON IT -->
     <br />

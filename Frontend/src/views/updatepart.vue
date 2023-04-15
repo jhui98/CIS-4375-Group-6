@@ -70,7 +70,7 @@ export default {
         /* Uses full property, this.X, and not sub properties, this.X.X to run call */
         /* Runs call with all data collected in GET call */
         /*Needed to run this way due to ID being used in JSON for updates */
-        .put(updateURL,this.orders)
+        .put(updateURL, this.orders)
         .then(() => {
           alert("Order has been updated!");
           /* After Alert goes back to the main page for Order */
@@ -126,69 +126,72 @@ export default {
     </div>
     <br />
 
-
     <form @submit.prevent="updatePart">
       <legend>Updating {{ detailsOrder.hardware_name }}</legend>
       <div class="form-group col-sm-6">
         <div class="row">
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Serial Number</span></label>
-                <div class="col-sm-6">
-                  <input
-                type="text" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Serial Number</span></label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                class="form-control"
                 placeholder
                 v-model="orders.serial_number"
-              /> 
-            </div>  
+                required
+              />
+            </div>
           </div>
 
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Ship Date</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="date" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Ship Date</span></label
+            >
+            <div class="col-sm-10">
+              <input
+                type="date"
+                class="form-control"
                 placeholder
                 v-model="orders.ship_date"
-              /> 
-            </div>  
+                required
+              />
+            </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Tracking Number</span></label>
-                <div class="col-sm-6">
-                  <input
-                type="text" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Tracking Number</span></label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                class="form-control"
                 placeholder
-                v-model="orders.tracking_num"               
-              /> 
-            </div>  
+                v-model="orders.tracking_num"
+                required
+              />
+            </div>
           </div>
         </div>
         <br />
-            <!-- submit button -->
-            <button class="btn btn-info" type="submit">Update Order</button>
-            <!--Go Back button-->
-            <!-- Router function goes to previous page-->
-            <button type="reset" class="btn btn-danger ml-1" @click="$router.go(-1)">
-              Go Back
-            </button>
-
+        <!-- submit button -->
+        <button class="btn btn-info" type="submit">Update Order</button>
+        <!--Go Back button-->
+        <!-- Router function goes to previous page-->
+        <button type="reset" class="btn btn-danger ml-1" @click="$router.go(-1)">
+          Go Back
+        </button>
       </div>
-      </form>
-
-    
- 
+    </form>
   </main>
 </template>
 

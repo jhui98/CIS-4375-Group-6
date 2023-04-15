@@ -20,10 +20,10 @@ export default {
         merchant_email: "",
         merchant_phone: "",
         reseller_name: "",
-        reseller_id: ""
+        reseller_id: "",
       },
       resellerData: [],
-      reportData: []
+      reportData: [],
     };
   },
   /* Before mount we collect data from GET api based on id*/
@@ -48,20 +48,18 @@ export default {
         console.log(data);
       }),
       /* array to store response data */
-      this.resellerData = [];
-       await axios
+      (this.resellerData = []);
+    await axios
       .get(resellerURL)
       /* takes response from get request and compiles it into array */
       .then((resp) => {
         this.resellerData = resp.data;
         console.log(this.resellerData);
       });
-      this.reportData = [];
-      axios
-        .get(reportURL+this.$route.params.id)
-        .then((resp) =>{
-          this.reportData = resp.data;
-        });
+    this.reportData = [];
+    axios.get(reportURL + this.$route.params.id).then((resp) => {
+      this.reportData = resp.data;
+    });
   },
   /* Method to update Merchant*/
   methods: {
@@ -123,196 +121,211 @@ export default {
   <main>
     <h1>Merchants Operations</h1>
     <br />
-      <form @submit.prevent="updateMerchant">
+    <form @submit.prevent="updateMerchant">
       <legend>Update Merchant</legend>
       <div class="form-group col-sm-6">
         <div class="row">
-
           <div class="col-12">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Merchant Name</span></label>
-                <div class="col-sm-9">
-                  <input
-                type="text" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Merchant Name</span></label
+            >
+            <div class="col-sm-9">
+              <input
+                type="text"
+                class="form-control"
                 v-model="merchant.merchant_name"
                 placeholder="Merchant name"
-              /> 
-            </div>  
+                required
+              />
+            </div>
           </div>
-
         </div>
         <div class="row">
-
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Phone Number</span></label>
-                <div class="col-sm-6">
-                  <input
-                type="text" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Phone Number</span></label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                class="form-control"
                 v-model="merchant.merchant_phone"
-                placeholder="(xxx)-xxx-xxxx"
-              /> 
-            </div>  
+                placeholder=""
+                required
+              />
+            </div>
           </div>
 
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Email</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Email</span></label
+            >
+            <div class="col-sm-10">
+              <input
+                type="email"
+                class="form-control"
                 v-model="merchant.merchant_email"
                 placeholder="example@xyz.com"
-              /> 
-            </div>  
+                required
+              />
+            </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">* </span>
-                  <span class="text">Address Line 1</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Address Line 1</span></label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
                 v-model="merchant.merchant_address1"
                 placeholder="Address 1"
-              /> 
-            </div>  
+                required
+              />
+            </div>
           </div>
           <div class="col-6">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000"> </span>
-                  <span class="text">Address Line 2</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000"> </span>
+              <span class="text">Address Line 2</span></label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
                 v-model="merchant.merchant_address2"
                 placeholder="Address 2"
-              /> 
-            </div>  
+              />
+            </div>
           </div>
         </div>
         <div class="row">
           <div class="col-4">
             <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">*  </span>
-                  <span class="text">City</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">City</span></label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
                 v-model="merchant.merchant_city"
                 placeholder="Houston"
-              /> 
-            </div>  
-          </div>
-          <div class="col-4">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">*  </span>
-                  <span class="text">State</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
-                v-model="merchant.merchant_state"
-                placeholder="Texas"
-              /> 
-            </div>  
-          </div>
-          <div class="col-4">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">*  </span>
-                  <span class="text">Zip Code</span></label>
-                <div class="col-sm-10">
-                  <input
-                type="text" class="form-control"
-                v-model="merchant.merchant_zip"
-                placeholder="XXXXX"
-              /> 
-            </div>  
-          </div>
-        </div>
-          <div class="col-4">
-            <label class="form-label mt-4">
-                  <!-- asterisk to denote required field-->
-                  <span style="color:#ff0000">*  </span>
-                  <span class="text">Reseller</span></label>
-                <div class="col-sm-10">
-                  <select class="form-select" v-model="merchant.reseller_id">
-                    <option v-for="item in resellerData" :key="item.reseller_id" :value="item.reseller_id">
-                      {{ item.reseller_name }}
-                    </option>
-                  </select> 
-            </div>  
-          </div> 
-          <!--Submit Button-->
-          <div>
-            <br>
-            <button type="submit" class="btn btn-info">Update Merchant</button>
-            <!--Go Back button-->
-            <!-- Router function goes to previous page-->
-            <button 
-            type="reset" 
-            class="btn btn-danger ml-1" 
-            @click="$router.go(-1)"
-            >Go Back</button>
-          </div>
-          
-    
-        
-        </div>
-      </form>
-      <br>
-      <br>
-      <div class="jumbotron vertical center">
-                <div class="container">
-                    <div class="col-sm-12">
-                        <hr/>
-                        <h4>Orders under {{ merchant.merchant_name }}</h4>
-                        <br>
-                        <table class="table table-hover">
-                            <!-- Table Head-->
-                            <thead>
-                                <tr>
-                                    <!--Table Head cells-->
-                                    <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
-                                    <th scope="col">Hardware</th>
-                                    <th scope="col">Order Date</th>
-                                    <th scope="col">Order Number</th>
-                                    <th scope="col">Serial Number</th>
-                                    <th scope="col">Shipping Date</th>
-                                    <th scope="col">Tracking Number</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Takes every entry stored in beginning pull request and loads into table rows -->
-                                <tr v-for="item in reportData" :value="item.MERCHANT">
-                                    <td>{{ item.HARDWARE }}</td>
-                                    <td>{{ item.ORDERDATE }}</td>
-                                    <td>{{ item.ORDERNUMBER }}</td>
-                                    <td>{{ item.SERIALNUMBER }}</td>
-                                    <td>{{ item.SHIPDATE }}</td>
-                                    <td>{{ item.TRACKINGNUMBER }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                required
+              />
             </div>
-
-
-
-    
+          </div>
+          <div class="col-4">
+            <label class="form-label mt-4">
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">State</span></label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                v-model="merchant.merchant_state"
+                placeholder="TX"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-4">
+            <label class="form-label mt-4">
+              <!-- asterisk to denote required field-->
+              <span style="color: #ff0000">* </span>
+              <span class="text">Zip Code</span></label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                v-model="merchant.merchant_zip"
+                placeholder="12345"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <label class="form-label mt-4">
+            <!-- asterisk to denote required field-->
+            <span style="color: #ff0000">* </span>
+            <span class="text">Reseller</span></label
+          >
+          <div class="col-sm-10">
+            <select class="form-select" v-model="merchant.reseller_id" required>
+              <option
+                v-for="item in resellerData"
+                :key="item.reseller_id"
+                :value="item.reseller_id"
+              >
+                {{ item.reseller_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <!--Submit Button-->
+        <div>
+          <br />
+          <button type="submit" class="btn btn-info">Update Merchant</button>
+          <!--Go Back button-->
+          <!-- Router function goes to previous page-->
+          <button type="reset" class="btn btn-danger ml-1" @click="$router.go(-1)">
+            Go Back
+          </button>
+        </div>
+      </div>
+    </form>
+    <br />
+    <br />
+    <div class="jumbotron vertical center">
+      <div class="container">
+        <div class="col-sm-12">
+          <hr />
+          <h4>Orders under {{ merchant.merchant_name }}</h4>
+          <br />
+          <table class="table table-hover">
+            <!-- Table Head-->
+            <thead>
+              <tr>
+                <!--Table Head cells-->
+                <!-- Consider changing ISO Company ID to ISO Company if dropdown is implemented. Otherwise, leave as is.-->
+                <th scope="col">Hardware</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Order Number</th>
+                <th scope="col">Serial Number</th>
+                <th scope="col">Shipping Date</th>
+                <th scope="col">Tracking Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Takes every entry stored in beginning pull request and loads into table rows -->
+              <tr v-for="item in reportData" :value="item.MERCHANT">
+                <td>{{ item.HARDWARE }}</td>
+                <td>{{ item.ORDERDATE }}</td>
+                <td>{{ item.ORDERNUMBER }}</td>
+                <td>{{ item.SERIALNUMBER }}</td>
+                <td>{{ item.SHIPDATE }}</td>
+                <td>{{ item.TRACKINGNUMBER }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
