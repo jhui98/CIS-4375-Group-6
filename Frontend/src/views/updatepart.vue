@@ -10,14 +10,14 @@ export default {
   data() {
     return {
       orders: {
-        order_id: "",
-        order_num: "",
-        order_date: "",
-        hardware_id: "",
-        serial_number: "",
-        ship_date: "",
-        tracking_num: "",
-        merchant_id: "",
+        ORDER_ID: "",
+        ORDER_NUM: "",
+        ORDER_DATE: "",
+        HARDWARE_ID: "",
+        SERIAL_NUMBER: "",
+        SHIP_DATE: "",
+        TRACKING_NUM: "",
+        MERCHANT_ID: "",
       },
       orderData: [],
       detailsOrder: {
@@ -51,18 +51,19 @@ export default {
         this.detailsOrder.tracking_num = data.tracking_num;
         this.detailsOrder.ship_date = data.ship_date;
       });
+
     await axios
       .get(getURL + this.$route.params.id)
       .then((resp) => {
         let datam = resp.data[0];
-        this.orders.order_id = datam.order_id;
-        this.orders.order_num = datam.order_num;
-        this.orders.order_date = datam.order_date;
-        this.orders.hardware_id = datam.hardware_id;
-        this.orders.serial_number = datam.serial_number;
-        this.orders.ship_date = datam.ship_date;
-        this.orders.tracking_num = datam.tracking_num;
-        this.orders.merchant_id = datam.merchant_id;
+        this.orders.ORDER_ID = datam.order_id;
+        this.orders.ORDER_NUM = datam.order_num;
+        this.orders.ORDER_DATE = datam.order_date;
+        this.orders.HARDWARE_ID = datam.hardware_id;
+        this.orders.SERIAL_NUMBER = datam.serial_number;
+        this.orders.SHIP_DATE = datam.ship_date;
+        this.orders.TRACKING_NUM = datam.tracking_num;
+        this.orders.MERCHANT_ID = datam.merchant_id;
         console.log(this.orders)
         console.log(datam)
       });
@@ -74,7 +75,7 @@ export default {
         /* Uses full property, this.X, and not sub properties, this.X.X to run call */
         /* Runs call with all data collected in GET call */
         /*Needed to run this way due to ID being used in JSON for updates */
-        .put(updateURL, this.orders)
+        .put(updateURL,this.orders)
         .then(() => {
           alert("Order has been updated!");
           /* After Alert goes back to the main page for Order */
@@ -108,7 +109,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Serial Number: </span>
-                <input type="text" v-model="orders.serial_number" />
+                <input type="text" v-model="orders.SERIAL_NUMBER" />
               </label>
             </div>
             <!-- form field -->
@@ -117,7 +118,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Tracking Number: </span>
-                <input type="text" v-model="orders.tracking_num" />
+                <input type="text" v-model="orders.TRACKING_NUM" />
               </label>
             </div>
 
@@ -131,7 +132,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Ship Date: </span>
-                <input type="date" v-model="orders.ship_date" placeholder="orders.ship_date"/>
+                <input type="date" v-model="orders.SHIP_DATE"/>
               </label>
             </div>
 
