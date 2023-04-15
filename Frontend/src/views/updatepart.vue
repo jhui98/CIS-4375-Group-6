@@ -10,14 +10,13 @@ export default {
   data() {
     return {
       orders: {
-        ORDER_ID: "",
-        ORDER_NUM: "",
-        ORDER_DATE: "",
-        HARDWARE_ID: "",
-        SERIAL_NUMBER: "",
-        SHIP_DATE: "",
-        TRACKING_NUM: "",
-        MERCHANT_ID: "",
+        order_id: "",
+        order_num: "",
+        hardware_id: "",
+        serial_number: "",
+        ship_date: "",
+        tracking_num: "",
+        merchant_id: "",
       },
       orderData: [],
       detailsOrder: {
@@ -55,7 +54,6 @@ export default {
       let datam = resp.data[0];
       this.orders.order_id = datam.order_id;
       this.orders.order_num = datam.order_num;
-      this.orders.order_date = datam.order_date;
       this.orders.hardware_id = datam.hardware_id;
       this.orders.serial_number = datam.serial_number;
       this.orders.ship_date = datam.ship_date;
@@ -106,7 +104,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Serial Number: </span>
-                <input type="text" v-model="orders.SERIAL_NUMBER" />
+                <input type="text" v-model="orders.serial_number" />
               </label>
             </div>
             <!-- form field -->
@@ -115,7 +113,7 @@ export default {
                 <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">* </span>
                 <span class="text-gray-700">Tracking Number: </span>
-                <input type="text" v-model="orders.TRACKING_NUM" />
+                <input type="text" v-model="orders.tracking_num" />
               </label>
             </div>
 
@@ -123,15 +121,6 @@ export default {
           </div>
           <!--column 2 starts here-->
           <div class="column">
-            <!-- form field Ship Date -->
-            <div class="form-group col-sm-2">
-              <label class="form-label mt-4">
-                <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text-gray-700">Order Date: </span>
-                <input type="date" v-model="orders.order_date" />
-              </label>
-            </div>
             <!-- form field Ship Date -->
             <div class="form-group col-sm-2">
               <label class="form-label mt-4">

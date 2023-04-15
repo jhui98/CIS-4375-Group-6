@@ -676,7 +676,6 @@ def update_order():
     new_order_number = request_data['order_num']
     new_serial_number = request_data['serial_number']
     new_tracking_num = request_data['tracking_num']
-    new_order_date = request_data['order_date']
     new_ship_date = request_data['ship_date']
     new_hardware_id = request_data['hardware_id']
     new_merchant_id = request_data['merchant_id']
@@ -686,11 +685,10 @@ def update_order():
     SET order_num = %s,
     serial_number = '%s',
     tracking_num = '%s',
-    order_date = '%s',
     ship_date = '%s',
     hardware_id = %s,
     merchant_id = %s  
-    WHERE order_id = %s """ % (new_order_number, new_serial_number,new_tracking_num,new_order_date,new_ship_date,new_hardware_id,new_merchant_id,idToUpdate)
+    WHERE order_id = %s """ % (new_order_number, new_serial_number,new_tracking_num,new_ship_date,new_hardware_id,new_merchant_id,idToUpdate)
     execute_query(conn, update_orders_query)
 
     return "Update request successful"
