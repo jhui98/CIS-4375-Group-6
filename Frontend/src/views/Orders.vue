@@ -273,7 +273,7 @@ export default {
                   <th scope="col">Order #</th>
                   <th scope="col">Order Date</th>
                   <th scope="col">Merchant</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>

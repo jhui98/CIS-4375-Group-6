@@ -81,8 +81,9 @@ export default{
                   <!--Table Head cells-->
                   <th scope="col">Order #</th>
                   <th scope="col">Order Date</th>
-                  <th scope="col">Ship Date</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Hardware name</th>
+                  <th scope="col">Merchant Name</th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -92,7 +93,8 @@ export default{
                   <td>{{ item.ORDER_NUM }}</td>
                   <td>{{ item.ORDER_DATE }}</td>
                   <!-- Searches through all pulled merchants and finds record that matches the item's merchant_id, then returns its name - Thanks Zach :) -->
-                  <td>{{ item.SHIP_DATE }}</td>
+                  <td>{{ item.HARDWARE_NAME }}</td>
+                  <td>{{ item.MERCHANT_NAME }}</td>
                   <td>
                     <div class="btn-group" role="group">
                       <!--Update Button-->

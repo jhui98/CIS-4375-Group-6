@@ -307,7 +307,7 @@ export default {
                   <th scope="col">Email</th>
                   <th scope="col">Phone #</th>
                   <th scope="col">Reseller</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>

@@ -193,7 +193,7 @@ export default {
                   <th scope="col">Hardware Name</th>
                   <th scope="col">Model Number</th>
                   <th scope="col">Hardware Type</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
