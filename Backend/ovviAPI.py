@@ -648,7 +648,9 @@ def api_orders_open():
 def api_orders_all():
     select_orders = """
         SELECT *
-        FROM orders  
+        FROM orders 
+        INNER JOIN merchant USING (merchant_id)
+        INNER JOIN hardware USING (hardware_id)
         WHERE ship_date is null or "0000-00-00";"""
     order_results = execute_read_query(conn, select_orders)
     results = [] 
