@@ -6,7 +6,17 @@ export default{
             openData:[],
         };
     },
-
+    mounted() { // https://stackoverflow.com/questions/50213901/reload-page-in-vue-just-once-in-mounted needed to force reload and ensure sidebar loads after login 
+      if (localStorage.getItem('loaded')) {
+        // if page was already loaded, removes 'loaded' attribute
+        localStorage.removeItem('loaded');
+      } 
+      else {
+        // if hasn't been loaded yet, stores the 'loaded' attribute and then reloads the page to get sidebar to load. 
+        localStorage.setItem('loaded', '1');
+        location.reload();
+      }
+    },
     methods:{
         //Get Function for ISO table, used to fill in table
         getISO() {
