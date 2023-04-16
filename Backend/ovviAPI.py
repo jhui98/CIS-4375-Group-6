@@ -628,7 +628,7 @@ def api_merchant_id():
 # Endpoint to GET all orders http://127.0.0.1:5000/api/orders/all
 @app.route('/api/orders/all', methods=['GET'])
 @cross_origin(origin='*')
-def api_orders_all():
+def api_orders_open():
     select_orders = """
         SELECT *
         FROM orders;  """ 
@@ -639,6 +639,22 @@ def api_orders_all():
         results.append(order)
     return jsonify(results)
 
+#=========================================================#
+# 6.1.1 - Implement GET method for all Open Orders here         #
+#=========================================================#
+# Endpoint to GET all orders http://127.0.0.1:5000/api/orders/open
+@app.route('/api/orders/open', methods=['GET'])
+@cross_origin(origin='*')
+def api_orders_all():
+    select_orders = """
+        SELECT *
+        FROM orders  
+        WHERE ship_date is null or "0000-00-00";"""
+    order_results = execute_read_query(conn, select_orders)
+    results = [] 
+    for order in order_results:
+        results.append(order)
+    return jsonify(results)
 #========================================================#
 # 6.2 - Implement POST method for Orders here            #
 #========================================================#
