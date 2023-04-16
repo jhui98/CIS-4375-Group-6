@@ -64,8 +64,7 @@ export default {
       /* takes response from get request and compiles it into array of orders */
       .then((resp) => {
         this.orderData = resp.data;
-
-        //this.order.order_date = this.formattedDate(this.order.order_date); // double check date formatting later
+        this.order.order_date = this.formattedDate(this.order.order_date);
       }),
       /* takes response from get request and compiles it into array of hardwares */
       (this.hardwareData = []);
@@ -92,6 +91,9 @@ export default {
       });
       return dt.setZone(DateTime.now().zoneName, { keepLocalTime: true }).toISODate();
     },
+    dateOnly(date){
+      return date.substr(0, 16)
+    }, 
     /* method to handle form submission*/
     async submitForm() {
       axios
@@ -281,7 +283,7 @@ export default {
                   <!--Do no show this to user-->
                   <!-- <td>{{ item.order_id }}</td> -->
                   <td>{{ item.ORDER_NUM }}</td>
-                  <td>{{ item.ORDER_DATE }}</td>
+                  <td>{{ dateOnly(item.ORDER_DATE) }}</td>
                   <!-- Searches through all pulled merchants and finds record that matches the item's merchant_id, then returns its name - Thanks Zach :) -->
                   <td>
                     {{
