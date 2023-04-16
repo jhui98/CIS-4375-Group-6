@@ -13,8 +13,6 @@ export default {
    },
    methods: {
       doLogin() {
-         console.log(this.login.username);
-         console.log(this.login.user_pw);
          this.loginresult= "";
          let headervar = {
             headers: {
@@ -26,17 +24,14 @@ export default {
          axios.get(loginURL, headervar)
          .then((resp) => {
             this.loginresult = resp.data;
-            console.log(this.loginresult);
             if (this.loginresult=="SECURITY ERROR")
          {
-            console.log(this.loginresult + " is activating the security error endpoint")
             alert("SECURITY ERROR. Please try again.");
             window.location.reload();
          }
          
          if (this.loginresult=="TRUE")
          {
-            console.log(this.loginresult + " is activating the succesful endpoint!")
             alert("Login successful.");
             this.$router.push({ name: "home" });
          }
