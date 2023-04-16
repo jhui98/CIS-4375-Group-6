@@ -1,28 +1,49 @@
 <script>
 import axios from "axios";
-let loginURL = "https://localhost:5000/api/login"
+let loginURL = "http://127.0.0.1:5000/api/login"
 export default {
-   
    data() {
       return {
          login: {
-            USERNAME: "",
-            USER_PW: "",
+            username: "",
+            user_pw: "",
          },
+         loginresult: "",
       };
    },
-
-   beforeMount() {
-      
-   },
-
    methods: {
       doLogin() {
-         if (this.emailLogin === "" || this.passwordLogin === "") {
-            this.emptyFields = true;
-         } else {
-            alert("You are now logged in");
+         console.log(this.login.username);
+         console.log(this.login.user_pw);
+         this.loginresult= "";
+         let headervar = {
+            headers: {
+               "username": this.login.username,
+               "password": this.login.user_pw
+            },
+         };
+         
+         axios.get(loginURL, headervar)
+         .then((resp) => {
+            this.loginresult = resp.data;
+            console.log(this.loginresult);
+            if (this.loginresult=="SECURITY ERROR")
+         {
+            console.log(this.loginresult + " is activating the security error endpoint")
+            alert("SECURITY ERROR. Please try again.");
+            window.location.reload();
          }
+         
+         if (this.loginresult=="TRUE")
+         {
+            console.log(this.loginresult + " is activating the succesful endpoint!")
+            alert("Login successful.");
+            this.$router.push({ name: "home" });
+         }
+
+
+
+         });
       },
    },
 };
@@ -36,18 +57,17 @@ export default {
        <div class="container">
           <div class="row">
              <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-                <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }">
                    <h1>Sign In</h1>
                    <form class="form-group">
-                      <input v-model="emailLogin" type="email" class="form-control" placeholder="Email" required>
-                      <input v-model="passwordLogin" type="password" class="form-control" placeholder="Password" required>
-                      <input type="submit" class="btn btn-primary" @click="doLogin">
+                      <input v-model="this.login.username" class="form-control" type="text" placeholder="Username" required>
+                      <input v-model="this.login.user_pw" class="form-control" type="text" placeholder="Password" required>
+                      <v-btn @click="doLogin()" class="btn btn-info">Login</v-btn>
                    </form>
+
                 </div>
              </div>
           </div>
  
-       </div>
     </div>
  
  </div>

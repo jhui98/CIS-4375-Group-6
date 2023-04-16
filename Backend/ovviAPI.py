@@ -1042,7 +1042,7 @@ def user_login():
     # Request headers are interpreted as dictionaries, so value access is easy and direct
     username = request.headers['username'] 
     pwd = request.headers['password']
-    foundUser = False
+    foundUser = "SECURITY ERROR"
     # select login info from LOGIN table and find user with corresponding username and password
     user_login_query = """
         SELECT  username, user_pw       
@@ -1051,10 +1051,10 @@ def user_login():
     authorizedUsers  = execute_read_query(conn, user_login_query)
     for user in authorizedUsers: # loop over all users and find one that is authorized to access
         if user['username'] == username and user['user_pw'] == pwd: #found an authorized user
-            foundUser = True # set boolean to true 
-            return jsonify(foundUser) 
+            foundUser = "TRUE" 
+            return foundUser 
 
-    return 'SECURITY ERROR' # never give away too many details what went wrong
+    return "SECURITY ERROR" # never give away too many details what went wrong
 
 
 
