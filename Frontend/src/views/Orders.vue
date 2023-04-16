@@ -255,7 +255,6 @@ export default {
       </div>
     </form>
 
-    <!--   DO NOT TOUCHE ANYTHING BELOW THIS LINE - JONATHAN IS WORKING ON IT -->
     <br />
     <br />
 
