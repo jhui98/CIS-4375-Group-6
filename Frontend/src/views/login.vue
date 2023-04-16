@@ -1,17 +1,21 @@
 <script>
-var app = new Vue({
-   el: "#app",
+import axios from "axios";
+let loginURL = "https://localhost:5000/api/login"
+export default {
    
-   data: {
-      registerActive: false,
-      emailLogin: "",
-      passwordLogin: "",
-      emailReg: "",
-      passwordReg: "",
-      confirmReg: "",
-      emptyFields: false
+   data() {
+      return {
+         login: {
+            USERNAME: "",
+            USER_PW: "",
+         },
+      };
    },
-   
+
+   beforeMount() {
+      
+   },
+
    methods: {
       doLogin() {
          if (this.emailLogin === "" || this.passwordLogin === "") {
@@ -20,27 +24,15 @@ var app = new Vue({
             alert("You are now logged in");
          }
       },
-      
-      doRegister() {
-         if (this.emailReg === "" || this.passwordReg === "" || this.confirmReg === "") {
-            this.emptyFields = true;
-         } else {
-            alert("You are now registered");
-         }
-      }
-   }
-});
-</script>
+   },
+};
 
+</script>
 <template>
+<main>
 <div id="app">
 
-    <div class="login-page">
-       <transition name="fade">
-          <div v-if="!registerActive" class="wallpaper-login"></div>
-       </transition>
-       <div class="wallpaper-register"></div>
- 
+    <div class="login-page"> 
        <div class="container">
           <div class="row">
              <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
@@ -50,21 +42,6 @@ var app = new Vue({
                       <input v-model="emailLogin" type="email" class="form-control" placeholder="Email" required>
                       <input v-model="passwordLogin" type="password" class="form-control" placeholder="Password" required>
                       <input type="submit" class="btn btn-primary" @click="doLogin">
-                      <p>Don't have an account? <a href="#" @click="registerActive = !registerActive, emptyFields = false">Sign up here</a>
-                      </p>
-                      <p><a href="#">Forgot your password?</a></p>
-                   </form>
-                </div>
- 
-                <div v-else class="card register" v-bind:class="{ error: emptyFields }">
-                   <h1>Sign Up</h1>
-                   <form class="form-group">
-                      <input v-model="emailReg" type="email" class="form-control" placeholder="Email" required>
-                      <input v-model="passwordReg" type="password" class="form-control" placeholder="Password" required>
-                      <input v-model="confirmReg" type="password" class="form-control" placeholder="Confirm Password" required>
-                      <input type="submit" class="btn btn-primary" @click="doRegister">
-                      <p>Already have an account? <a href="#" @click="registerActive = !registerActive, emptyFields = false">Sign in here</a>
-                      </p>
                    </form>
                 </div>
              </div>
@@ -74,9 +51,16 @@ var app = new Vue({
     </div>
  
  </div>
- </template>
+ </main>
+</template>
 
 <style>
+
+.Hide {
+   display:none;
+   visibility:hidden;
+}
+
 p {
    line-height: 1rem;
 }

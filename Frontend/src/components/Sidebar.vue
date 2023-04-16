@@ -1,4 +1,5 @@
 <template>
+    <div class="Hide">
     <aside :class="`${is_expanded ? 'is-expanded' : ''}`">
         <div class="logo">
             <img src="../assets/ovvi final.png" alt="Vue">
@@ -47,6 +48,7 @@
          </div>
 
     </aside>
+    </div>
 </template>
 
 <script setup>
