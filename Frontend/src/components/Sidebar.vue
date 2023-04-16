@@ -78,6 +78,9 @@ aside {
     overflow: hidden;
     min-height: 100vh;
     padding: 1rem;
+    position: sticky;
+    top: 0px;
+    
     
     background-color: var(--dark);
     color: var(--light);
