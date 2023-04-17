@@ -30,6 +30,11 @@ export default{
                 console.error(err);
             });
         },
+            /* method for routing to edit page */
+      editOrder(order_num) {
+      /* Activates on click of table property, routes to update page bases on name in index.js, params are the id of the item which is stored in id:  */
+      this.$router.push({ name: "updateOrder", params: { num: order_num } });
+      }
     },
     created () {
         this.getISO();
@@ -111,17 +116,9 @@ export default{
                       <button
                         type="button"
                         class="btn btn-info btn-sm"
-                     
+                        @click="editOrder(item.ORDER_NUM)"
                       >
                         Update
-                      </button>
-                      <!--Delete Button-->
-                      <button
-                        type="button"
-                        class="btn btn-danger btn-sm"
-                   
-                      >
-                        Delete
                       </button>
                     </div>
                   </td>
