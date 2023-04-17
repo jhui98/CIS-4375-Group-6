@@ -54,7 +54,7 @@ export default {
     deleteHardware(hardware_id) {
       if (
         confirm(
-          "Are you sure you want to permanently delete this Hardware Type? This cannot be undone."
+          "Are you sure you want to permanently delete this Hardware? This cannot be undone."
         )
       ) {
         /* axios delete request, uses api URL and attaches id at end of it to specify what id to delete */
