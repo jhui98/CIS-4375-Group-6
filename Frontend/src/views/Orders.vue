@@ -55,10 +55,10 @@ export default {
       groupbyData: [], // array  for merchant data
     };
   },
-  /* once axios is mounted, automatically sends get request to pull all orders */
+
   async mounted() {
-    /* array to store response data */
     this.orderData = [];
+    /* array to store response data */
     await axios
       .get(ordersURL + "/all")
       /* takes response from get request and compiles it into array of orders */
@@ -94,21 +94,6 @@ export default {
     dateOnly(date){
       return date.substr(0, 16)
     }, 
-    /* method to handle form submission*/
-    async submitForm() {
-      axios
-        /* sends POST request through axios to backend, alerts user of success, then reloads page through router */
-        .post(ordersURL, this.order)
-        .then(() => {
-          alert("order has been successfully added.");
-          /* reloads window to show changes */
-          window.location.reload();
-        })
-        .catch((error) => {
-          print(orderRecord);
-          alert("An error occured:", error);
-        });
-    },
     /* method for deleting iso */
     deleteOrder(order_id) {
       if (
@@ -127,6 +112,10 @@ export default {
     editOrder(order_num) {
       /* Activates on click of table property, routes to update page bases on name in index.js, params are the id of the item which is stored in id:  */
       this.$router.push({ name: "updateOrder", params: { num: order_num } });
+    },
+
+    startOrder(order_num, order_date) {
+      this.$router.push({ name: "OrdersCart", params: { id: order_num, date: order_date} });
     },
   },
 };
@@ -172,7 +161,7 @@ export default {
     <h1>Orders Operations</h1>
     <br />
 
-    <form @submit.prevent="submitForm">
+    <form>
       <legend>Register a New Order</legend>
       <div class="form-group col-sm-6">
         <div class="row">
@@ -184,7 +173,7 @@ export default {
             >
             <div class="col-sm-6">
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 v-model="order.order_num"
                 placeholder="12345"
@@ -209,50 +198,13 @@ export default {
             </div>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col-6">
-            <label class="form-label mt-4">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">* </span>
-              <span class="text">Merchant</span></label
-            >
-            <div class="col-sm-10">
-              <select class="form-select" v-model="order.merchant_id" required>
-                <option
-                  v-for="item in merchantData"
-                  :key="item.merchant_id"
-                  :value="item.merchant_id"
-                >
-                  {{ item.merchant_name }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="col-6">
-            <label class="form-label mt-4">
-              <!-- asterisk to denote required field-->
-              <span style="color: #ff0000">*</span>
-              <span class="text">Hardware</span></label
-            >
-            <div class="col-sm-10">
-              <select class="form-select" v-model="this.order.hardware_id" required>
-                <option
-                  v-for="item in hardwareData"
-                  :key="item.hardware_id"
-                  :value="item.hardware_id"
-                >
-                  {{ item.hardware_name }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!--Submit Button-->
+        <!--Start Order Button Button-->
         <div>
           <br />
-          <button type="submit" class="btn btn-info">Add Order</button>
+          <button @click="startOrder(order.order_num, order.order_date)" 
+            type="button" class="btn btn-info">
+            Start New Order
+          </button>
         </div>
       </div>
     </form>

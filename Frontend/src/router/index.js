@@ -68,6 +68,12 @@ const router = createRouter({
             path: '/Orders',
             component: () => import('../views/Orders.vue')
         },
+        //route to the Orders Cart
+        {
+            path: '/OrdersCart/:id/:date',
+            name: 'OrdersCart',
+            component: () => import('../views/OrdersCart.vue')
+        },
         //route to updateOrder vue
         {
             path: '/updateOrder/:num',
