@@ -52,7 +52,7 @@ export default {
         tracking_num: "",
         merchant_id: "",
       },
-      groupbyData: [], // array  for merchant data
+      groupbyData: [],
     };
   },
 
@@ -114,8 +114,18 @@ export default {
       this.$router.push({ name: "updateOrder", params: { num: order_num } });
     },
 
-    startOrder(order_num, order_date, merchant_id) {
-      this.$router.push({ name: "OrdersCart", params: { id: order_num, date: order_date, merchant: merchant_id } });
+    startOrder(order_number, order_date, merchant_id) {
+      var wow = this.orderData;
+      console.log(wow);
+      var nums = wow.map(obj => obj['ORDER_NUM']);
+      console.log(nums);
+      console.log(order_number);
+      if (nums.includes(order_number)){
+        alert("This order number already exists in the database. Try a different number.");
+      }
+      else {
+        this.$router.push({ name: "OrdersCart", params: { id: order_number, date: order_date, merchants: merchant_id } });
+      }
     },
   },
 };

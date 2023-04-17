@@ -6,7 +6,7 @@ let hardwareURL = `http://127.0.0.1:5000/api/hardware`;
 
 export default {
   /*prop contains id from hardware page, used for route params  */
-  props: ["id","date","merchant"],
+  props: ["id","date","merchants"],
   data() {
     return {
       orders: {
@@ -51,7 +51,7 @@ export default {
     this.merchantData = [];
     this.orderDate = this.$route.params.date;
     this.orderNum = this.$route.params.id;
-    this.orderMerchant = this.$route.params.merchant;
+    this.orderMerchant = this.$route.params.merchants;
 
     await axios.get(hardwareURL + "/all").then((resp) => {
       this.hardwareData = resp.data;
