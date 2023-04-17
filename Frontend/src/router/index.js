@@ -70,7 +70,7 @@ const router = createRouter({
         },
         //route to the Orders Cart
         {
-            path: '/OrdersCart/:id/:date',
+            path: '/OrdersCart/:id/:date/:merchant',
             name: 'OrdersCart',
             component: () => import('../views/OrdersCart.vue')
         },

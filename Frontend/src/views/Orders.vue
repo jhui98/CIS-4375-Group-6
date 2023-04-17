@@ -114,8 +114,8 @@ export default {
       this.$router.push({ name: "updateOrder", params: { num: order_num } });
     },
 
-    startOrder(order_num, order_date) {
-      this.$router.push({ name: "OrdersCart", params: { id: order_num, date: order_date} });
+    startOrder(order_num, order_date, merchant_id) {
+      this.$router.push({ name: "OrdersCart", params: { id: order_num, date: order_date, merchant: merchant_id } });
     },
   },
 };
@@ -183,6 +183,26 @@ export default {
           </div>
 
           <div class="col-6">
+              <label class="form-label mt-4">
+                <!-- asterisk to denote required field-->
+                <span style="color: #ff0000">* </span>
+                <span class="text">Merchant</span></label
+              >
+              <div class="col-sm-10">
+                <select name="Merchant" class="form-control" v-model="order.merchant_id" required>
+                  <option
+                    name="Merchant"
+                    v-for="item in merchantData"
+                    :key="item.merchant_id"
+                    :value="item.merchant_id"
+                  >
+                    {{ item.merchant_name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+          <div class="col-6">
             <label class="form-label mt-4">
               <!-- asterisk to denote required field-->
               <span style="color: #ff0000">* </span>
@@ -201,7 +221,7 @@ export default {
         <!--Start Order Button Button-->
         <div>
           <br />
-          <button @click="startOrder(order.order_num, order.order_date)" 
+          <button @click="startOrder(order.order_num, order.order_date, order.merchant_id)" 
             type="button" class="btn btn-info">
             Start New Order
           </button>

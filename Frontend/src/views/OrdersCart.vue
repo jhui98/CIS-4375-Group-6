@@ -6,7 +6,7 @@ let hardwareURL = `http://127.0.0.1:5000/api/hardware`;
 
 export default {
   /*prop contains id from hardware page, used for route params  */
-  props: ["id","date"],
+  props: ["id","date","merchant"],
   data() {
     return {
       orders: {
@@ -16,7 +16,7 @@ export default {
         order_date: Date,
         ship_date: "",
         hardware_id: "",
-        merchant_id: ""
+        merchant_id: Number,
       },
       iterateArray: [],
       hardware: {
@@ -41,7 +41,7 @@ export default {
       merchantData: [],
       orderDate: "",
       orderNum: "",
-      renderComponent: false,
+      orderMerchant: "",
     };
   },
   /* Before mount we collect data from GET api based on id*/
@@ -51,6 +51,7 @@ export default {
     this.merchantData = [];
     this.orderDate = this.$route.params.date;
     this.orderNum = this.$route.params.id;
+    this.orderMerchant = this.$route.params.merchant;
 
     await axios.get(hardwareURL + "/all").then((resp) => {
       this.hardwareData = resp.data;
@@ -65,7 +66,12 @@ export default {
   },
   /* Method to update Hardware*/
   methods: {
-    addtoCart(merchant_id, hardware_id) {
+    addtoCart(hardware_id) {
+      if (hardware_id == "")
+        {
+          
+        }
+       else {
         let appendArray = {
             order_num: this.orderNum,
             serial_number: this.orders.serial_number,
@@ -73,10 +79,11 @@ export default {
             order_date: this.orderDate,
             ship_date: this.orders.tracking_num,
             hardware_id: hardware_id,
-            merchant_id: merchant_id
+            merchant_id: this.orderMerchant
         };
         this.iterateArray.push(appendArray);
         console.log(this.iterateArray);
+      }
     },
 
     async completeOrder() {
@@ -116,25 +123,6 @@ export default {
             <div class="col-6">
               <label class="form-label mt-4">
                 <!-- asterisk to denote required field-->
-                <span style="color: #ff0000">* </span>
-                <span class="text">Merchant</span></label
-              >
-              <div class="col-sm-10">
-                <select name="Merchant" class="form-control" v-model="orders.merchant_id" required>
-                  <option
-                    name="Merchant"
-                    v-for="item in merchantData"
-                    :key="item.merchant_id"
-                    :value="item.merchant_id"
-                  >
-                    {{ item.merchant_name }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="col-6">
-              <label class="form-label mt-4">
-                <!-- asterisk to denote required field-->
                 <span style="color: #ff0000">*</span>
                 <span class="text">Hardware</span></label
               >
@@ -155,7 +143,7 @@ export default {
           <br><br>
           <div class="col-6">
               <div class="col-sm-10">
-                <v-btn @click="addtoCart(this.orders.merchant_id, this.orders.hardware_id)" type="submit" class="btn btn-info">
+                <v-btn @click="addtoCart(this.orders.hardware_id)" type="submit" class="btn btn-info">
                     Add To Cart
                 </v-btn>
               </div>
@@ -176,7 +164,6 @@ export default {
                 <legend>Cart Items</legend>
                 <tr>
                   <!--Table Head cells-->
-                  <th scope="col">Merchant</th>
                   <th scope="col">Hardware</th>
                   <th scope="col">Actions</th>
                 </tr>
@@ -185,9 +172,6 @@ export default {
                 <tr v-for="(item,index) in iterateArray" :key="index">
                   <!--Do no show this to user-->
                   <!-- <td>{{ item.order_id }}</td> -->
-                  <td>{{
-                    this.merchantData.find((i) => i.merchant_id === item.merchant_id).merchant_name
-                  }}</td>
                   <td>{{ 
                     this.hardwareData.find((i) => i.hardware_id === item.hardware_id).hardware_name
                   }}</td>                  
